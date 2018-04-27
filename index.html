@@ -152,19 +152,19 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-article-title" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-线性回归" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/26/article-title/">article title</a>
+      <a class="article-title" href="/2018/04/26/线性回归/">线性回归</a>
     </h1>
   
 
         
-        <a href="/2018/04/26/article-title/" class="archive-article-date">
+        <a href="/2018/04/26/线性回归/" class="archive-article-date">
   	<time datetime="2018-04-26T08:47:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-26</time>
 </a>
         
@@ -172,7 +172,50 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>过拟合是由于模型对数据集的自身的特点进行学习，而无法将其</p>
+        <h2 id="线性回归"><a href="#线性回归" class="headerlink" title="线性回归"></a>线性回归</h2><p>给定由$d$个属性描述的样本表示为$\mathbf{x}={\mathbf{x}^1,\mathbf{x}^2,\cdots,\mathbf{x}^d}$,其中$\mathbf{x}^1$表示为样本$\mathbf{x}$的第$i$个属性。线性模型试图学习一个由属性的线性组合来进行预测的函数，即<br>$f(\mathbf{x})=\mathbf{x}^1 w_1+\mathbf{x}^2 w_2+\cdots+\mathbf{x}^d w_d+b$   </p>
+<p>将输入和权重用列向量的形式表示，则预测函数可表示为</p>
+<p>$$f(\mathbf{x})=\mathbf{\hat{x}}^T\mathbf{w}$$<br>其中$\mathbf{\hat{x}}={\mathbf{x}^1,\mathbf{x}^2,\cdots,\mathbf{x}^d,1}$,$\mathbf{w}={\mathbf{w}_1,\mathbf{w}^2,\cdots,\mathbf{w}^d,b}$<br>用向量的形式表示称为向量化，其避免了循环，可以极大的加速运算。</p>
+<p>对于给定样本集$D={(\mathbf{x_1},y_1),(\mathbf{x}_2,y_2),\cdots,(\mathbf{x}_n,y_n)}$.线性回归试图学得：<br>$f(\mathbf{x_i})=\mathbf{\hat{x_i}}^T\mathbf{w}$,使得$f(\mathbf{x_i})\simeq y_i$<br>如何确定$\mathbf{w}$,关键在于如何衡量$f(\mathbf{x})$与$y$的差别，通常我们使用均方误差来度量预测值与实际值的距离。因此我们试图让均方误差最小化，即  </p>
+<p>$$\min \sum_{i=1}^n(y_i-f(\mathbf{x}_i))^2$$<br>基于均方误差最小化来进行模型的求解的方法叫做普通最小二乘法(ordinary Least square, OLS)，使用OLS进行求解时，我们将输入数据表示为$m\times(d+1)$的矩阵，即  </p>
+<p>$$\mathbf{X}=\begin{pmatrix} \hat{x}_1^T \ \hat{x}_2^T \ \cdots \ \hat{x}_n^T \end{pmatrix}$$<br>同样的，输出也由列向量表示，即   </p>
+<p>$$\mathbf{y}={y_1,y_2,\cdots,y_n}$$<br>则目标函数可表示为  </p>
+<p>$$\mathcal{L}=  \sum_{i=1}^n(y_i-f(\mathbf{x}_i))^2 =  (\mathbf{y}-\mathbf{X}\mathbf{w})^T(\mathbf{y}-\mathbf{X}\mathbf{w})$$<br>为了解决这一优化问题，我们需要计算模型参数，将导数设为零，然后求解所得关于$w$的等式。<br>矩阵求导的相关知识点如下：    </p>
+<p>$$\dfrac{\partial \mathbf{X}^T \mathbf{w}}{\partial \mathbf{w}}=X$$   </p>
+<p>$$\dfrac{\partial \mathbf{X}^T \mathbf{w}\mathbf{X}}{\partial \mathbf{w}}=(w+w^T)X$$</p>
+<p>$$\dfrac{\partial \mathbf{w}^T\mathbf{X}}{\partial \mathbf{w}}=\mathbf{X}$$</p>
+<p>计算目标函数对模型参数$\mathbf{w}$的导数，并使其导数为零，则可得</p>
+<p>$$<br>\begin{aligned}<br> \nabla_{\mathbf{w}}\mathcal{L}&amp;= \nabla_{\mathbf{w}}[(\mathbf{y}^T-\mathbf{w}^T\mathbf{X}^T)(\mathbf{y}-\mathbf{X}\mathbf{w})]\ &amp;=\nabla_{\mathbf{w}}[(\mathbf{y}^T \mathbf{y}-\mathbf{y}^T\mathbf{X}\mathbf{w}-\mathbf{w}^T\mathbf{X}^T\mathbf{y}+\mathbf{w}^T\mathbf{X}^T \mathbf{X}\mathbf{w})]  \ &amp;= 0-(\mathbf{y}^T\mathbf{X})^T -\mathbf{X}^T\mathbf{y}+2(\mathbf{X}^T \mathbf{X})\mathbf{w}\ &amp;=0 \end{aligned}<br>$$</p>
+<p>模型参数所得解为</p>
+<p>$$<br>\mathbf{w}=(\mathbf{X}^T \mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}$$<br>注意，$\mathbf{X}^T\mathbf{X}$为非满秩矩阵时（满秩是判断一个矩阵是否可逆的充分必要条件），求逆时会出现问题。或者当某些列之间线性相关性比较大时，计算$\mathbf{X}^T\mathbf{X}$的逆时，误差比较大。为了解决这个问题，统计学家引入了岭回归的概念。</p>
+<h2 id="岭回归"><a href="#岭回归" class="headerlink" title="岭回归"></a>岭回归</h2><p>岭回归的目标函数为：  </p>
+<p>$$<br>||\mathbf{X}\mathbf{w}-\mathbf{y}||^2+||\varGamma \mathbf{w}||^2<br>$$<br>其中,我们定义$\varGamma=\lambda \mathbf{I}$，$\mathbf{I}$表示为单位矩阵，<br>岭回归就是在矩阵$\mathbf{X}^T\mathbf{X}$上加一个$\lambda \mathbf{I}$,从而使得矩阵非奇异，从而能够对$\mathbf{X}^T\mathbf{X}+\lambda \mathbf{I}$求逆。在这种情况下，模型参数的计算可表示为    </p>
+<p>$$<br>\mathbf{w}=(\mathbf{X}^T \mathbf{X}+\lambda \mathbf{I})^{-1}\mathbf{X}^T\mathbf{y}$$</p>
+<p>岭回归最先是用来处理特征多于样本数的情况，现在也用于在估计中加入偏差，从而得到更好的估计。其通过损失无偏性,来换取高的数值稳定性，从而得到较高的计算精度。</p>
+<p>岭回归实际上就是加了L2正则的线性回归，其L2正则能减少参数的方差，使得模型参数接近于0。</p>
+<h2 id="Lasso回归"><a href="#Lasso回归" class="headerlink" title="Lasso回归"></a>Lasso回归</h2><p>Lasso回归的目标函数为：</p>
+<p>$$||\mathbf{X}\mathbf{w}-\mathbf{y}||^2+\lambda\sum_{i=1}^n|\mathbf{w}_i|$$</p>
+<p>Lasso回归实际上是增加L1正则的线性回归，其同样能减少参数的方差，并且其能使某些参数等于0，而达到特征选择的效果。</p>
+<h2 id="极大似然估计-MLE"><a href="#极大似然估计-MLE" class="headerlink" title="极大似然估计(MLE)"></a>极大似然估计(MLE)</h2><p>前面，我们使用均方误差来度量预测值与目标值的距离，其实际是对目标值的极大似然估计。<br>目标值可表示为：</p>
+<p>$$<br> y_i=\mathbf{x_i}^T\mathbf{w}+\epsilon_i<br>$$</p>
+<p>首先，对于线性模型，我们有如下限制。   </p>
+<ol>
+<li>随机误差的期望值为零，即$\forall i:\Bbb{E}[\epsilon_i]=0$.</li>
+<li>随机误差具有相同的有限方差，这一性质称为等分散性：$\forall i: Var(\epsilon_i)=\sigma^2&lt;\infty$</li>
+<li>随机误差不相关：$\forall i\ne j: Cov(\epsilon_i,\epsilon_j)=0$</li>
+</ol>
+<p>所以假定随机误差符合均值为零的正态分布：<br>$\epsilon_i \backsim \mathcal{N}(0,\sigma^2)$<br>据此改写模型：  </p>
+<p>$$<br>\begin{aligned}<br>y_i &amp;=\mathbf{x_i}^T\mathbf{w}+\epsilon_i \<br>&amp; \backsim \mathbf{x_i}^T\mathbf{w}+\mathcal{N}(0,\sigma^2)<br>\end{aligned}<br>$$<br>$p(\mathbf{y}_i|\mathbf{x}_i,\mathbf{w})=\mathcal{N}( \mathbf{x_i}^T\mathbf{w},\sigma^2)$<br>因为样本是独立抽取的，所以对于$\mathbf{w}$的对数似然为   </p>
+<p>$$<br>\begin{aligned}<br>\ln p(\mathbf{y}|\mathbf{X},\mathbf{w})&amp;=\ln \prod_{i=1}^n \mathcal{N}(\mathbf{x_i}^T\mathbf{w},\sigma^2) \<br>&amp;=\sum_{i=1}^n \ln \dfrac{1}{\sqrt{\smash[b]{2\pi}} \sigma}exp\left(-{\frac{(y-\mathbf{x_i}^T\mathbf{w})^2}{\sigma^2}}\right) \<br>&amp;=-\frac{n}{2} \ln 2\pi\sigma^2- \frac{1}{2\sigma^2} \sum_{i=1}^n (y-\mathbf{x_i}^T\mathbf{w})^2<br>\end{aligned}<br>$$</p>
+<p>去除常数项，对其对数似然进行最大化，等于对其负对数似然进行最小化，则</p>
+<p>$$<br>\min~ -\ln p(\mathbf{y}|\mathbf{X},\mathbf{w})=\min~~(y-\mathbf{x_i}^T\mathbf{w})^2<br>$$<br>从上式可以看出，<strong>对模型参数的极大似然化等价于最小化均方误差。</strong></p>
+<h2 id="最大后验估计-MAP"><a href="#最大后验估计-MAP" class="headerlink" title="最大后验估计(MAP)"></a>最大后验估计(MAP)</h2><p>根据贝叶斯公式可以得到：<br>$p(\mathbf{w}|\mathcal{D})=\dfrac{p(\mathcal{D}|\mathbf{w})p(\mathbf{w})}{p(\mathcal{D})}$<br>$\mathcal{D}$为观测数据，根据以上公式，我们可以得到：<br>$p(\mathbf{w}|\mathcal{D}) \propto p(\mathcal{D}|\mathbf{w})p(\mathbf{w})$<br>即，$posterior \propto likehood \times prior$<br>假设$p(\mathbf{y}_i|\mathbf{x}_i,\mathbf{w})=\mathcal{N}( \mathbf{x_i}^T\mathbf{w},\alpha^{-1}\mathbf{I})$，$p(\mathbf{w})=\mathcal{N}( 0,\beta^{-1}\mathbf{I})$<br>则最大化后验概率等于最大化似然函数与先验概率的乘积，即优化目标为：   </p>
+<p>$$<br>\begin{aligned}<br>\ln p(\mathbf{w}|\mathbf{X},\mathbf{y})&amp;\propto\ln p(\mathbf{y}|\mathbf{X},\mathbf{w})p(\mathbf{w})\<br>&amp;=\ln \prod_{i=1}^n \mathcal{N}( \mathbf{x_i}^T\mathbf{w},\alpha^{-1}\mathbf{I})\mathcal{N}( 0,\beta^{-1}\mathbf{I})\<br>&amp;=-\frac{n}{2} \ln 2\pi\alpha^{-1}- \frac{\alpha}{2} \sum_{i=1}^n (y-\mathbf{x_i}^T\mathbf{w})^2-\frac{1}{2}\ln 2\pi \beta^{-1}-\beta\mathbf{w}^2<br>\end{aligned}$$</p>
+<p>最大化后验概率，则   </p>
+<p>$$<br>\begin{aligned}<br>\max<del>p(\mathbf{w}|\mathbf{X},\mathbf{y})<br>&amp;=\max</del>\ln p(\mathbf{w}|\mathbf{X},\mathbf{y})\<br>&amp;=\min<del>\ln p(\mathbf{w}|\mathbf{X},\mathbf{y})\<br>&amp;=\min</del>\sum_{i=1}^n (y-\mathbf{x_i}^T\mathbf{w})^2+\mu\mathbf{w}^2<br>\end{aligned}<br>$$<br>可以看到，假设$p(\mathbf{y}_i|\mathbf{x}_i,\mathbf{w})=\mathcal{N}( \mathbf{x_i}^T\mathbf{w},\alpha^{-1}\mathbf{I})$，$p(\mathbf{w})=\mathcal{N}( 0,\beta^{-1}\mathbf{I})$，则对<strong>模型参数进行最大后验估计等价于最小化加了L2正则项的均方误差</strong>。</p>
+<p>假设模型参数服从拉普拉斯(Laplace)分布，即<br>$p(w|\mu,b)=\dfrac{1}{2b}exp\left(-\dfrac{|w-\mu|}{b}\right)$，$\mu$为数学期望，$b&gt;0$为振幅。<br>假设$\mathbf{w}_i \backsim Laplace(0,\beta^{-1})$,$y_i \backsim \mathcal{N}(\mathbf{x}_i^T\mathbf{w},\alpha^{-1}\mathbf{I})$,则后验概率可表示为： </p>
+<p>$$<br>\begin{aligned}<br>\ln p(\mathbf{w}|\mathbf{X},\mathbf{y})&amp;\propto\ln p(\mathbf{y}|\mathbf{X},\mathbf{w})p(\mathbf{w})\<br>&amp;=\ln\prod_i^np(\mathbf{y}_i|\mathbf{x}_i,\mathbf{w}) \prod_j^dp(\mathbf{w}<em>j) \<br>&amp;=-\frac{n}{2} \ln 2\pi\alpha^{-1}- \frac{\alpha}{2} \sum</em>{i=1}^n (y-\mathbf{x_i}^T\mathbf{w})^2-\beta\sum_j^d|\mathbf{w}_j|-d \ln2\beta^{-1}<br>\end{aligned}<br>$$<br>最大化后验概率，则</p>
+<p>$$<br>\max<del>p(\mathbf{w}|\mathbf{X},\mathbf{y})<br>=\min</del>\sum_{i=1}^n (y-\mathbf{x_i}^T\mathbf{w})^2+\mu \sum_j^d|\mathbf{w}_j|<br>$$<br>可以看到，假设$\mathbf{w}_i \backsim Laplace(0,\beta^{-1})$,$y_i \backsim \mathcal{N}(\mathbf{x}_i^T\mathbf{w},\alpha^{-1}\mathbf{I})$，则对<strong>模型参数进行最大后验估计等价于最小化加了L1正则项的均方误差</strong>。</p>
+<p>参考文档：<br>周志华的机器学习书籍<br>机器学习实战<br>机器学习开放课程（四）线性分类与线性回归:<a href="https://mp.weixin.qq.com/s/hx0EwlbIKoTxH8cJ98gd2w" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/hx0EwlbIKoTxH8cJ98gd2w</a>    </p>
 
       
 
@@ -185,7 +228,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2018/04/26/article-title/">展开全文 >></a>
+          <a class="article-more-a" href="/2018/04/26/线性回归/">展开全文 >></a>
         </p>
       
 
