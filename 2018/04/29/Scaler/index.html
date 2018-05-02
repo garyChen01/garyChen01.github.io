@@ -6,16 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>&#39;Scaler&#39; | GaryChen的学习日志</title>
+  <title>&#39;标准化，正则化&#39; | GaryChen的学习日志</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="article">
-<meta property="og:title" content="&#39;Scaler&#39;">
+  <meta name="description" content="标准化（Standardization）标准化是为了消除各特征之间量纲影响，使得各特征处于同一量级。 Z-score标准化很多算法都假设每个特征的值都接近于零或者每个特征都在合理的区域变化。具体来讲就是基于度量(如KNN)和基于梯度的算法都假设数据近似标准正态分布（即均值为0，方差为1）。 因为不同的特征有不同的量纲和其数值的量级也不同，在做预测时，特征对预测值的影响程度不同，而通过标准化处理，可">
+<meta name="keywords" content="数据处理,机器学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="&#39;标准化，正则化&#39;">
 <meta property="og:url" content="http://yoursite.com/2018/04/29/Scaler/index.html">
 <meta property="og:site_name" content="GaryChen的学习日志">
+<meta property="og:description" content="标准化（Standardization）标准化是为了消除各特征之间量纲影响，使得各特征处于同一量级。 Z-score标准化很多算法都假设每个特征的值都接近于零或者每个特征都在合理的区域变化。具体来讲就是基于度量(如KNN)和基于梯度的算法都假设数据近似标准正态分布（即均值为0，方差为1）。 因为不同的特征有不同的量纲和其数值的量级也不同，在做预测时，特征对预测值的影响程度不同，而通过标准化处理，可">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-04-29T00:22:54.624Z">
+<meta property="og:updated_time" content="2018-05-02T02:02:48.368Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="&#39;Scaler&#39;">
+<meta name="twitter:title" content="&#39;标准化，正则化&#39;">
+<meta name="twitter:description" content="标准化（Standardization）标准化是为了消除各特征之间量纲影响，使得各特征处于同一量级。 Z-score标准化很多算法都假设每个特征的值都接近于零或者每个特征都在合理的区域变化。具体来讲就是基于度量(如KNN)和基于梯度的算法都假设数据近似标准正态分布（即均值为0，方差为1）。 因为不同的特征有不同的量纲和其数值的量级也不同，在做预测时，特征对预测值的影响程度不同，而通过标准化处理，可">
   
     <link rel="alternative" href="/atom.xml" title="GaryChen的学习日志" type="application/atom+xml">
   
@@ -158,7 +162,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      &#39;Scaler&#39;
+      &#39;标准化，正则化&#39;
     </h1>
   
 
@@ -171,7 +175,18 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <h2 id="标准化（Standardization）"><a href="#标准化（Standardization）" class="headerlink" title="标准化（Standardization）"></a>标准化（Standardization）</h2><p>标准化是为了消除各特征之间量纲影响，使得各特征处于同一量级。</p>
+<h3 id="Z-score标准化"><a href="#Z-score标准化" class="headerlink" title="Z-score标准化"></a>Z-score标准化</h3><p>很多算法都假设每个特征的值都接近于零或者每个特征都在合理的区域变化。具体来讲就是基于度量(如KNN)和基于梯度的算法都假设数据近似标准正态分布（即均值为0，方差为1）。</p>
+<p>因为不同的特征有不同的量纲和其数值的量级也不同，在做预测时，特征对预测值的影响程度不同，而通过标准化处理，可以使得不同的特征具有相同的尺度（Scale）。这样，在使用梯度下降法学习参数时，不同特征对参数的影响程度就一样了。</p>
+<p>实际上，我们总是忽略分布的形状，而仅仅进行中心化（减去均值），再标准化（除以标准差）。在已有样本足够多的情况下比较稳定，适合现代嘈杂大数据场景。</p>
+<h3 id="Min-Max标准化"><a href="#Min-Max标准化" class="headerlink" title="Min-Max标准化"></a>Min-Max标准化</h3><p>当数据的标准差比较小的，使用Z-score标准化稳定性不佳，并且在对于稀疏数组，减去均值会使得稀疏数组中的零值变成非零值，从而导致数据内存一下暴增。但是因为在不同的样本集下，最小值与最大值可能是变化的，并且很容易受异常点的影响，所以这种方法鲁棒性很差，只适合传统精确小场景。</p>
+<h2 id="正则化（Normalization）"><a href="#正则化（Normalization）" class="headerlink" title="正则化（Normalization）"></a>正则化（Normalization）</h2><p>正则化是将单个样本按单位规范进行缩放的过程。如果使用一个二次型（比如点乘）或其他核方法来计算两样本之间的相似度，这个方法是很有用的。</p>
+<p>正则化的主要思想是对每个样本计算其$p$范数，然后对该样本中每个元素除以该范数，这样处理的结果是使得每个处理后样本的$p$范数（l1-norm,l2-norm）等于1。该方法主要应用于文本分类和聚类中。</p>
+<p>参考文档：<br>Compare the effect of different scalers on data with outliers：<a href="http://scikit-learn.org/stable/auto_examples/preprocessing/plot_all_scaling.html#sphx-glr-auto-examples-preprocessing-plot-all-scaling-py" target="_blank" rel="noopener">http://scikit-learn.org/stable/auto_examples/preprocessing/plot_all_scaling.html#sphx-glr-auto-examples-preprocessing-plot-all-scaling-py</a></p>
+<p><a href="https://blog.csdn.net/chixujohnny/article/details/54231815" target="_blank" rel="noopener">https://blog.csdn.net/chixujohnny/article/details/54231815</a></p>
+<p><a href="http://www.cnblogs.com/zhaokui/p/5112287.html" target="_blank" rel="noopener">http://www.cnblogs.com/zhaokui/p/5112287.html</a></p>
+<p><a href="https://www.zhihu.com/question/37069477" target="_blank" rel="noopener">https://www.zhihu.com/question/37069477</a></p>
+
       
 
       
@@ -200,6 +215,21 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据处理</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -422,6 +452,14 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">MLE</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">数据处理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">机器学习</a>
               </li>
             
             <div class="clearfix"></div>
