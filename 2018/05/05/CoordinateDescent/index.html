@@ -6,15 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | GaryChen的学习日志</title>
+  <title>CoordinateDescent | GaryChen的学习日志</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="GaryChen的学习日志">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+  <meta name="description" content="本篇博客将讲述如何使用坐标下降法求解Lasso回归模型。 坐标下降法，顾名思义，就是沿着坐标轴的方向去减少目标函数，这与梯度下降法不一样，梯度下降法是沿着负梯度的方向。 坐标下降法的数学依据为：一个可微的凸函数$J(\theta)$,$\theta\in \mathcal{R}^n$,如果存在某一坐标$\bar{\theta}$使得$J(\theta)$在每一个坐标轴$\bar{\theta}_i">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CoordinateDescent">
+<meta property="og:url" content="http://yoursite.com/2018/05/05/CoordinateDescent/index.html">
 <meta property="og:site_name" content="GaryChen的学习日志">
+<meta property="og:description" content="本篇博客将讲述如何使用坐标下降法求解Lasso回归模型。 坐标下降法，顾名思义，就是沿着坐标轴的方向去减少目标函数，这与梯度下降法不一样，梯度下降法是沿着负梯度的方向。 坐标下降法的数学依据为：一个可微的凸函数$J(\theta)$,$\theta\in \mathcal{R}^n$,如果存在某一坐标$\bar{\theta}$使得$J(\theta)$在每一个坐标轴$\bar{\theta}_i">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-05-07T12:41:33.192Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="GaryChen的学习日志">
+<meta name="twitter:title" content="CoordinateDescent">
+<meta name="twitter:description" content="本篇博客将讲述如何使用坐标下降法求解Lasso回归模型。 坐标下降法，顾名思义，就是沿着坐标轴的方向去减少目标函数，这与梯度下降法不一样，梯度下降法是沿着负梯度的方向。 坐标下降法的数学依据为：一个可微的凸函数$J(\theta)$,$\theta\in \mathcal{R}^n$,如果存在某一坐标$\bar{\theta}$使得$J(\theta)$在每一个坐标轴$\bar{\theta}_i">
   
     <link rel="alternative" href="/atom.xml" title="GaryChen的学习日志" type="application/atom+xml">
   
@@ -150,133 +154,177 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-CoordinateDescent" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      CoordinateDescent
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/05/05/CoordinateDescent/" class="archive-article-date">
+
+        
+        <a href="/2018/05/05/CoordinateDescent/" class="archive-article-date">
   	<time datetime="2018-05-05T08:12:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-05</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/05/05/CoordinateDescent/">CoordinateDescent</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本篇博客将讲述如何使用坐标下降法求解Lasso回归模型。</p>
+<p>坐标下降法，顾名思义，就是沿着坐标轴的方向去减少目标函数，这与梯度下降法不一样，梯度下降法是沿着负梯度的方向。</p>
+<p>坐标下降法的数学依据为：一个可微的凸函数$J(\theta)$,$\theta\in \mathcal{R}^n$,如果存在某一坐标$\bar{\theta}$使得$J(\theta)$在每一个坐标轴$\bar{\theta}_i$上都是最小值，那么$J(\bar{\theta})$就是一个全局最小值。</p>
+<p>具体思想是，固定除$\theta_i$以外的其他参数，对$\theta_i$进行更新，使得更新后的目标函数值减小。</p>
+<p>具体算法过程：   </p>
+<ol>
+<li>首先对参数$\theta$进行初始化为$\theta^{(0)}$，上面的括号表示当前的迭代次数。   </li>
+<li>对于第$k$轮迭代。从$\theta^{(k)}<em>1$开始到$\theta^{(k)}_n$,求解$\theta^{(k)}_i$,求解过程为：<br>$\theta^{(k)}_i=\underbrace{\arg\min}</em>{\theta^{(k)}<em>i} ~~J(\theta^{(k)}_1,\theta^{(k)}_2,\cdots,\theta^{(k)}</em>{i-1},\theta^{(k-1)}<em>i,\theta^{(k-1)}</em>{i+1},\cdots,\theta^{(k-1)}_n)$</li>
+</ol>
+<p>给定参数向量$\theta=({\mu,\beta_1,\cdots,\beta_m})$，其中$\mu$为截距参数，$\beta_i$为特征权重，假定平方和误差与L1正则的平衡稀疏为$\lambda$，则Lasso回归的目标函数为：    </p>
+<script type="math/tex; mode=display">f(\theta)=g(\theta)+\lambda \sum_i^m|\beta_i|</script><p>其中$g(\theta)=\sum_i^n (y_i - \sum_j^m x_j\theta_j)$，因为在Lasso回归目标函数的最优化问题中，正则项在零点处不可求导，所以无法使用梯度下降法，只能使用非梯度下降法，如坐标下降法或最小角回归法。</p>
+<p>因为$g(\theta)$可导，其导数为:    </p>
+<script type="math/tex; mode=display">\dfrac{\partial g(\theta)}{\partial \theta_j}=-2\sum_{i=1}^n (\mathbf{y}_i-\mathbf{X}_i\cdot\theta)\mathbf{X}_i^j=-2\sum_{i=1}^n(\mathbf{y}_i-\sum_{k\ne j}\mathbf{X}_i^k\theta_k)+2\theta_j\sum_{i=1}^n\mathbf{X}_i^j=-2p_j+2\theta_jz_j</script><p>其中$y_i$为样本集中第$i$个样本$\mathbf{X}_i$对应的目标值，$n$为样本集的大小,$\mathbf{X}_i^k$表示第$i$个样本的第$k$个属性值。</p>
+<p>而正则项不可导，所以使用次梯度法来处理该项。正则项的次梯度为：</p>
+<script type="math/tex; mode=display">\lambda \partial|\theta_i|=\begin{cases} -\lambda & \theta_i<0 \\ [-\lambda,\lambda] &\theta_j = 0 \\ \lambda& \theta_j>0\end{cases}</script><p>整体偏导为：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}\dfrac{\partial f(\theta)}{\partial \theta_j}&=-2p_j+2\theta_jz_j+\begin{cases} -\lambda & \theta_i<0 \\ [-\lambda,\lambda] &\theta_j = 0 \\ \lambda& \theta_j>0\end{cases} \\
+&=\begin{cases}-2p_j+2\theta_jz_j-\lambda & \theta_i<0 \\ [-2p_j-\lambda,-2p_j+\lambda] &\theta_j = 0 \\ -2p_j+2\theta_jz_j+\lambda& \theta_j>0\end{cases}
+\end{aligned}</script><p>要想有最优解，则令$\dfrac{\partial f(\theta)}{\partial \theta_j}=0$，则：</p>
+<script type="math/tex; mode=display">\theta_j=\begin{cases} (p_j+\lambda/2)/z_j & p_j>\lambda/2\\
+0 & p_j \in [-\lambda/2,\lambda] \\   (p_j-\lambda/2)/z_j & p_j<-\lambda/2\end{cases}</script><p>具体实现代码：<br><a href="https://github.com/garyChen01/MachineLearning/blob/master/LassoRegression.py" target="_blank" rel="noopener">https://github.com/garyChen01/MachineLearning/blob/master/LassoRegression.py</a></p>
+<p>参考文档：<br>Lasso回归算法： 坐标轴下降法与最小角回归法小结:<br><a href="https://www.cnblogs.com/pinard/p/6018889.html" target="_blank" rel="noopener">https://www.cnblogs.com/pinard/p/6018889.html</a><br>Lasso回归的坐标下降法推导:<br><a href="https://blog.csdn.net/u012151283/article/details/77487729" target="_blank" rel="noopener">https://blog.csdn.net/u012151283/article/details/77487729</a></p>
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/05/05/CoordinateDescent/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/04/29/Scaler/" class="archive-article-date">
-  	<time datetime="2018-04-29T00:22:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-29</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2018/04/29/Scaler/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">标准化，正则化</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/04/29/Scaler/">标准化，正则化</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/04/26/线性回归/" class="archive-article-date">
-  	<time datetime="2018-04-26T08:47:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-26</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/04/26/线性回归/">线性回归</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">线性回归</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
 
 
           </div>
@@ -299,8 +347,8 @@
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
