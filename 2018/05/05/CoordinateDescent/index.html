@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="GaryChen的学习日志">
 <meta property="og:description" content="本篇博客将讲述如何使用坐标下降法求解Lasso回归模型。 坐标下降法，顾名思义，就是沿着坐标轴的方向去减少目标函数，这与梯度下降法不一样，梯度下降法是沿着负梯度的方向。 坐标下降法的数学依据为：一个可微的凸函数$J(\theta)$,$\theta\in \mathcal{R}^n$,如果存在某一坐标$\bar{\theta}$使得$J(\theta)$在每一个坐标轴$\bar{\theta}_i">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-05-07T12:55:07.828Z">
+<meta property="og:updated_time" content="2018-05-07T12:58:27.881Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基于Coordinate Descent的Lasso实现">
 <meta name="twitter:description" content="本篇博客将讲述如何使用坐标下降法求解Lasso回归模型。 坐标下降法，顾名思义，就是沿着坐标轴的方向去减少目标函数，这与梯度下降法不一样，梯度下降法是沿着负梯度的方向。 坐标下降法的数学依据为：一个可微的凸函数$J(\theta)$,$\theta\in \mathcal{R}^n$,如果存在某一坐标$\bar{\theta}$使得$J(\theta)$在每一个坐标轴$\bar{\theta}_i">
@@ -179,9 +179,9 @@
 <p>坐标下降法，顾名思义，就是沿着坐标轴的方向去减少目标函数，这与梯度下降法不一样，梯度下降法是沿着负梯度的方向。</p>
 <p>坐标下降法的数学依据为：一个可微的凸函数$J(\theta)$,$\theta\in \mathcal{R}^n$,如果存在某一坐标$\bar{\theta}$使得$J(\theta)$在每一个坐标轴$\bar{\theta}_i$上都是最小值，那么$J(\bar{\theta})$就是一个全局最小值。<br><a id="more"></a><br>具体思想是，固定除$\theta_i$以外的其他参数，对$\theta_i$进行更新，使得更新后的目标函数值减小。</p>
 <p>具体算法过程：   </p>
-<p>首先对参数$\theta$进行初始化为$\theta^{(0)}$，上面的括号表示当前的迭代次数。   </p>
-<p>对于第$k$轮迭代。从$\theta^{(k)}<em>1$开始到$\theta^{(k)}_n$,求解$\theta^{(k)}_i$,求解过程为：<br>$\theta^{(k)}_i=\underbrace{\arg\min}</em>{\theta^{(k)}<em>i} ~~J(\theta^{(k)}_1,\theta^{(k)}_2,\cdots,\theta^{(k)}</em>{i-1},\theta^{(k-1)}<em>i,\theta^{(k-1)}</em>{i+1},\cdots,\theta^{(k-1)}_n)$</p>
-<p>给定参数向量$\theta=({\mu,\beta_1,\cdots,\beta_m})$，其中$\mu$为截距参数，$\beta_i$为特征权重，假定平方和误差与L1正则的平衡稀疏为$\lambda$，则Lasso回归的目标函数为：    </p>
+<p>首先对参数$\theta$进行初始化为$\theta^{(0)}$，上面的括号表示当前的迭代次数。<br>$\theta^{(k)}_1$</p>
+<p>对于第$k$轮迭代。从$\theta<em>1^{(k)}$开始到$\theta^_n{(k)}$,求解$\theta_i^{(k)}$,求解过程为：<br>$\theta_i^{(k)}=\underbrace{\arg\min}</em>{\theta<em>i^{(k)}} ~~J(\theta_1^{(k)},\theta_i^{(k)},\cdots,\theta</em>{i-1}^{(k)},\theta<em>i^{(k-1)},\theta</em>{i+1}^{(k-1)},\cdots,\theta_n^{(k-1)})$</p>
+<p>$\theta=({\mu,\beta_1,\cdots,\beta_m})$，其中$\mu$为截距参数，$\beta_i$为特征权重，假定平方和误差与L1正则的平衡稀疏为$\lambda$，则Lasso回归的目标函数为：    </p>
 <script type="math/tex; mode=display">f(\theta)=g(\theta)+\lambda \sum_i^m|\beta_i|</script><p>其中$g(\theta)=\sum_i^n (y_i - \sum_j^m x_j\theta_j)$，因为在Lasso回归目标函数的最优化问题中，正则项在零点处不可求导，所以无法使用梯度下降法，只能使用非梯度下降法，如坐标下降法或最小角回归法。</p>
 <p>因为$g(\theta)$可导，其导数为:    </p>
 <script type="math/tex; mode=display">\dfrac{\partial g(\theta)}{\partial \theta_j}=-2\sum_{i=1}^n (\mathbf{y}_i-\mathbf{X}_i\cdot\theta)\mathbf{X}_i^j=-2\sum_{i=1}^n(\mathbf{y}_i-\sum_{k\ne j}\mathbf{X}_i^k\theta_k)+2\theta_j\sum_{i=1}^n\mathbf{X}_i^j=-2p_j+2\theta_jz_j</script><p>其中$y_i$为样本集中第$i$个样本$\mathbf{X}_i$对应的目标值，$n$为样本集的大小,$\mathbf{X}_i^k$表示第$i$个样本的第$k$个属性值。</p>
