@@ -8,14 +8,18 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>LogisticRegression | GaryChen的学习日志</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="article">
+  <meta name="description" content="二项逻辑回归我们知道回归问题的预测值为连续值，而分类问题的预测值为离散值。现在假设二分类问题的目标值为0和1，那么我们是否用线性回归来解决二分类问题？      假设我们对训练集拟合得到模型为$f(\mathbf{X}_k)=\hat{\mathbf{X}}_k\mathbf{w}$，$\hat{\mathbf{X}}_k=[\mathbf{X}_k^1,\mathbf{X}_k^2,\cdots">
+<meta name="keywords" content="机器学习">
+<meta property="og:type" content="article">
 <meta property="og:title" content="LogisticRegression">
 <meta property="og:url" content="http://yoursite.com/2018/05/09/LogisticRegression/index.html">
 <meta property="og:site_name" content="GaryChen的学习日志">
+<meta property="og:description" content="二项逻辑回归我们知道回归问题的预测值为连续值，而分类问题的预测值为离散值。现在假设二分类问题的目标值为0和1，那么我们是否用线性回归来解决二分类问题？      假设我们对训练集拟合得到模型为$f(\mathbf{X}_k)=\hat{\mathbf{X}}_k\mathbf{w}$，$\hat{\mathbf{X}}_k=[\mathbf{X}_k^1,\mathbf{X}_k^2,\cdots">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-05-09T06:55:04.378Z">
+<meta property="og:updated_time" content="2018-05-10T13:25:39.722Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="LogisticRegression">
+<meta name="twitter:description" content="二项逻辑回归我们知道回归问题的预测值为连续值，而分类问题的预测值为离散值。现在假设二分类问题的目标值为0和1，那么我们是否用线性回归来解决二分类问题？      假设我们对训练集拟合得到模型为$f(\mathbf{X}_k)=\hat{\mathbf{X}}_k\mathbf{w}$，$\hat{\mathbf{X}}_k=[\mathbf{X}_k^1,\mathbf{X}_k^2,\cdots">
   
     <link rel="alternative" href="/atom.xml" title="GaryChen的学习日志" type="application/atom+xml">
   
@@ -171,7 +175,53 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <h2 id="二项逻辑回归"><a href="#二项逻辑回归" class="headerlink" title="二项逻辑回归"></a>二项逻辑回归</h2><p>我们知道回归问题的预测值为连续值，而分类问题的预测值为离散值。现在假设二分类问题的目标值为0和1，那么我们是否用线性回归来解决二分类问题？     </p>
+<p>假设我们对训练集拟合得到模型为$f(\mathbf{X}_k)=\hat{\mathbf{X}}_k\mathbf{w}$，$\hat{\mathbf{X}}_k=[\mathbf{X}_k^1,\mathbf{X}_k^2,\cdots,\mathbf{X}_k^m,1]$，其中$\mathbf{X}_k^i$表示样本$\mathbf{X}_k$的第$i$个特征，$m$为样本$\mathbf{X}_k$的特征数。当存在样本$(\mathbf{X_i},y_i)$，对该样本的预测为$f(\mathbf{X_i})$，为了将预测值映射（离散化）为0和1，我们需要设置某一阈值，来使得小于该阈值的$f(\mathbf{X_i})$输出为0，大于该阈值的输出为1，Sigmoid函数即是这样的一个映射函数，Sigmoid函数的表达式为：   </p>
+<script type="math/tex; mode=display">g(z)=\dfrac{1}{1+e^{-z}}</script><p>Sigmoid函数的输出域为[0,1],将$z$值转化为一个接近0或1的值，并且其输出值在$z=0$附近变化很陡。</p>
+<p>Sigmoid的输出域的范围引入一个很好的性质，即Sigmoid的输出可以看作其属于某一个类的概率。对于二分类问题，我们假设$y|\mathbf{X}$服从伯努利分布，这一假设是很自然的。即对于样本$(\mathbf{X_i},y_i)$，其输出为1的概率为：   </p>
+<script type="math/tex; mode=display">p(y_i=1|\mathbf{X_i}) = \dfrac{1}{1+e^{-\hat{\mathbf{X_i}}\mathbf{w}}}</script><p>相应的其输出为0的概率为：   </p>
+<script type="math/tex; mode=display">p(y_i=0|\mathbf{X_i}) = 1-p(y_i=1|\mathbf{X}_i) = \dfrac{e^{-\hat{\mathbf{X_i}}\mathbf{w}}}{1+e^{-\hat{\mathbf{X_i}}\mathbf{w}}}</script><p>这样，我们可以通过极大似然法求解$\mathbf{w}$和$b$，具体为：    </p>
+<script type="math/tex; mode=display">
+ \max \ell(\mathbf{w})=\prod_i^np(y_i=1|\mathbf{X}_i)^{y_i}p(y_i=0|\mathbf{X}_i)^{1-y_i}</script><p>对$\ell(\mathbf{w})$取$log$可以使得点乘变成累加的形式，用来方便求解，再取负值使得将最大化目标函数问题转换为最小化的问题。</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\min-\log \ell(\mathbf{w})&=\min\sum_i^n -\left[y_i\log p(y_i=1|\mathbf{X}_i)+(1-y_i) \log p(y_i=0|\mathbf{X}_i) \right]\\
+&=\min\sum_i^n-[ y_i\log p(y_i=1|\mathbf{X}_i)+(1-y_i) \log \left(1-p(y_i=1|\mathbf{X}_i)\right)]
+\end{aligned}</script><p>$-\log \ell(\mathbf{w})$即为交叉熵损失函数，其为看作为两个伯努利分布$q$和$p$的交叉熵。其中$q$为真实输出的伯努利分布，$p$为预测输出的伯努利分布。</p>
+<p>$-\log \ell(\mathbf{w})$为凸函数，可以使用梯度下降法来求得最优解。   </p>
+<script type="math/tex; mode=display">
+\dfrac{\partial -\log \ell(\mathbf{w})}{\partial \mathbf{w}}=\sum_i^n-(y_i-f(\mathbf{X}_i))\mathbf{X}_i</script><p>$\mathbf{w}$的更新公式为：</p>
+<script type="math/tex; mode=display">\mathbf{w}=\mathbf{w}-\eta\sum_i^n-(y_i-f(\mathbf{X}_i))\mathbf{X}_i</script><p>上式中$\eta$即为学习速率。</p>
+<h2 id="多项逻辑回归"><a href="#多项逻辑回归" class="headerlink" title="多项逻辑回归"></a>多项逻辑回归</h2><p>对于多分类问题，$K$表示类别总数，输出$\mathbf{y}\in\mathcal{R}^{K-1}$为$K-1$维向量，我们可以假设$\mathbf{y}|\mathbf{X}$服从多项式分布。我们使用Softmax函数作为映射函数，Softmax函数的表达式为：    </p>
+<script type="math/tex; mode=display">g(z_j)=\dfrac{e^{z_j}}{\sum_{k=1}^K e^{z_k}}</script><p>其中$z_j=f_j(\mathbf{X}_i)=\hat{\mathbf{X_i}}\mathbf{W}_j^T$，该$\hat{\mathbf{X_i}}$与二项逻辑回归中的$\hat{\mathbf{X_i}}$一样，其实际可以看作是拟合得到$K$个线性回归模型，然后将该$K$个模型预测值经过$g(z_j)$映射得到一个概率值，取概率值最大的类别为模型预测的类别。</p>
+<p>对于样本$(\mathbf{X}_i,\hat{y})$，模型的预测类别为$y$的概率为：   </p>
+<script type="math/tex; mode=display">
+p(y|\mathbf{X}_i)=g(z_1)^{I\{y=1\}}g(z_2)^{I\{y=2\}}\cdots g(z_k)^{I\{y=K\}}</script><p>其中$y\in {1,2,\cdots,K}$，$I{y=1}$为指示函数，即当$y=1$为正时，函数返回1，否则返回0.</p>
+<p>与二分类的逻辑回归一样，同样使用极大似然估计来预测$\mathbf{W}$和$\mathbf{b}$。   </p>
+<script type="math/tex; mode=display">
+\max \ell(\mathbf{W})=\prod_i^n\prod_j^K \left(\dfrac{e^{\hat{\mathbf{X}_i}\mathbf{W}_j^T}}{\sum_{k=1}^K e^{\hat{\mathbf{X}_i} \mathbf{W}_k^T}}\right)^{1\{y_i=j\}}</script><p>令$I_l$表示属于类别$l$的样本集，则</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\min -\log \ell(\mathbf{W},\mathbf{b})&=-\sum_i^n\sum_j^K {1\{y_i=j\}} \log \left[ \dfrac{e^{\hat{\mathbf{X}_i} \mathbf{W}_j^T}}{\sum_{k=1}^K e^{\hat{\mathbf{X}_i} \mathbf{W}_k^T}} \right] \\
+&=-\sum_j^K\sum_{i\in I_j} \log \left[ \dfrac{e^{\hat{\mathbf{X}_i} \mathbf{W}_j^T}}{\sum_{k=1}^K e^{\hat{\mathbf{X}_i} \mathbf{W}_k^T}} \right]
+\end{aligned}</script><script type="math/tex; mode=display">
+\begin{aligned}
+\dfrac{\partial -\log \ell(\mathbf{W},b)}{\partial \mathbf{W}_j}&=-\sum_{i\in I_j}[1-\dfrac{e^{\hat{\mathbf{X}_i} \mathbf{W}_j^T}}{\sum_{k=1}^K e^{\hat{\mathbf{X}_i} \mathbf{W}_k^T}}]\mathbf{X}_i+\sum_{l\ne j}^K \sum_{i\in I_l}\dfrac{e^{\hat{\mathbf{X}_i} \mathbf{W}_l^T}}{\sum_{k=1}^K e^{\hat{\mathbf{X}_i} \mathbf{W}_k^T}}\cdot \mathbf{X}_i \\
+&= \sum_j^K\sum_{i\in I_j} [{1\{y_i=j\}}-\dfrac{e^{\hat{\mathbf{X}_i} \mathbf{W}_j^T}}{\sum_{k=1}^K e^{\hat{\mathbf{X}_i} \mathbf{W}_k^T}}]\mathbf{X}_i
+\end{aligned}</script><h2 id="多分类学习"><a href="#多分类学习" class="headerlink" title="多分类学习"></a>多分类学习</h2><p>针对多分类问题，除了将二分类学习算法直接推广到多分类，我们多数基于一些基本策略，利用二分类学习方法来解决多分类问题。</p>
+<p>多分类学习的基本思路是“拆分法”，将多分类问题拆分成多个二分类问题，为每个二分类问题训练一个分类器，在预测时，将这些分类器预测结果进行集成来获得最终的多分类结果。</p>
+<p>最经典的拆分策略有三种：“一对一”(One vs. One,简称OvO)、“一对其余”(One vs. Rest,简称OvR)、“多对多”(Many vs. Many,简称MvM)。</p>
+<p>假设有N个类别。OvO是将这N个类别两两配对，从而产生N(N-1)/2个分类任务，学习N(N-1)/2分类器。在预测时，使用这些分类器得到N(N-1)/2个分类结果，最终结果使用投票法产生，即把被预测的最多的类别作为最终分类结果。</p>
+<p>OvR则是每次将一个类的样例作为正例，其他类别的样例作为负例，学习得到N个分类器，在分类时，若只有一个类为正类，则对应的类别为最终分类结果。若有多个类别为正类，则考虑分类的预测置信度，将置信度最大的类别作为最终的分类结果。</p>
+<p>MvM每次将若干个类作为正类，若干个类作为反类。MvM的正、反类构造必须有特殊的设计，不能随意选择。常用的MvM技术是纠错输出码(Error Corresting Output Codes, 简称ECOC)。ECOC工作过程可分为两步：    </p>
+<ul>
+<li>编码：对N个类别进行M次划分，每次划分一部分为正类，一部分为负类，从而形成M个训练集，这样对于N个类别中的每个类，其存在一个编码，该编码具体位置的值就是在M个训练集中的类别。如类别1的编码为[1,1,-1,1],其中1表示正类，-1表示反类。对M个训练集进行训练得到M个分类器。</li>
+<li>解码：M个分类器分别进行预测，将预测结果组成一个编码，将该编码与各类别各自的编码进行比较，返回其中距离最小的类别作为最终预测结果。</li>
+</ul>
+<p>对于多分类问题，是选择多项逻辑回归还是采用采用多分类学习策略的二项逻辑回归，取决于所有类别之间是否互斥。如果所有类别之间明显互斥，则采用多项逻辑回归，若所有类别之间不互斥有交叉，则最好使用多分类学习策略的二项逻辑回归。</p>
+<p>二项逻辑回归，多项逻辑回归，OvR策略下的二项逻辑回归算法的实现代码在</p>
+<p>参考文档：<br>周志华的机器学习的线性回归章节    </p>
+
       
 
       
@@ -200,6 +250,17 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
