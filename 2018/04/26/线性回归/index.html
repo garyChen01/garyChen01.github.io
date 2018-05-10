@@ -9,14 +9,14 @@
   <title>线性回归 | GaryChen的学习日志</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="给定由$d$个属性描述的样本表示为$\mathbf{x}={\mathbf{x}^1,\mathbf{x}^2,\cdots,\mathbf{x}^d}$,其中$\mathbf{x}^1$表示为样本$\mathbf{x}$的第$i$个属性。线性模型试图学习一个由属性的线性组合来进行预测的函数，即$f(\mathbf{x})=\mathbf{x}^1 w_1+\mathbf{x}^2 w_2+\cd">
-<meta name="keywords" content="机器学习,线性回归">
+<meta name="keywords" content="机器学习,回归">
 <meta property="og:type" content="article">
 <meta property="og:title" content="线性回归">
 <meta property="og:url" content="http://yoursite.com/2018/04/26/线性回归/index.html">
 <meta property="og:site_name" content="GaryChen的学习日志">
 <meta property="og:description" content="给定由$d$个属性描述的样本表示为$\mathbf{x}={\mathbf{x}^1,\mathbf{x}^2,\cdots,\mathbf{x}^d}$,其中$\mathbf{x}^1$表示为样本$\mathbf{x}$的第$i$个属性。线性模型试图学习一个由属性的线性组合来进行预测的函数，即$f(\mathbf{x})=\mathbf{x}^1 w_1+\mathbf{x}^2 w_2+\cd">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-05-10T12:57:06.662Z">
+<meta property="og:updated_time" content="2018-05-10T13:31:08.037Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="线性回归">
 <meta name="twitter:description" content="给定由$d$个属性描述的样本表示为$\mathbf{x}={\mathbf{x}^1,\mathbf{x}^2,\cdots,\mathbf{x}^d}$,其中$\mathbf{x}^1$表示为样本$\mathbf{x}$的第$i$个属性。线性模型试图学习一个由属性的线性组合来进行预测的函数，即$f(\mathbf{x})=\mathbf{x}^1 w_1+\mathbf{x}^2 w_2+\cd">
@@ -242,7 +242,9 @@ y_i &=\mathbf{x_i}^T\mathbf{w}+\epsilon_i \\
 <script type="math/tex; mode=display">
 \max~~p(\mathbf{w}|\mathbf{X},\mathbf{y}) 
 =\min~~\sum_{i=1}^n (y-\mathbf{x_i}^T\mathbf{w})^2+\mu \sum_j^d|\mathbf{w}_j|</script><p>可以看到，假设$\mathbf{w}_i \backsim Laplace(0,\beta^{-1})$,$y_i \backsim \mathcal{N}(\mathbf{x}_i^T\mathbf{w},\alpha^{-1}\mathbf{I})$，则对<strong>模型参数进行最大后验估计等价于最小化加了L1正则项的均方误差</strong>。</p>
-<p>线性回归，Lasso回归和Ridge回归的实现代码：   <a href="https://github.com/garyChen01/MachineLearning" target="_blank" rel="noopener">https://github.com/garyChen01/MachineLearning</a></p>
+<p>线性回归代码：<br><a href="https://github.com/garyChen01/MachineLearning/blob/master/LinearRegression.py" target="_blank" rel="noopener">https://github.com/garyChen01/MachineLearning/blob/master/LinearRegression.py</a></p>
+<p>Lasso回归代码：<br><a href="https://github.com/garyChen01/MachineLearning/blob/master/LassoRegression.py" target="_blank" rel="noopener">https://github.com/garyChen01/MachineLearning/blob/master/LassoRegression.py</a></p>
+<p>Ridge回归代码：<br><a href="https://github.com/garyChen01/MachineLearning/blob/master/RidgeRegression.py" target="_blank" rel="noopener">https://github.com/garyChen01/MachineLearning/blob/master/RidgeRegression.py</a></p>
 <p>参考文档：<br>周志华的机器学习：线性回归<br>机器学习实战：预测数值型数据：回归<br>机器学习开放课程（四）线性分类与线性回归:      <a href="https://mp.weixin.qq.com/s/hx0EwlbIKoTxH8cJ98gd2w" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/hx0EwlbIKoTxH8cJ98gd2w</a>    </p>
 
       
@@ -282,7 +284,7 @@ y_i &=\mathbf{x_i}^T\mathbf{w}+\epsilon_i \\
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">线性回归</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">回归</a>
         		</li>
       		
 		</ul>
@@ -518,6 +520,14 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">数据处理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">回归</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">分类</a>
               </li>
             
             <div class="clearfix"></div>
