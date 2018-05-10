@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="GaryChen的学习日志">
 <meta property="og:description" content="二项逻辑回归我们知道回归问题的预测值为连续值，而分类问题的预测值为离散值。现在假设二分类问题的目标值为0和1，那么我们是否用线性回归来解决二分类问题？      假设我们对训练集拟合得到模型为$f(\mathbf{X}_k)=\hat{\mathbf{X}}_k\mathbf{w}$，$\hat{\mathbf{X}}_k=[\mathbf{X}_k^1,\mathbf{X}_k^2,\cdots">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-05-10T13:31:11.353Z">
+<meta property="og:updated_time" content="2018-05-10T13:33:01.842Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="LogisticRegression">
 <meta name="twitter:description" content="二项逻辑回归我们知道回归问题的预测值为连续值，而分类问题的预测值为离散值。现在假设二分类问题的目标值为0和1，那么我们是否用线性回归来解决二分类问题？      假设我们对训练集拟合得到模型为$f(\mathbf{X}_k)=\hat{\mathbf{X}}_k\mathbf{w}$，$\hat{\mathbf{X}}_k=[\mathbf{X}_k^1,\mathbf{X}_k^2,\cdots">
@@ -177,7 +177,8 @@
       
         <h2 id="二项逻辑回归"><a href="#二项逻辑回归" class="headerlink" title="二项逻辑回归"></a>二项逻辑回归</h2><p>我们知道回归问题的预测值为连续值，而分类问题的预测值为离散值。现在假设二分类问题的目标值为0和1，那么我们是否用线性回归来解决二分类问题？     </p>
 <p>假设我们对训练集拟合得到模型为$f(\mathbf{X}_k)=\hat{\mathbf{X}}_k\mathbf{w}$，$\hat{\mathbf{X}}_k=[\mathbf{X}_k^1,\mathbf{X}_k^2,\cdots,\mathbf{X}_k^m,1]$，其中$\mathbf{X}_k^i$表示样本$\mathbf{X}_k$的第$i$个特征，$m$为样本$\mathbf{X}_k$的特征数。当存在样本$(\mathbf{X_i},y_i)$，对该样本的预测为$f(\mathbf{X_i})$，为了将预测值映射（离散化）为0和1，我们需要设置某一阈值，来使得小于该阈值的$f(\mathbf{X_i})$输出为0，大于该阈值的输出为1，Sigmoid函数即是这样的一个映射函数，Sigmoid函数的表达式为：   </p>
-<script type="math/tex; mode=display">g(z)=\dfrac{1}{1+e^{-z}}</script><p>Sigmoid函数的输出域为[0,1],将$z$值转化为一个接近0或1的值，并且其输出值在$z=0$附近变化很陡。</p>
+<script type="math/tex; mode=display">g(z)=\dfrac{1}{1+e^{-z}}</script><a id="more"></a>
+<p>Sigmoid函数的输出域为[0,1],将$z$值转化为一个接近0或1的值，并且其输出值在$z=0$附近变化很陡。</p>
 <p>Sigmoid的输出域的范围引入一个很好的性质，即Sigmoid的输出可以看作其属于某一个类的概率。对于二分类问题，我们假设$y|\mathbf{X}$服从伯努利分布，这一假设是很自然的。即对于样本$(\mathbf{X_i},y_i)$，其输出为1的概率为：   </p>
 <script type="math/tex; mode=display">p(y_i=1|\mathbf{X_i}) = \dfrac{1}{1+e^{-\hat{\mathbf{X_i}}\mathbf{w}}}</script><p>相应的其输出为0的概率为：   </p>
 <script type="math/tex; mode=display">p(y_i=0|\mathbf{X_i}) = 1-p(y_i=1|\mathbf{X}_i) = \dfrac{e^{-\hat{\mathbf{X_i}}\mathbf{w}}}{1+e^{-\hat{\mathbf{X_i}}\mathbf{w}}}</script><p>这样，我们可以通过极大似然法求解$\mathbf{w}$和$b$，具体为：    </p>
