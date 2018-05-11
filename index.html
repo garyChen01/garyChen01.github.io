@@ -174,48 +174,9 @@
       
         <h2 id="指数族分布"><a href="#指数族分布" class="headerlink" title="指数族分布"></a>指数族分布</h2><p>如果一个分布可以写成下面的形式，则可以称该分布是指数族分布：    </p>
 <script type="math/tex; mode=display">p(y)=b(y)\exp(\eta^T T(y)-a(\eta))</script><p>其中$\eta$被称为分布的自然参数(natural parameter)，$b(y)$被称为底层观测量(underlying measure)，$T(y)$被称为充分统计量(sufficient statistic)，在通常的分布中，$T(y)=y$，$a(\eta)$被称为对数规则化(log normalizer)，其使得$p(y,\mu)$对$y$的积分为1。</p>
-<h2 id="Generalized-Linear-Models（GLM）"><a href="#Generalized-Linear-Models（GLM）" class="headerlink" title="Generalized Linear Models（GLM）"></a>Generalized Linear Models（GLM）</h2><p>GLM有三个假设：   </p>
-<ol>
-<li>$y|x,\theta \backsim ExponentialFamily(y)$。对于给定$x,\theta$的情况下,$y$的分布服从参数$\eta$的一些指数族分布。    </li>
-<li>给定$x$，我们的目标是预测$T(y)$的期望。在多数情况下，我们会有$T(y)=y$，这也意味着我们的预测函数$h(x)=E(T(y)|x)=E(y|x)$。</li>
-<li>自然参数$\eta$与输入$x$是线性关系:$\eta=\theta^Tx$</li>
-</ol>
-<p>下面我们可以根据GLM与指数族分布推导出线性回归与逻辑回归。</p>
-<h3 id="线性回归"><a href="#线性回归" class="headerlink" title="线性回归"></a>线性回归</h3><p>在线性回归中，我们假设在给定$x$的情况下，$y$满足高斯分布$\mathcal{N}(\mu,\sigma^2)$，之前在极大似然估计来推导时，我们知道$\sigma$的取值不影响模型的学习，所以为了简便，这里设置$\sigma=1$，则</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-p(y)&=\dfrac{1}{\sqrt{2\pi}}\exp(-\dfrac{1}{2}(y-\mu)^2) \\
-&=\dfrac{1}{\sqrt{2\pi}}exp(-y^2)\cdot\exp(\mu y-\dfrac{1}{2}\mu^2)
-\end{aligned}</script><p>则</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-\eta&=\mu\\
-T(y)&=y\\
-b(y)&=\dfrac{1}{\sqrt{2\pi}}exp(-y^2)\\
-a(\eta)&=\dfrac{1}{2}\mu^2
-\end{aligned}</script><p>而$h(x)$为$T(y)$的期望，即<br>$h(x)=E(T(y)|x)=E(y|x)=\mu$<br>在GLM的第三个假设中$\eta=\theta^Tx$，则预测函数为：    </p>
-<script type="math/tex; mode=display">h(x)=\mu=\eta=\theta^Tx</script><h3 id="逻辑回归"><a href="#逻辑回归" class="headerlink" title="逻辑回归"></a>逻辑回归</h3><p>在逻辑回归中，我们假设$y|x,\theta$服从伯努利分布$Bernouli(\phi)$，则   </p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-p(y)&=\phi^y\cdot(1-\phi)^{1-y}\\
-&= \exp(y\log(\dfrac{\phi}{1-\phi})+\log(1-\phi))
-\end{aligned}</script><p>则</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-\eta&=\log(\dfrac{\phi}{1-\phi})\\
-T(y)&=y\\
-b(y)&=1\\
-a(\eta)&=\log(1-\phi)
-\end{aligned}</script><p>预测函数为：    </p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-h(x)&=E(y|x)\\
-&=\phi\\
-&=\dfrac{1}{1+e^{-\eta}}\\
-&= \dfrac{1}{1+e^{-\theta^Tx}}
-\end{aligned}</script><p>从这里也可以解释，为什么逻辑回归会使用Sigmoid作为映射函数。     </p>
-<p>参考文档：<br>指数族分布：<br><a href="https://blog.csdn.net/saltriver/article/details/55105285" target="_blank" rel="noopener">https://blog.csdn.net/saltriver/article/details/55105285</a><br>吴恩达cs229机器学习原始讲义note1—Generalized Linear Models</p>
-
+        
+          <a class="article-more-a" href="/2018/05/10/GLM/#more">more >></a>
+        
       
 
       
