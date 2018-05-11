@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="GaryChen的学习日志">
 <meta property="og:description" content="二项逻辑回归我们知道回归问题的预测值为连续值，而分类问题的预测值为离散值。现在假设二分类问题的目标值为0和1，那么我们是否用线性回归来解决二分类问题？      假设我们对训练集拟合得到模型为$f(\mathbf{X}_k)=\hat{\mathbf{X}}_k\mathbf{w}$，$\hat{\mathbf{X}}_k=[\mathbf{X}_k^1,\mathbf{X}_k^2,\cdots">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-05-10T13:33:01.842Z">
+<meta property="og:updated_time" content="2018-05-11T06:55:44.925Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="LogisticRegression">
 <meta name="twitter:description" content="二项逻辑回归我们知道回归问题的预测值为连续值，而分类问题的预测值为离散值。现在假设二分类问题的目标值为0和1，那么我们是否用线性回归来解决二分类问题？      假设我们对训练集拟合得到模型为$f(\mathbf{X}_k)=\hat{\mathbf{X}}_k\mathbf{w}$，$\hat{\mathbf{X}}_k=[\mathbf{X}_k^1,\mathbf{X}_k^2,\cdots">
@@ -181,7 +181,7 @@
 <p>Sigmoid函数的输出域为[0,1],将$z$值转化为一个接近0或1的值，并且其输出值在$z=0$附近变化很陡。</p>
 <p>Sigmoid的输出域的范围引入一个很好的性质，即Sigmoid的输出可以看作其属于某一个类的概率。对于二分类问题，我们假设$y|\mathbf{X}$服从伯努利分布，这一假设是很自然的。即对于样本$(\mathbf{X_i},y_i)$，其输出为1的概率为：   </p>
 <script type="math/tex; mode=display">p(y_i=1|\mathbf{X_i}) = \dfrac{1}{1+e^{-\hat{\mathbf{X_i}}\mathbf{w}}}</script><p>相应的其输出为0的概率为：   </p>
-<script type="math/tex; mode=display">p(y_i=0|\mathbf{X_i}) = 1-p(y_i=1|\mathbf{X}_i) = \dfrac{e^{-\hat{\mathbf{X_i}}\mathbf{w}}}{1+e^{-\hat{\mathbf{X_i}}\mathbf{w}}}</script><p>这样，我们可以通过极大似然法求解$\mathbf{w}$和$b$，具体为：    </p>
+<script type="math/tex; mode=display">p(y_i=0|\mathbf{X_i}) = 1-p(y_i=1|\mathbf{X}_i) = \dfrac{e^{-\hat{\mathbf{X_i}}\mathbf{w}}}{1+e^{-\hat{\mathbf{X_i}}\mathbf{w}}}</script><p>这样，假设$n$个样本是独立同分布的从样本空间采样得到的，则我们可以通过极大似然法求解$\mathbf{w}$和$b$，具体为：    </p>
 <script type="math/tex; mode=display">
  \max \ell(\mathbf{w})=\prod_i^np(y_i=1|\mathbf{X}_i)^{y_i}p(y_i=0|\mathbf{X}_i)^{1-y_i}</script><p>对$\ell(\mathbf{w})$取$log$可以使得点乘变成累加的形式，用来方便求解，再取负值使得将最大化目标函数问题转换为最小化的问题。</p>
 <script type="math/tex; mode=display">
@@ -329,6 +329,15 @@ p(y|\mathbf{X}_i)=g(z_1)^{I\{y=1\}}g(z_2)^{I\{y=2\}}\cdots g(z_k)^{I\{y=K\}}</sc
 
   
 <nav id="article-nav">
+  
+    <a href="/2018/05/10/GLM/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          GLM
+        
+      </div>
+    </a>
   
   
     <a href="/2018/05/05/CoordinateDescent/" id="article-nav-older" class="article-nav-link-wrap">
@@ -483,15 +492,7 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">LassoRegression</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">线性回归</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">数据处理</a>
+                <a href="javascript:void(0)" class="js-tag color3">分类</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -499,7 +500,7 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">分类</a>
+                <a href="javascript:void(0)" class="js-tag color5">数据处理</a>
               </li>
             
             <div class="clearfix"></div>

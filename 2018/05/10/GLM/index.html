@@ -6,15 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>GaryChen的学习日志</title>
+  <title>GLM | GaryChen的学习日志</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="GaryChen的学习日志">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="指数族分布如果一个分布可以写成下面的形式，则可以称该分布是指数族分布：     p(y)=b(y)\exp(\eta^T T(y)-a(\eta))其中$\eta$被称为分布的自然参数(natural parameter)，$b(y)$被称为底层观测量(underlying measure)，$T(y)$被称为充分统计量(sufficient statistic)，在通常的分布中，$T(y)=y$">
+<meta name="keywords" content="机器学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GLM">
+<meta property="og:url" content="http://yoursite.com/2018/05/10/GLM/index.html">
 <meta property="og:site_name" content="GaryChen的学习日志">
+<meta property="og:description" content="指数族分布如果一个分布可以写成下面的形式，则可以称该分布是指数族分布：     p(y)=b(y)\exp(\eta^T T(y)-a(\eta))其中$\eta$被称为分布的自然参数(natural parameter)，$b(y)$被称为底层观测量(underlying measure)，$T(y)$被称为充分统计量(sufficient statistic)，在通常的分布中，$T(y)=y$">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-05-11T08:02:50.064Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="GaryChen的学习日志">
+<meta name="twitter:title" content="GLM">
+<meta name="twitter:description" content="指数族分布如果一个分布可以写成下面的形式，则可以称该分布是指数族分布：     p(y)=b(y)\exp(\eta^T T(y)-a(\eta))其中$\eta$被称为分布的自然参数(natural parameter)，$b(y)$被称为底层观测量(underlying measure)，$T(y)$被称为充分统计量(sufficient statistic)，在通常的分布中，$T(y)=y$">
   
     <link rel="alternative" href="/atom.xml" title="GaryChen的学习日志" type="application/atom+xml">
   
@@ -150,16 +155,14 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-GLM" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-GLM" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/10/GLM/">GLM</a>
+    <h1 class="article-title" itemprop="name">
+      GLM
     </h1>
   
 
@@ -219,6 +222,27 @@ h(x)&=E(y|x)\\
       
 
       
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
     </div>
     <div class="article-info article-info-index">
       
@@ -237,16 +261,75 @@ h(x)&=E(y|x)\\
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/05/10/GLM/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/05/10/GLM/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2018/05/09/LogisticRegression/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">LogisticRegression</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -266,335 +349,14 @@ h(x)&=E(y|x)\\
 
 
 
-
   
-    <article id="post-LogisticRegression" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/09/LogisticRegression/">LogisticRegression</a>
-    </h1>
   
 
-        
-        <a href="/2018/05/09/LogisticRegression/" class="archive-article-date">
-  	<time datetime="2018-05-09T06:55:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="二项逻辑回归"><a href="#二项逻辑回归" class="headerlink" title="二项逻辑回归"></a>二项逻辑回归</h2><p>我们知道回归问题的预测值为连续值，而分类问题的预测值为离散值。现在假设二分类问题的目标值为0和1，那么我们是否用线性回归来解决二分类问题？     </p>
-<p>假设我们对训练集拟合得到模型为$f(\mathbf{X}_k)=\hat{\mathbf{X}}_k\mathbf{w}$，$\hat{\mathbf{X}}_k=[\mathbf{X}_k^1,\mathbf{X}_k^2,\cdots,\mathbf{X}_k^m,1]$，其中$\mathbf{X}_k^i$表示样本$\mathbf{X}_k$的第$i$个特征，$m$为样本$\mathbf{X}_k$的特征数。当存在样本$(\mathbf{X_i},y_i)$，对该样本的预测为$f(\mathbf{X_i})$，为了将预测值映射（离散化）为0和1，我们需要设置某一阈值，来使得小于该阈值的$f(\mathbf{X_i})$输出为0，大于该阈值的输出为1，Sigmoid函数即是这样的一个映射函数，Sigmoid函数的表达式为：   </p>
-<script type="math/tex; mode=display">g(z)=\dfrac{1}{1+e^{-z}}</script>
-        
-          <a class="article-more-a" href="/2018/05/09/LogisticRegression/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">分类</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/05/09/LogisticRegression/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-CoordinateDescent" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/05/CoordinateDescent/">基于Coordinate Descent的Lasso实现</a>
-    </h1>
   
 
-        
-        <a href="/2018/05/05/CoordinateDescent/" class="archive-article-date">
-  	<time datetime="2018-05-05T08:12:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>本篇博客将讲述如何使用坐标下降法求解Lasso回归模型。</p>
-<p>坐标下降法，顾名思义，就是沿着坐标轴的方向去减少目标函数，这与梯度下降法不一样，梯度下降法是沿着负梯度的方向。</p>
-<p>坐标下降法的数学依据为：一个可微的凸函数$J(\theta)$,$\theta\in \mathcal{R}^n$,如果存在某一坐标$\bar{\theta}$使得$J(\theta)$在每一个坐标轴$\bar{\theta}_i$上都是最小值，那么$J(\bar{\theta})$就是一个全局最小值。<br></p>
-        
-          <a class="article-more-a" href="/2018/05/05/CoordinateDescent/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">回归</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/05/05/CoordinateDescent/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Scaler" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/29/Scaler/">标准化，正则化</a>
-    </h1>
   
 
-        
-        <a href="/2018/04/29/Scaler/" class="archive-article-date">
-  	<time datetime="2018-04-29T00:22:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="标准化（Standardization）"><a href="#标准化（Standardization）" class="headerlink" title="标准化（Standardization）"></a>标准化（Standardization）</h2><p>标准化是为了消除各特征之间量纲影响，使得各特征处于同一量级。</p>
-<h3 id="Z-score标准化"><a href="#Z-score标准化" class="headerlink" title="Z-score标准化"></a>Z-score标准化</h3><p>很多算法都假设每个特征的值都接近于零或者每个特征都在合理的区域变化。具体来讲就是基于度量(如KNN)和基于梯度的算法都假设数据近似标准正态分布（即均值为0，方差为1）。<br></p>
-        
-          <a class="article-more-a" href="/2018/04/29/Scaler/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/04/29/Scaler/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-线性回归" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/26/线性回归/">线性回归</a>
-    </h1>
-  
-
-        
-        <a href="/2018/04/26/线性回归/" class="archive-article-date">
-  	<time datetime="2018-04-26T08:47:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>给定由$d$个属性描述的样本表示为$\mathbf{x}={\mathbf{x}^1,\mathbf{x}^2,\cdots,\mathbf{x}^d}$,其中$\mathbf{x}^1$表示为样本$\mathbf{x}$的第$i$个属性。线性模型试图学习一个由属性的线性组合来进行预测的函数，即<br>$f(\mathbf{x})=\mathbf{x}^1 w_1+\mathbf{x}^2 w_2+\cdots+\mathbf{x}^d w_d+b$   </p>
-<p>将输入和权重用列向量的形式表示，则预测函数可表示为</p>
-<script type="math/tex; mode=display">f(\mathbf{x})=\mathbf{\hat{x}}^T\mathbf{w}</script><p>其中$\mathbf{\hat{x}}={\mathbf{x}^1,\mathbf{x}^2,\cdots,\mathbf{x}^d,1}$,$\mathbf{w}={w_1,w_2,\cdots,w_d,b}$<br>用向量的形式表示称为向量化，其避免了循环，可以极大的加速运算。<br></p>
-        
-          <a class="article-more-a" href="/2018/04/26/线性回归/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">回归</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/04/26/线性回归/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
 
 
@@ -617,8 +379,8 @@ h(x)&=E(y|x)\\
     <script>
 	var yiliaConfig = {
 		mathjax: true,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
