@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="GaryChen的学习日志">
 <meta property="og:description" content="贝叶斯决策论机器学习可理解为通过观测数据$X$来学习决策函数$h$来推测结果$y$,并使得推断结果$\hat{y}$与真实结果$y$的误差越小越好。那么假设我们在观测前就知道$P(y)$的概率分布，此概率分布叫做先验概率。那么对于任意观测数据，我们都可以猜其的输出。当然一般情况下先验概率分布是不准确的，所以需要我们通过实际的观测数据，对其进行修正，这样修正后得到的概率分布$P(y|X)$就叫做后验">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-06-16T07:19:38.010Z">
+<meta property="og:updated_time" content="2018-06-16T07:20:59.176Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="NaiveBayes">
 <meta name="twitter:description" content="贝叶斯决策论机器学习可理解为通过观测数据$X$来学习决策函数$h$来推测结果$y$,并使得推断结果$\hat{y}$与真实结果$y$的误差越小越好。那么假设我们在观测前就知道$P(y)$的概率分布，此概率分布叫做先验概率。那么对于任意观测数据，我们都可以猜其的输出。当然一般情况下先验概率分布是不准确的，所以需要我们通过实际的观测数据，对其进行修正，这样修正后得到的概率分布$P(y|X)$就叫做后验">
@@ -204,7 +204,50 @@ p(c_k|x) = \dfrac{p(x|c_k)p(c_k)}{ p(x)}</script><p>由于$p(x)$不依赖于类�
 <script type="math/tex; mode=display">p(D|c_j)=\prod_i^n p(word_i|D_j)^{f_i}</script><p>上面说了，后验概率正比于条件概率乘以类先验概率，即</p>
 <script type="math/tex; mode=display">p(c_j|D)\varpropto p(c_j)p(D|c_j)</script><p>因为我们只需要分类正确，所以只计算条件概率与类先验概率的乘积作为后验概率即可。并且为了防止下溢，我们使用$\log$来将乘法转为加法。<br>即：     </p>
 <script type="math/tex; mode=display">p(c_j|D)=\log \dfrac{class_j}{N} + \sum_i^n f_i\log \dfrac{f_{ij}}{f_{*j}}</script><p>现在考虑平滑系数，即假设每个单词至少出现$\lambda$次。<br>并且如果考虑停用词时，我们会给每个单词$word_i$加一个逆文档频率(IDF)权重$t_i$，这样最终的后验概率为：</p>
-<script type="math/tex; mode=display">p(c_j|D)=\log \dfrac{class_j+\lambda}{N+K\lambda} +\sum_i^n f_i\log t_i \dfrac{f_{ij}+\lambda}{f_{*j}+n\lambda}</script><p>下面用例子来做文档分类，为了简便，省略平滑系数与权重。假设存在以下文档及它们的分类。<br>| Document     |     $word_1$| $word_2$ | $word_3$|Class|<br>| :-:| :-:|:-:| :-: |:-:|<br>| $doc_1$ |  2| 1   | 3 |$c_1$|<br>| $doc_2$ |  1| 3   | 1 |$c_2$|<br>| $doc_3$ |  0| 1   | 2 |$c_1$|<br>| $doc_4$ |  1| 0   | 1 |$c_2$|</p>
+<script type="math/tex; mode=display">p(c_j|D)=\log \dfrac{class_j+\lambda}{N+K\lambda} +\sum_i^n f_i\log t_i \dfrac{f_{ij}+\lambda}{f_{*j}+n\lambda}</script><p>下面用例子来做文档分类，为了简便，省略平滑系数与权重。假设存在以下文档及它们的分类。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Document</th>
+<th style="text-align:center">$word_1$</th>
+<th style="text-align:center">$word_2$</th>
+<th style="text-align:center">$word_3$</th>
+<th style="text-align:center">Class</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">$doc_1$</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">$c_1$</td>
+</tr>
+<tr>
+<td style="text-align:center">$doc_2$</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">$c_2$</td>
+</tr>
+<tr>
+<td style="text-align:center">$doc_3$</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">$c_1$</td>
+</tr>
+<tr>
+<td style="text-align:center">$doc_4$</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">$c_2$</td>
+</tr>
+</tbody>
+</table>
+</div>
 <p>首先计算类先验概率。    </p>
 <script type="math/tex; mode=display">p(c_1)=\dfrac{1+1}{4}=\dfrac{1}{2}</script><script type="math/tex; mode=display">p(c_2)=\dfrac{1+1}{4}=\dfrac{1}{2}</script><p>计算各类别中各单词的频率：   </p>
 <script type="math/tex; mode=display">p(word_1|c_1)=\dfrac{2+0}{2+1+3+0+1+2}=\dfrac{2}{9}</script><script type="math/tex; mode=display">p(word_1|c_2)=\dfrac{1+1}{1+3+1+1+0+1}=\dfrac{2}{7}</script><script type="math/tex; mode=display">p(word_2|c_1)=\dfrac{2}{9},p(word_2|c_2)=\dfrac{3}{7}</script><script type="math/tex; mode=display">p(word_3|c_1)=\dfrac{5}{9},p(word_3|c_2)=\dfrac{2}{7}</script><p>ok，参数都计算完了，现在假设存在一个文档$D$，其各单词的频数为$(2,1,1)$，则其后验概率为：</p>
