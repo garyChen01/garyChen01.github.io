@@ -6,15 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>GaryChen的学习日志</title>
+  <title>NaiveBayes | GaryChen的学习日志</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="GaryChen的学习日志">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="贝叶斯决策论机器学习可理解为通过观测数据$X$来学习决策函数$h$来推测结果$y$,并使得推断结果$\hat{y}$与真实结果$y$的误差越小越好。那么假设我们在观测前就知道$P(y)$的概率分布，此概率分布叫做先验概率。那么对于任意观测数据，我们都可以猜其的输出。当然一般情况下先验概率分布是不准确的，所以需要我们通过实际的观测数据，对其进行修正，这样修正后得到的概率分布$P(y|X)$就叫做后验">
+<meta name="keywords" content="机器学习,分类">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NaiveBayes">
+<meta property="og:url" content="http://yoursite.com/2018/06/14/NaiveBayes/index.html">
 <meta property="og:site_name" content="GaryChen的学习日志">
+<meta property="og:description" content="贝叶斯决策论机器学习可理解为通过观测数据$X$来学习决策函数$h$来推测结果$y$,并使得推断结果$\hat{y}$与真实结果$y$的误差越小越好。那么假设我们在观测前就知道$P(y)$的概率分布，此概率分布叫做先验概率。那么对于任意观测数据，我们都可以猜其的输出。当然一般情况下先验概率分布是不准确的，所以需要我们通过实际的观测数据，对其进行修正，这样修正后得到的概率分布$P(y|X)$就叫做后验">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-06-16T06:47:21.870Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="GaryChen的学习日志">
+<meta name="twitter:title" content="NaiveBayes">
+<meta name="twitter:description" content="贝叶斯决策论机器学习可理解为通过观测数据$X$来学习决策函数$h$来推测结果$y$,并使得推断结果$\hat{y}$与真实结果$y$的误差越小越好。那么假设我们在观测前就知道$P(y)$的概率分布，此概率分布叫做先验概率。那么对于任意观测数据，我们都可以猜其的输出。当然一般情况下先验概率分布是不准确的，所以需要我们通过实际的观测数据，对其进行修正，这样修正后得到的概率分布$P(y|X)$就叫做后验">
   
     <link rel="alternative" href="/atom.xml" title="GaryChen的学习日志" type="application/atom+xml">
   
@@ -150,16 +155,14 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-NaiveBayes" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-NaiveBayes" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/06/14/NaiveBayes/">NaiveBayes</a>
+    <h1 class="article-title" itemprop="name">
+      NaiveBayes
     </h1>
   
 
@@ -211,333 +214,26 @@ p(c_k|x) = \dfrac{p(x|c_k)p(c_k)}{ p(x)}</script><p>由于$p(x)$不依赖于类�
       
 
       
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">分类</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/06/14/NaiveBayes/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-CrossValidation" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/06/11/CrossValidation/">交叉验证法</a>
-    </h1>
-  
-
-        
-        <a href="/2018/06/11/CrossValidation/" class="archive-article-date">
-  	<time datetime="2018-06-11T06:40:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-11</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>数据集可分为三类，分别为训练集，验证集和测试集。         </p>
-<p>训练集：用来训练你的模型</p>
-<p>验证集：用来选择模型，调整模型参数以及选择特征等</p>
-<p>测试集：用来评估你的模型的泛化性能</p>
-<p>在大数据时代来临前，机器学习中的普遍做法是使用 70% / 30% 的比例来随机划分出训练集和测试集。这种做法的确可行，但在越来越多的实际应用中，应该根据实际情况来对数据进行划分，但数据足够多时，可以给予测试集更低的比例划分。<br></p>
-        
-          <a class="article-more-a" href="/2018/06/11/CrossValidation/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/06/11/CrossValidation/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-KNN" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/11/KNN/">KNN</a>
-    </h1>
-  
-
-        
-        <a href="/2018/05/11/KNN/" class="archive-article-date">
-  	<time datetime="2018-05-11T08:52:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-11</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>基于最近邻(Nearest Neighbor)方法分为两类-监督和非监督。监督方法可分为分类和回归，而非监督方法可作为其他方法的基础，比如谱聚类。</p>
-<p>最近邻的监督学习的思想就是找到与目标点距离最近的预先设定数目的点(也叫做邻居节点)，然后根据这些邻居节点对目标节点做预测。最近邻的数目可以用户指定实现设定好，这种方法就是K最近邻（KNN）方法。当然也可以根据目标点的局部密度变化而改变，这种方法叫做基于半径(radius-based neighbor)最近邻方法。不过最常用的最近邻方法还是K最近邻。其K值的选择高度依赖数据，选择较大的K值有利于抑制噪声的干扰，但也会使得模型变得简单。而选择较小的K值却会导致预测结果易受周围噪声的影响，使得模型变得复杂。但当样本不是均匀采样，那么使用基于半径的最近邻会更好一些。距离计算的指标可以是任意的，不过用到最多的是标准的欧式距离。当分类边界很不规则时，最近邻方法是很好用的。<br></p>
-        
-          <a class="article-more-a" href="/2018/05/11/KNN/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">回归</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">分类</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/05/11/KNN/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-GLM" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/10/GLM/">Generalized Linear Models</a>
-    </h1>
-  
-
-        
-        <a href="/2018/05/10/GLM/" class="archive-article-date">
-  	<time datetime="2018-05-10T13:46:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="指数族分布"><a href="#指数族分布" class="headerlink" title="指数族分布"></a>指数族分布</h2><p>如果一个分布可以写成下面的形式，则可以称该分布是指数族分布：    </p>
-<script type="math/tex; mode=display">p(y)=b(y)\exp(\eta^T T(y)-a(\eta))</script><p>其中$\eta$被称为分布的自然参数(natural parameter)，$b(y)$被称为底层观测量(underlying measure)，$T(y)$被称为充分统计量(sufficient statistic)，在通常的分布中，$T(y)=y$，$a(\eta)$被称为对数规则化(log normalizer)，其使得$p(y,\mu)$对$y$的积分为1。</p>
-        
-          <a class="article-more-a" href="/2018/05/10/GLM/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/05/10/GLM/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-LogisticRegression" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/09/LogisticRegression/">LogisticRegression</a>
-    </h1>
-  
-
-        
-        <a href="/2018/05/09/LogisticRegression/" class="archive-article-date">
-  	<time datetime="2018-05-09T06:55:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="二项逻辑回归"><a href="#二项逻辑回归" class="headerlink" title="二项逻辑回归"></a>二项逻辑回归</h2><p>我们知道回归问题的预测值为连续值，而分类问题的预测值为离散值。现在假设二分类问题的目标值为0和1，那么我们是否用线性回归来解决二分类问题？     </p>
-<p>假设我们对训练集拟合得到模型为$f(\mathbf{X}_k)=\hat{\mathbf{X}}_k\mathbf{w}$，$\hat{\mathbf{X}}_k=[\mathbf{X}_k^1,\mathbf{X}_k^2,\cdots,\mathbf{X}_k^m,1]$，其中$\mathbf{X}_k^i$表示样本$\mathbf{X}_k$的第$i$个特征，$m$为样本$\mathbf{X}_k$的特征数。当存在样本$(\mathbf{X_i},y_i)$，对该样本的预测为$f(\mathbf{X_i})$，为了将预测值映射（离散化）为0和1，我们需要设置某一阈值，来使得小于该阈值的$f(\mathbf{X_i})$输出为0，大于该阈值的输出为1，Sigmoid函数即是这样的一个映射函数，Sigmoid函数的表达式为：   </p>
-<script type="math/tex; mode=display">g(z)=\dfrac{1}{1+e^{-z}}</script>
-        
-          <a class="article-more-a" href="/2018/05/09/LogisticRegression/#more">more >></a>
-        
-      
-
       
     </div>
     <div class="article-info article-info-index">
@@ -561,16 +257,75 @@ p(c_k|x) = \dfrac{p(x|c_k)p(c_k)}{ p(x)}</script><p>由于$p(x)$不依赖于类�
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/05/09/LogisticRegression/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/06/14/NaiveBayes/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2018/06/11/CrossValidation/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">交叉验证法</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -590,253 +345,14 @@ p(c_k|x) = \dfrac{p(x|c_k)p(c_k)}{ p(x)}</script><p>由于$p(x)$不依赖于类�
 
 
 
-
   
-    <article id="post-CoordinateDescent" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/05/CoordinateDescent/">基于Coordinate Descent的Lasso实现</a>
-    </h1>
   
 
-        
-        <a href="/2018/05/05/CoordinateDescent/" class="archive-article-date">
-  	<time datetime="2018-05-05T08:12:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>本篇博客将讲述如何使用坐标下降法求解Lasso回归模型。</p>
-<p>坐标下降法，顾名思义，就是沿着坐标轴的方向去减少目标函数，这与梯度下降法不一样，梯度下降法是沿着负梯度的方向。</p>
-<p>坐标下降法的数学依据为：一个可微的凸函数$J(\theta)$,$\theta\in \mathcal{R}^n$,如果存在某一坐标$\bar{\theta}$使得$J(\theta)$在每一个坐标轴$\bar{\theta}_i$上都是最小值，那么$J(\bar{\theta})$就是一个全局最小值。<br></p>
-        
-          <a class="article-more-a" href="/2018/05/05/CoordinateDescent/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">回归</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/05/05/CoordinateDescent/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Scaler" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/29/Scaler/">标准化，正则化</a>
-    </h1>
   
 
-        
-        <a href="/2018/04/29/Scaler/" class="archive-article-date">
-  	<time datetime="2018-04-29T00:22:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="标准化（Standardization）"><a href="#标准化（Standardization）" class="headerlink" title="标准化（Standardization）"></a>标准化（Standardization）</h2><p>标准化是为了消除各特征之间量纲影响，使得各特征处于同一量级。</p>
-<h3 id="Z-score标准化"><a href="#Z-score标准化" class="headerlink" title="Z-score标准化"></a>Z-score标准化</h3><p>很多算法都假设每个特征的值都接近于零或者每个特征都在合理的区域变化。具体来讲就是基于度量(如KNN)和基于梯度的算法都假设数据近似标准正态分布（即均值为0，方差为1）。<br></p>
-        
-          <a class="article-more-a" href="/2018/04/29/Scaler/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/04/29/Scaler/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-线性回归" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/26/线性回归/">线性回归</a>
-    </h1>
   
 
-        
-        <a href="/2018/04/26/线性回归/" class="archive-article-date">
-  	<time datetime="2018-04-26T08:47:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>给定由$d$个属性描述的样本表示为$\mathbf{x}=\{\mathbf{x}^1,\mathbf{x}^2,\cdots,\mathbf{x}^d\}$,其中$\mathbf{x}^1$表示为样本$\mathbf{x}$的第$i$个属性。线性模型试图学习一个由属性的线性组合来进行预测的函数，即<br>$f(\mathbf{x})=\mathbf{x}^1 w_1+\mathbf{x}^2 w_2+\cdots+\mathbf{x}^d w_d+b$   </p>
-<p>将输入和权重用列向量的形式表示，则预测函数可表示为</p>
-<script type="math/tex; mode=display">f(\mathbf{x})=\mathbf{\hat{x}}^T\mathbf{w}</script><p>其中$\mathbf{\hat{x}}=\{\mathbf{x}^1,\mathbf{x}^2,\cdots,\mathbf{x}^d,1\}$,$\mathbf{w}=\{w_1,w_2,\cdots,w_d,b\}$<br>用向量的形式表示称为向量化，其避免了循环，可以极大的加速运算。<br></p>
-        
-          <a class="article-more-a" href="/2018/04/26/线性回归/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">回归</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/04/26/线性回归/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
 
 
@@ -859,8 +375,8 @@ p(c_k|x) = \dfrac{p(x|c_k)p(c_k)}{ p(x)}</script><p>由于$p(x)$不依赖于类�
     <script>
 	var yiliaConfig = {
 		mathjax: true,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,

@@ -197,7 +197,7 @@
 <script type="math/tex; mode=display">g(z_j)=\dfrac{e^{z_j}}{\sum_{k=1}^K e^{z_k}}</script><p>其中$z_j=f_j(\mathbf{X}_i)=\hat{\mathbf{X_i}}\mathbf{W}_j^T$，该$\hat{\mathbf{X_i}}$与二项逻辑回归中的$\hat{\mathbf{X_i}}$一样，其实际可以看作是拟合得到$K$个线性回归模型，然后将该$K$个模型预测值经过$g(z_j)$映射得到一个概率值，取概率值最大的类别为模型预测的类别。</p>
 <p>对于样本$(\mathbf{X}_i,\hat{y})$，模型的预测类别为$y$的概率为：   </p>
 <script type="math/tex; mode=display">
-p(y|\mathbf{X}_i)=g(z_1)^{I\{y=1\}}g(z_2)^{I\{y=2\}}\cdots g(z_k)^{I\{y=K\}}</script><p>其中$y\in {1,2,\cdots,K}$，$I{y=1}$为指示函数，即当$y=1$为正时，函数返回1，否则返回0.</p>
+p(y|\mathbf{X}_i)=g(z_1)^{I\{y=1\}}g(z_2)^{I\{y=2\}}\cdots g(z_k)^{I\{y=K\}}</script><p>其中$y\in \{1,2,\cdots,K\}$，$I\{y=1\}$为指示函数，即当$y=1$为正时，函数返回1，否则返回0.</p>
 <p>与二分类的逻辑回归一样，同样使用极大似然估计来预测$\mathbf{W}$和$\mathbf{b}$。   </p>
 <script type="math/tex; mode=display">
 \max \ell(\mathbf{W})=\prod_i^n\prod_j^K \left(\dfrac{e^{\hat{\mathbf{X}_i}\mathbf{W}_j^T}}{\sum_{k=1}^K e^{\hat{\mathbf{X}_i} \mathbf{W}_k^T}}\right)^{1\{y_i=j\}}</script><p>令$I_l$表示属于类别$l$的样本集，则</p>
@@ -488,10 +488,6 @@ MathJax.Hub.Queue(function() {
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">数据处理</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">机器学习</a>
               </li>
              
@@ -501,6 +497,10 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">分类</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">数据处理</a>
               </li>
             
             <div class="clearfix"></div>
