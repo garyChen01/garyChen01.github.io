@@ -173,41 +173,9 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="贝叶斯决策论"><a href="#贝叶斯决策论" class="headerlink" title="贝叶斯决策论"></a>贝叶斯决策论</h2><p>机器学习可理解为通过观测数据$X$来学习决策函数$h$来推测结果$y$,并使得推断结果$\hat{y}$与真实结果$y$的误差越小越好。那么假设我们在观测前就知道$P(y)$的概率分布，此概率分布叫做先验概率。那么对于任意观测数据，我们都可以猜其的输出。当然一般情况下先验概率分布是不准确的，所以需要我们通过实际的观测数据，对其进行修正，这样修正后得到的概率分布$P(y|X)$就叫做后验概率分布。显然后验概率比先验概率更有意义，因为引入了观测数据，所以预测结果会更加准确。而大部分机器学习模型尝试得到的，就是后验概率。</p>
-<p>然而后验概率无法直接获得，因此我们需要借助于贝叶斯公式，来求解。已知贝叶斯公式如下：   </p>
-<script type="math/tex; mode=display">
-p(y|X) = \dfrac{p(X|y)p(y)}{p(X)}</script><p>这样根据$p(X|y)$，$p(y)$和$p(X)$就可以计算出,其中$p(X)=\sum_yP(X|y)p(y)$.通过计算，我们可以得到$p(y|X)$的概率分布。那么现在的问题是我们应该分类给哪个标签，在这里$y$可以存在$K$个取值，分别为$\{c_1,\cdots,c_i,\cdots,c_K\}$，可能你会说分类给后验概率最大的类，那么为什么呢？    </p>
-<p>当我们需要最小化分类误差时，则选择0-1损失函数$L(y,h(x))$，即分类正确，误差为0，错误则为1.基于后验概率$p(y|X)$可得到将样本$x$分类为$y_i$的期望损失，即在样本$x$上的条件风险为：</p>
-<script type="math/tex; mode=display">R(c_k|x)=\sum_i^K L(c_i,h(x))p(c_i|x)=1-p(c_i|x)</script><p>所以最小化条件风险等价于最大化后验概率。<br>上面谈论的是单个样本的最小期望损失，而我们希望模型能够最小化总体期望损失，即     </p>
-<script type="math/tex; mode=display">
-R(h)=\mathbf{E}[R(h(x)|x)]</script><p>显然，当每个样本的期望损失最小时，总体期望损失最小。这也就产生了贝叶斯判定准则(Bayes Decision Rule)，最小化总体样本的期望损失，只需在每个样本上选择使其后验概率最大的标签。而基于贝叶斯判定准则得到的分类器也叫做贝叶斯最优分类器,其对应的总体损失也叫做贝叶斯风险。</p>
-<h2 id="朴素贝叶斯"><a href="#朴素贝叶斯" class="headerlink" title="朴素贝叶斯"></a>朴素贝叶斯</h2><p>现在让我们来具体估计后验概率，首先列出贝叶斯公式：    </p>
-<script type="math/tex; mode=display">
-p(c_k|x) = \dfrac{p(x|c_k)p(c_k)}{ p(x)}</script><p>由于$p(x)$不依赖于类别$c_k$，所以可以认为它为一个归一化常数。为了最大化后验概率，我们只需要最大化分子，实际上分子即为联合概率$p(x,c_k)=p(x|c_k)p(c_k)$。考虑$x$为维度为$n$的向量,即$x=(x_1,\cdots,x_i,\cdots,x_n)$,即   </p>
-<script type="math/tex; mode=display">p(x|c_k)=p(x_1,\cdots,x_n|c_k)</script><p>假设$x$每个维度的取值为$S_i$,则$x$取值规模为$\prod_i^n S_i$,随着维度的增加，$x$取值规模成指数增加。而为了做出精确的估计，我们需要计算每个取值的概率，显然，由于样本的有限，这样的计算是很不准确的。因此，我们可以对其做出假设，假设条件概率$p(x|y_k)$条件独立，即    </p>
-<script type="math/tex; mode=display">p(x|c_k)=p(x_1,\cdots,x_n|c_k)=\prod_i^n p(x_i|c_k)</script><p>其中条件独立假设是指在类确定的条件下特征独立，这是一个很强的假设，通过这样假设得到模型就是朴素贝叶斯分类器。</p>
-<p>因此，朴素贝叶斯是首先基于条件独立假设，来学习观测数据与其便签的联合分布$p(x,y)$，然后根据此做出分类。也就是说，朴素贝叶斯是生成模型。</p>
-<h2 id="朴素贝叶斯的参数估计"><a href="#朴素贝叶斯的参数估计" class="headerlink" title="朴素贝叶斯的参数估计"></a>朴素贝叶斯的参数估计</h2><p>朴素贝叶斯的参数有两种方法-极大似然估计法和贝叶斯估计法。</p>
-<p><strong>极大似然估计法</strong><br>先验概率$p(y=c_k)$的极大似然估计为：</p>
-<script type="math/tex; mode=display">p(y=c_k)=\dfrac{\sum_i^N I(y_i=c_k)}{N}</script><p>其中$N$为样本数，$I()$为指示函数，假设样本集为$X$,$X_i$为样本集中第$i$个样本，其第$j$个特征表示为$X_i^{(j)}$，该特征的取值集合为$\{a_{j1},a_{j2},\cdots,a_{iS_i}\}$，$y_i$则为$X_i$的标签。则$p(x_i=a_{ij}|y=c_k)$的极大似然估计为：   </p>
-<script type="math/tex; mode=display">p(X^{(j)}=a_{jl}|y=c_k)=\dfrac{\sum_i^NI(X_i^{(j)}=a_{jl},y_i=c_k)}{\sum_i^N I(y_i=c_k)}</script><p><strong>贝叶斯估计</strong><br>使用极大似然估计法可能因为训练样本不充分导致计算出的概率为0的情况，这会使得后验概率的计算结果出现偏差，造成分类错误。因此需要使用贝叶斯估计。先验概率的贝叶斯估计为:    </p>
-<script type="math/tex; mode=display">p(y=c_k)=\dfrac{\sum_i^N I(y_i=c_k)+\lambda}{N+K\lambda}</script><p>其中$K$为类别数，$\lambda\ge 0$，这等价于给每个取值的频数加$\lambda$。通常我们取$\lambda=1$，这是叫做拉普拉斯平滑。实际上，这是在朴素贝叶斯的学习过程中增加了先验，拉普拉斯平滑假设了特征值和类别均匀分布。同样的，$p(x_i=a_{ij}|y=c_k)$的贝叶斯估计为：   </p>
-<script type="math/tex; mode=display">p(X^{(j)}=a_{jl}|y=c_k)=\dfrac{\sum_i^NI(X_i^{(j)}=a_{jl},y_i=c_k)+\lambda}{\sum_i^N I(y_i=c_k)+S_j\lambda}</script><p>以上都为特征为离散值的情况下的估计，当特征为连续值时，通常假设是假设这些特征服从高斯分布，然后根据训练样本计算出各类别下各特征的高斯分布参数，当需要做预测时，根据输入值计算对应的高斯概率密度作为条件概率。另外一种处理连续特征的方法就是将其离散化。通常在数据样本比较小或者精确的分布已知的情况下，使用概率分布的方法是一种更好的选择。而在大量样本的情形下离散化的方法表现更优，因为大量的样本可以学习到数据的分布。由于朴素贝叶斯是一种典型的用到大量样本的方法（越大计算量的模型可以产生越高的分类精确度），所以朴素贝叶斯方法都用到离散化方法，而不是概率分布估计的方法。</p>
-<p>尽管很简单，但是朴素贝叶斯分类器在许多实际情况下都非常有效，尤其是在文档分类和垃圾邮件过滤上。[3]给朴素贝叶斯分类器的有效性的解释为虽然现实中的各特征与其他特征和类别之间存在依赖，表明朴素贝叶斯做出的假设不合理，但是这种依赖对分类结果的影响是可能相互抵消掉的，在这种情况下朴素贝叶斯是最优的。并且由于是做了特征条件独立的假设，所以缓解了维度灾难带来的问题。不过尽管分类效果不错，但是朴素贝叶斯并不是一个很好的估计器，也就是说他估计出来的分类概率并不准确。因为，朴素贝叶斯分类器的条件独立性假设导致它将特征作为不同的信号处理，每个特征都独立地为分类器的预测贡献置信度，这也就放大了信号对最终分类置信度的贡献[6]。</p>
-<h2 id="多项式朴素贝叶斯分类器实现"><a href="#多项式朴素贝叶斯分类器实现" class="headerlink" title="多项式朴素贝叶斯分类器实现"></a>多项式朴素贝叶斯分类器实现</h2><p>朴素贝叶斯本是用于文本分类，但也可以用于其他分类问题。所以要理解Sklearn中多项朴素贝叶斯分类器的代码，就必须先以文本分类为例，来理解。而当用于普通分类时，实际是将普通分类问题转换为文本分类问题，这也是为什么Sklearn中，要求输入中不能有负值的原因！！！</p>
-<p>我们将以上讨论的朴素贝叶斯估计的参数转换为文档分类中的参数。类别$c_k$的先验概率为： </p>
-<script type="math/tex; mode=display">p(c_k) = \dfrac{class_k}{N}</script><p>其中$class_k$表示类别$c_k$出现的次数，N为样本总数。<br>多项朴素贝叶斯分类器假设了在各类别中，单词出现的概率服从多项分布。训练时，我们累积各类别中各单词出现的总次数。也就是说，我们把各类别的文档融合成一个大文档$D_j$，这里$j$表示类别$c_j$，然后计算单词$word_i$出现在大文档中的概率，记该概率为$p(word_i|D_j)$。令$f_{*j}$表示大文档$D_j$的单词总数，$f_{ij}$表示大文档$D_j$中单词$word_i$出现的次数。则大文档$D_j$中单词$word_i$出现的条件概率为：   </p>
-<script type="math/tex; mode=display">p(word_i|D_j)=\dfrac{f_{ij}}{f_{*j}}</script><p>假设现在有一个文档，其各单词频数为$(f_1,f_2,…,f_n)$，$n$为词袋大小。我们需要判别它的类别，那么根据多项分布的概率计算方法，我们可以计算出在类别$c_j$中该文档出现的概率:     </p>
-<script type="math/tex; mode=display">p(D|c_j)=\prod_i^n p(word_i|D_j)^{f_i}</script><p>上面说了，后验概率正比于条件概率乘以类先验概率，即</p>
-<script type="math/tex; mode=display">p(c_j|D)\varpropto p(c_j)p(D|c_j)</script><p>因为我们只需要分类正确，所以只计算条件概率与类先验概率的乘积作为后验概率即可。并且为了防止下溢，我们使用$\log$来将乘法转为加法。<br>即：     </p>
-<script type="math/tex; mode=display">p(c_j|D)=\log \dfrac{class_j}{N} + \sum_i^n f_i\log \dfrac{f_{ij}}{f_{*j}}</script><p>现在考虑平滑系数，即假设每个单词至少出现$\lambda$次。<br>并且如果考虑停用词时，我们会给每个单词$word_i$加一个逆文档频率(IDF)权重$t_i$，这样最终的后验概率为：</p>
-<script type="math/tex; mode=display">p(c_j|D)=\log \dfrac{class_j+\lambda}{N+K\lambda} +\sum_i^n f_i\log t_i \dfrac{f_{ij}+\lambda}{f_{*j}+n\lambda}</script><p>下面用例子来做文档分类，为了简便，省略平滑系数与权重。假设存在以下文档及它们的分类。<br>| Document     |     $word_1$| $word_2$ | $word_3$|Class|<br>| :————| ————:|:—-:| —— |—-|<br>| $doc_1$ |  2| 1   | 3 |$c_1$<br>| $doc_2$ |  1| 3   | 1 |$c_2$<br>| $doc_3$ |  0| 1   | 2 |$c_1$<br>| $doc_4$ |  1| 0   | 1 |$c_2$</p>
-<p>首先计算类先验概率。    </p>
-<script type="math/tex; mode=display">p(c_1)=\dfrac{1+1}{4}=\dfrac{1}{2}</script><script type="math/tex; mode=display">p(c_2)=\dfrac{1+1}{4}=\dfrac{1}{2}</script><p>计算各类别中各单词的频率：   </p>
-<script type="math/tex; mode=display">p(word_1|c_1)=\dfrac{2+0}{2+1+3+0+1+2}=\dfrac{2}{9}</script><script type="math/tex; mode=display">p(word_1|c_2)=\dfrac{1+1}{1+3+1+1+0+1}=\dfrac{2}{7}</script><script type="math/tex; mode=display">p(word_2|c_1)=\dfrac{2}{9},p(word_2|c_2)=\dfrac{3}{7}</script><script type="math/tex; mode=display">p(word_3|c_1)=\dfrac{5}{9},p(word_3|c_2)=\dfrac{2}{7}</script><p>ok，参数都计算完了，现在假设存在一个文档$D$，其各单词的频数为$(2,1,1)$，则其后验概率为：</p>
-<script type="math/tex; mode=display">p(c_1|D)=\log(1/2)+2*\log(2/9)+1*\log(2/9)+1*\log(5/9)=-5.79316603</script><script type="math/tex; mode=display">p(c_2|D)=\log(1/2)+2*\log(2/7)+1*\log(3/7)+1*\log(2/7)=-5.29873394</script><p>$p(c_2|D)&gt;p(c_1|D)$,所以给$D$分类给$c_2$。以上过程就是实际Sklearn中MultinomialNB的运行过程。而在应用到普通分类问题时，多项分布朴素贝叶斯分类器将特征视为单词，特征值视为单词的频数。</p>
-<p>参考文献：</p>
-<p>[1] 统计学习方法-李航<br>[2] 机器学习-周志华<br>[3] <a href="http://www.cs.unb.ca/~hzhang/publications/FLAIRS04ZhangH.pdf" target="_blank" rel="noopener">The Optimality of Naive Bayes</a><br>[4] <a href="https://zh.wikipedia.org/wiki/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%88%86%E7%B1%BB%E5%99%A8" target="_blank" rel="noopener">朴素贝叶斯分类器</a><br>[5] <a href="https://towardsdatascience.com/multinomial-naive-bayes-classifier-for-text-analysis-python-8dd6825ece67" target="_blank" rel="noopener">Multinomial Naive Bayes Classifier for Text Analysis (Python)</a><br>[6] <a href="https://www.quora.com/Why-is-naive-Bayes-a-decent-classifier-but-a-bad-estimator" target="_blank" rel="noopener">Why is naive Bayes a decent classifier but a bad estimator?</a></p>
-
+        
+          <a class="article-more-a" href="/2018/06/14/NaiveBayes/#more">more >></a>
+        
       
 
       

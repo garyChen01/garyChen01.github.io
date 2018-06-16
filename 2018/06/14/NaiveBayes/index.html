@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="GaryChen的学习日志">
 <meta property="og:description" content="贝叶斯决策论机器学习可理解为通过观测数据$X$来学习决策函数$h$来推测结果$y$,并使得推断结果$\hat{y}$与真实结果$y$的误差越小越好。那么假设我们在观测前就知道$P(y)$的概率分布，此概率分布叫做先验概率。那么对于任意观测数据，我们都可以猜其的输出。当然一般情况下先验概率分布是不准确的，所以需要我们通过实际的观测数据，对其进行修正，这样修正后得到的概率分布$P(y|X)$就叫做后验">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-06-16T06:47:21.870Z">
+<meta property="og:updated_time" content="2018-06-16T06:52:37.118Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="NaiveBayes">
 <meta name="twitter:description" content="贝叶斯决策论机器学习可理解为通过观测数据$X$来学习决策函数$h$来推测结果$y$,并使得推断结果$\hat{y}$与真实结果$y$的误差越小越好。那么假设我们在观测前就知道$P(y)$的概率分布，此概率分布叫做先验概率。那么对于任意观测数据，我们都可以猜其的输出。当然一般情况下先验概率分布是不准确的，所以需要我们通过实际的观测数据，对其进行修正，这样修正后得到的概率分布$P(y|X)$就叫做后验">
@@ -176,6 +176,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="贝叶斯决策论"><a href="#贝叶斯决策论" class="headerlink" title="贝叶斯决策论"></a>贝叶斯决策论</h2><p>机器学习可理解为通过观测数据$X$来学习决策函数$h$来推测结果$y$,并使得推断结果$\hat{y}$与真实结果$y$的误差越小越好。那么假设我们在观测前就知道$P(y)$的概率分布，此概率分布叫做先验概率。那么对于任意观测数据，我们都可以猜其的输出。当然一般情况下先验概率分布是不准确的，所以需要我们通过实际的观测数据，对其进行修正，这样修正后得到的概率分布$P(y|X)$就叫做后验概率分布。显然后验概率比先验概率更有意义，因为引入了观测数据，所以预测结果会更加准确。而大部分机器学习模型尝试得到的，就是后验概率。</p>
+<a id="more"></a>
 <p>然而后验概率无法直接获得，因此我们需要借助于贝叶斯公式，来求解。已知贝叶斯公式如下：   </p>
 <script type="math/tex; mode=display">
 p(y|X) = \dfrac{p(X|y)p(y)}{p(X)}</script><p>这样根据$p(X|y)$，$p(y)$和$p(X)$就可以计算出,其中$p(X)=\sum_yP(X|y)p(y)$.通过计算，我们可以得到$p(y|X)$的概率分布。那么现在的问题是我们应该分类给哪个标签，在这里$y$可以存在$K$个取值，分别为$\{c_1,\cdots,c_i,\cdots,c_K\}$，可能你会说分类给后验概率最大的类，那么为什么呢？    </p>
