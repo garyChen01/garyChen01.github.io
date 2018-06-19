@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="GaryChen的学习日志">
 <meta property="og:description" content="贝叶斯决策论机器学习可理解为通过观测数据$X$来学习决策函数$h$来推测结果$y$,并使得推断结果$\hat{y}$与真实结果$y$的误差越小越好。那么假设我们在观测前就知道$P(y)$的概率分布，此概率分布叫做先验概率。那么对于任意观测数据，我们都可以猜其的输出。当然一般情况下先验概率分布是不准确的，所以需要我们通过实际的观测数据，对其进行修正，这样修正后得到的概率分布$P(y|X)$就叫做后验">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-06-16T07:20:59.176Z">
+<meta property="og:updated_time" content="2018-06-19T03:16:56.885Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="NaiveBayes">
 <meta name="twitter:description" content="贝叶斯决策论机器学习可理解为通过观测数据$X$来学习决策函数$h$来推测结果$y$,并使得推断结果$\hat{y}$与真实结果$y$的误差越小越好。那么假设我们在观测前就知道$P(y)$的概率分布，此概率分布叫做先验概率。那么对于任意观测数据，我们都可以猜其的输出。当然一般情况下先验概率分布是不准确的，所以需要我们通过实际的观测数据，对其进行修正，这样修正后得到的概率分布$P(y|X)$就叫做后验">
@@ -193,7 +193,8 @@ p(c_k|x) = \dfrac{p(x|c_k)p(c_k)}{ p(x)}</script><p>由于$p(x)$不依赖于类�
 <h2 id="朴素贝叶斯的参数估计"><a href="#朴素贝叶斯的参数估计" class="headerlink" title="朴素贝叶斯的参数估计"></a>朴素贝叶斯的参数估计</h2><p>朴素贝叶斯的参数有两种方法-极大似然估计法和贝叶斯估计法。</p>
 <p><strong>极大似然估计法</strong><br>先验概率$p(y=c_k)$的极大似然估计为：</p>
 <script type="math/tex; mode=display">p(y=c_k)=\dfrac{\sum_i^N I(y_i=c_k)}{N}</script><p>其中$N$为样本数，$I()$为指示函数，假设样本集为$X$,$X_i$为样本集中第$i$个样本，其第$j$个特征表示为$X_i^{(j)}$，该特征的取值集合为$\{a_{j1},a_{j2},\cdots,a_{iS_i}\}$，$y_i$则为$X_i$的标签。则$p(x_i=a_{ij}|y=c_k)$的极大似然估计为：   </p>
-<script type="math/tex; mode=display">p(X^{(j)}=a_{jl}|y=c_k)=\dfrac{\sum_i^NI(X_i^{(j)}=a_{jl},y_i=c_k)}{\sum_i^N I(y_i=c_k)}</script><p><strong>贝叶斯估计</strong><br>使用极大似然估计法可能因为训练样本不充分导致计算出的概率为0的情况，这会使得后验概率的计算结果出现偏差，造成分类错误。因此需要使用贝叶斯估计。先验概率的贝叶斯估计为:    </p>
+<script type="math/tex; mode=display">p(X^{(j)}=a_{jl}|y=c_k)=\dfrac{\sum_i^NI(X_i^{(j)}=a_{jl},y_i=c_k)}{\sum_i^N I(y_i=c_k)}</script><p>以上的具体推导过程可以查看我的另一篇关于MLE的文章。</p>
+<p><strong>贝叶斯估计</strong><br>使用极大似然估计法可能因为训练样本不充分导致计算出的概率为0的情况，这会使得后验概率的计算结果出现偏差，造成分类错误。因此需要使用贝叶斯估计。先验概率的贝叶斯估计为:    </p>
 <script type="math/tex; mode=display">p(y=c_k)=\dfrac{\sum_i^N I(y_i=c_k)+\lambda}{N+K\lambda}</script><p>其中$K$为类别数，$\lambda\ge 0$，这等价于给每个取值的频数加$\lambda$。通常我们取$\lambda=1$，这是叫做拉普拉斯平滑。实际上，这是在朴素贝叶斯的学习过程中增加了先验，拉普拉斯平滑假设了特征值和类别均匀分布。同样的，$p(x_i=a_{ij}|y=c_k)$的贝叶斯估计为：   </p>
 <script type="math/tex; mode=display">p(X^{(j)}=a_{jl}|y=c_k)=\dfrac{\sum_i^NI(X_i^{(j)}=a_{jl},y_i=c_k)+\lambda}{\sum_i^N I(y_i=c_k)+S_j\lambda}</script><p>以上都为特征为离散值的情况下的估计，当特征为连续值时，通常假设是假设这些特征服从高斯分布，然后根据训练样本计算出各类别下各特征的高斯分布参数，当需要做预测时，根据输入值计算对应的高斯概率密度作为条件概率。另外一种处理连续特征的方法就是将其离散化。通常在数据样本比较小或者精确的分布已知的情况下，使用概率分布的方法是一种更好的选择。而在大量样本的情形下离散化的方法表现更优，因为大量的样本可以学习到数据的分布。由于朴素贝叶斯是一种典型的用到大量样本的方法（越大计算量的模型可以产生越高的分类精确度），所以朴素贝叶斯方法都用到离散化方法，而不是概率分布估计的方法。</p>
 <p>尽管很简单，但是朴素贝叶斯分类器在许多实际情况下都非常有效，尤其是在文档分类和垃圾邮件过滤上。[3]给朴素贝叶斯分类器的有效性的解释为虽然现实中的各特征与其他特征和类别之间存在依赖，表明朴素贝叶斯做出的假设不合理，但是这种依赖对分类结果的影响是可能相互抵消掉的，在这种情况下朴素贝叶斯是最优的。并且由于是做了特征条件独立的假设，所以缓解了维度灾难带来的问题。不过尽管分类效果不错，但是朴素贝叶斯并不是一个很好的估计器，也就是说他估计出来的分类概率并不准确。因为，朴素贝叶斯分类器的条件独立性假设导致它将特征作为不同的信号处理，每个特征都独立地为分类器的预测贡献置信度，这也就放大了信号对最终分类置信度的贡献[6]。</p>
@@ -362,6 +363,15 @@ p(c_k|x) = \dfrac{p(x|c_k)p(c_k)}{ p(x)}</script><p>由于$p(x)$不依赖于类�
   
 <nav id="article-nav">
   
+    <a href="/2018/06/16/ParamEstimation/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          MLE和MAP
+        
+      </div>
+    </a>
+  
   
     <a href="/2018/06/11/CrossValidation/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-title">交叉验证法</div>
@@ -519,11 +529,11 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">分类</a>
+                <a href="javascript:void(0)" class="js-tag color5">数据处理</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">数据处理</a>
+                <a href="javascript:void(0)" class="js-tag color3">分类</a>
               </li>
             
             <div class="clearfix"></div>
