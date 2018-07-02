@@ -6,20 +6,15 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>MLE和MAP | GaryChen的学习日志</title>
+  <title>GaryChen的学习日志</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="首先我们会讲述先验，后验，似然等基本概念，接着将MLE，MAP和贝叶斯估计。 前言现在我们需要预估一个参数$\theta$,假设我们在没有观测数据之前就事先知道它的分布，则我们称其为先验分布(prior distribution)，即$p(\theta)$，而当我们有了观测数据$\mathcal{D}$之后，那么在给定的观察数据下，参数$\theta$的分布叫做后验分布(posterior dis">
-<meta name="keywords" content="机器学习">
-<meta property="og:type" content="article">
-<meta property="og:title" content="MLE和MAP">
-<meta property="og:url" content="http://yoursite.com/2018/06/16/ParamEstimation/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="GaryChen的学习日志">
+<meta property="og:url" content="http://yoursite.com/page/2/index.html">
 <meta property="og:site_name" content="GaryChen的学习日志">
-<meta property="og:description" content="首先我们会讲述先验，后验，似然等基本概念，接着将MLE，MAP和贝叶斯估计。 前言现在我们需要预估一个参数$\theta$,假设我们在没有观测数据之前就事先知道它的分布，则我们称其为先验分布(prior distribution)，即$p(\theta)$，而当我们有了观测数据$\mathcal{D}$之后，那么在给定的观察数据下，参数$\theta$的分布叫做后验分布(posterior dis">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-06-29T10:39:01.705Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MLE和MAP">
-<meta name="twitter:description" content="首先我们会讲述先验，后验，似然等基本概念，接着将MLE，MAP和贝叶斯估计。 前言现在我们需要预估一个参数$\theta$,假设我们在没有观测数据之前就事先知道它的分布，则我们称其为先验分布(prior distribution)，即$p(\theta)$，而当我们有了观测数据$\mathcal{D}$之后，那么在给定的观察数据下，参数$\theta$的分布叫做后验分布(posterior dis">
+<meta name="twitter:title" content="GaryChen的学习日志">
   
     <link rel="alternative" href="/atom.xml" title="GaryChen的学习日志" type="application/atom+xml">
   
@@ -155,89 +150,36 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-ParamEstimation" class="article article-type-post " itemscope itemprop="blogPost">
+            
+  
+    <article id="post-线性回归" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 class="article-title" itemprop="name">
-      MLE和MAP
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/26/线性回归/">线性回归</a>
     </h1>
   
 
         
-        <a href="/2018/06/16/ParamEstimation/" class="archive-article-date">
-  	<time datetime="2018-06-16T12:46:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-16</time>
+        <a href="/2018/04/26/线性回归/" class="archive-article-date">
+  	<time datetime="2018-04-26T08:47:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-26</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>首先我们会讲述先验，后验，似然等基本概念，接着将MLE，MAP和贝叶斯估计。</p>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>现在我们需要预估一个参数$\theta$,假设我们在没有观测数据之前就事先知道它的分布，则我们称其为先验分布(prior distribution)，即$p(\theta)$，而当我们有了观测数据$\mathcal{D}$之后，那么在给定的观察数据下，参数$\theta$的分布叫做后验分布(posterior distribution)，即$p(\theta|\mathcal{D})$。现在，让我们回忆以下贝叶斯定理：   </p>
-<script type="math/tex; mode=display">P(A|B)=\dfrac{P(B|A)P(A)}{P(B)}</script><p>注意贝叶斯定理，适用于离散变量，也适用于连续变量，还适用于离散变量和连续变量相结合的情况。因为对于我们的问题，我们以下面的形式来表示：<br><a id="more"></a></p>
-<script type="math/tex; mode=display">p(\theta|\mathcal{D})=\dfrac{p(\mathcal{D}|\theta)p(\theta)}{p(\mathcal{D})}</script><p>由于$p(\mathcal{D})$为归一化，所以上式可以简化为：    </p>
-<script type="math/tex; mode=display">p(\theta|\mathcal{D})\varpropto p(\mathcal{D}|\theta)p(\theta)</script><p>其中$p(\mathcal{D}|\theta)$称为似然函数，可以使用$L(\theta|\mathcal{D})$表示，其是关于$\theta$的函数。$p(\mathcal{D}|\theta_0)$表示在观测数据为$\mathcal{D}$的情况下，参数$\theta$为$\theta_0$的似然性，注意是似然性而不是概率，所以似然函数的积分可以不为1。似然函数的重要性不在于其具体取值，而在于其相对大小。对同一个似然函数，如果存在一个参数值，使得它的函数值达到最大的话，那么这个值就是最为”合理”的参数值，这也就是极大似然估计法的思想。</p>
-<h2 id="MLE"><a href="#MLE" class="headerlink" title="MLE"></a>MLE</h2><p>极大似然估计(Maximum Likelihood Estimation, MLE)是寻找关于$\theta$的最可能的值，使得观测数据集出现的“可能性”最大。从数学上讲，就是在所有的$\theta$取值中取一个值使得似然函数最大。</p>
-<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><p>下面以朴素贝叶斯估计中的使用极大似然估计法来估计先验概率和条件概率为例。</p>
-<p>假设参数$\theta_i$为我们需要估计的参数，其表示类便签为$c_i$，即$p(y=c_i)$，这样，我们可以写出</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-& \max L(\mathcal{D}|\theta)= \max\dfrac{n!}{n_1!n_2!\cdots n_k!}\theta_1^{n_1}\cdots \theta_k^{n_k}\\
-&s.t.~\theta_1+\theta_2+\cdots+\theta_k=1\\
-
-\end{aligned}</script><p>使用拉格朗日乘子法，并使用$\log$进行转化，可将以上最优化问题转化为下面的最优化问题。</p>
-<script type="math/tex; mode=display">
-\arg \max \sum_{i=1}^k n_i\log \theta_i+\lambda(1-\sum_{i=1}^k \theta_i)</script><p>求导，并令导数为0。</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-\dfrac{n_i}{\theta_i}-\lambda=0\\
-\lambda \theta_i=n_i
-\end{aligned}</script><p>则</p>
-<script type="math/tex; mode=display">
-\sum_i^k\lambda\theta_i=\lambda=\sum_i^kn_i=n</script><p>所以</p>
-<script type="math/tex; mode=display">p(y=c_i)=\theta_i=\dfrac{n_i}{n}</script><p>同样的，条件概率也服从多项式分布。按照以上的方法同样能计算出MLE下的条件概率的参数估计。</p>
-<p>具体的，我们可以以抛骰子为例，假设抛了15次，得到的点数一次为{1,5,3,5,2,6,2,3,1,5,2,6,1,5,2},则可分别计算出对应的筛子的概率，其中$p(c=4)=0$，显然这与常识有些不同，因为一般情况下，得到各点数的概率应该是一样的。而这种常识就是先验，所以我们可以在参数估计的过程中，引入先验知识，这也就是最大后验估计法(MAP)。</p>
-<p>在将后验估计法之前，我们可以看看MLE与目标函数之间的关系。</p>
-<p>假设在参数$\mathbf{w}$下的模型为$y(x,\mathbf{w})$,目标值为$t$,假设$t$有一个均值为$y(x,\mathbf{w})$的高斯分布。则$p(t|y(x,\mathbf{w}),\beta)=\mathcal{N}(y(x,\mathbf{w}),\beta^{-1})$,其中$\beta$为方差的倒数。计算所有输入的似然： </p>
-<script type="math/tex; mode=display">p(\mathbf{t}|y(\mathbf{x},\mathbf{w}),\beta)=\prod_{n=1}^N \mathcal{N}(y(x_n,\mathbf{w}),\beta^{-1})</script><p>求其对数，可得   </p>
-<script type="math/tex; mode=display">lnp(\mathbf{t}|y(\mathbf{x},\mathbf{w}),\beta)=-\dfrac{\beta}{2}\sum_{n=1}^N(y(x_n,\mathbf{w})-t)^2+\dfrac{N}{2}ln\beta-\dfrac{N}{2}ln(2\pi)</script><p>由于我们需要求解$\mathbf{w}$，对$\mathbf{w}$求导时，无关项可以消除,而上式得后两列与$\mathbf{w}$无关，可以省略，并且$\beta$也与$w$无关。这样，我们取负对数的极大似然，可以得到   </p>
-<script type="math/tex; mode=display">-lnp(\mathbf{t}|y(\mathbf{x},\mathbf{w}),\beta) \approx \dfrac{1}{2}\sum_{n=1}^N(y(x_n,\mathbf{w})-t)^2</script><p>上式的右边即为平方和误差函数。也就是说，平方和误差函数是高斯分布假设下的极大似然估计。  </p>
-<h2 id="MAP"><a href="#MAP" class="headerlink" title="MAP"></a>MAP</h2><p>最大后验估计法(Maximum a posterior,MAP)。假设以上抛骰子的问题上，的确，各筛子的概率应该是一样的，但是由于样本过小，从而在采样的过程中，引入了采样偏差，从而使得MLE的估计出现偏差，为了解决这个问题，MAP引入了先验知识。因为MAP的优化问题为：</p>
-<script type="math/tex; mode=display">
-\max L(\mathcal{D}|\theta)p(\theta)</script><p>同样的，我们在MLE与目标函数之间的关系的基础上，也讨论一下MAP与目标函数的关系。</p>
-<p>对参数$\mathbf{w}$引入先验，假设其满足如下的高斯分布：      </p>
-<script type="math/tex; mode=display">p(\mathbf{w}|\alpha)=\mathcal{N}(\mathbf{w}|\mathbf{0},\alpha^{-1})=(\dfrac{\alpha}{2\pi})^{(M+1)/2}exp{-\dfrac{\alpha}{2}\mathbf{w}^T \mathbf{w}}</script><p>根据贝叶斯理论，后验概率正比先验概率乘以似然函数，则：</p>
-<script type="math/tex; mode=display">p(\mathbf{w}|\mathbf{x},t,\alpha,\beta) \varpropto p(\mathbf{x}|\alpha)p(t|y(\mathbf{x},\mathbf{w}),\beta)</script><p>同样，类似于最大似然求解过程，将与所求参数$\mathbf{w}$无关的项删除。</p>
-<script type="math/tex; mode=display">-lnp(\mathbf{w}|\mathbf{x},t,\alpha,\beta) \varpropto \dfrac{\beta}{2}\sum_{n=1}^N(y(x_n,\mathbf{w})-t)^2+ \dfrac{\alpha}{2} \mathbf{w}^T \mathbf{w}</script><p>从上式可以看出，最大后验估计得到的是L2正则后的平方和误差。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>其实，MLE和MAP都算找到</p>
-<p>参考文献<br>[1] <a href="https://zh.wikipedia.org/zh-cn/%E4%BC%BC%E7%84%B6%E5%87%BD%E6%95%B0" target="_blank" rel="noopener">似然函数</a><br>[2] <a href="https://zh.wikipedia.org/wiki/%E6%9C%80%E5%A4%A7%E4%BC%BC%E7%84%B6%E4%BC%B0%E8%AE%A1" target="_blank" rel="noopener">最大似然估计</a></p>
-
+        <p>给定由$d$个属性描述的样本表示为$\mathbf{x}=\{\mathbf{x}^1,\mathbf{x}^2,\cdots,\mathbf{x}^d\}$,其中$\mathbf{x}^1$表示为样本$\mathbf{x}$的第$i$个属性。线性模型试图学习一个由属性的线性组合来进行预测的函数，即<br>$f(\mathbf{x})=\mathbf{x}^1 w_1+\mathbf{x}^2 w_2+\cdots+\mathbf{x}^d w_d+b$   </p>
+<p>将输入和权重用列向量的形式表示，则预测函数可表示为</p>
+<script type="math/tex; mode=display">f(\mathbf{x})=\mathbf{\hat{x}}^T\mathbf{w}</script><p>其中$\mathbf{\hat{x}}=\{\mathbf{x}^1,\mathbf{x}^2,\cdots,\mathbf{x}^d,1\}$,$\mathbf{w}=\{w_1,w_2,\cdots,w_d,b\}$<br>用向量的形式表示称为向量化，其避免了循环，可以极大的加速运算。<br>
+        
+          <a class="article-more-a" href="/2018/04/26/线性回归/#more">more >></a>
+        
       
 
-      
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
-                  <div class="reward-box">
-                    
-                    
-                  </div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
-        </div>
       
     </div>
     <div class="article-info article-info-index">
@@ -250,6 +192,10 @@
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
         		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">回归</a>
+        		</li>
       		
 		</ul>
 	</div>
@@ -257,84 +203,16 @@
       
 
       
-
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/04/26/线性回归/">展开全文 >></a>
+        </p>
       
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
-        </div>
-      </div>
-    </span>
-  </div>
-</div>
 
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/06/16/ParamEstimation/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2018/06/19/DecisionTree/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          DecisionTree
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2018/06/14/NaiveBayes/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">NaiveBayes</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -354,14 +232,12 @@
 
 
 
-  
-  
-  
 
   
-
   
-
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    </nav>
   
 
 
@@ -384,8 +260,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: true,
-		isHome: false,
-		isPost: true,
+		isHome: true,
+		isPost: false,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,

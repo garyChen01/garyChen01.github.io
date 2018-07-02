@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="GaryChen的学习日志">
 <meta property="og:description" content="二项逻辑回归我们知道回归问题的预测值为连续值，而分类问题的预测值为离散值。现在假设二分类问题的目标值为0和1，那么我们是否用线性回归来解决二分类问题？      假设我们对训练集拟合得到模型为$f(\mathbf{X}_k)=\hat{\mathbf{X}}_k\mathbf{w}$，$\hat{\mathbf{X}}_k=[\mathbf{X}_k^1,\mathbf{X}_k^2,\cdots">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-05-11T06:55:44.925Z">
+<meta property="og:updated_time" content="2018-07-02T02:12:42.269Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="LogisticRegression">
 <meta name="twitter:description" content="二项逻辑回归我们知道回归问题的预测值为连续值，而分类问题的预测值为离散值。现在假设二分类问题的目标值为0和1，那么我们是否用线性回归来解决二分类问题？      假设我们对训练集拟合得到模型为$f(\mathbf{X}_k)=\hat{\mathbf{X}}_k\mathbf{w}$，$\hat{\mathbf{X}}_k=[\mathbf{X}_k^1,\mathbf{X}_k^2,\cdots">
@@ -192,7 +192,7 @@
 <p>$-\log \ell(\mathbf{w})$为凸函数，可以使用梯度下降法来求得最优解。   </p>
 <script type="math/tex; mode=display">
 \dfrac{\partial -\log \ell(\mathbf{w})}{\partial \mathbf{w}}=\sum_i^n-(y_i-f(\mathbf{X}_i))\mathbf{X}_i</script><p>$\mathbf{w}$的更新公式为：</p>
-<script type="math/tex; mode=display">\mathbf{w}=\mathbf{w}-\eta\sum_i^n-(y_i-f(\mathbf{X}_i))\mathbf{X}_i</script><p>上式中$\eta$即为学习速率。</p>
+<script type="math/tex; mode=display">\mathbf{w}=\mathbf{w}-\eta\sum_i^n-(y_i-f(\mathbf{X}_i))\mathbf{X}_i</script><p>上式中$\eta$即为学习速率。可以看到参数更新只和$y_i$、$\mathbf{X}_i$有关，与Sigmoid本身的梯度无关，这样更新的速度是可以始终都比较稳定。</p>
 <h2 id="多项逻辑回归"><a href="#多项逻辑回归" class="headerlink" title="多项逻辑回归"></a>多项逻辑回归</h2><p>对于多分类问题，$K$表示类别总数，输出$\mathbf{y}\in\mathcal{R}^{K-1}$为$K-1$维向量，我们可以假设$\mathbf{y}|\mathbf{X}$服从多项式分布。我们使用Softmax函数作为映射函数，Softmax函数的表达式为：    </p>
 <script type="math/tex; mode=display">g(z_j)=\dfrac{e^{z_j}}{\sum_{k=1}^K e^{z_k}}</script><p>其中$z_j=f_j(\mathbf{X}_i)=\hat{\mathbf{X_i}}\mathbf{W}_j^T$，该$\hat{\mathbf{X_i}}$与二项逻辑回归中的$\hat{\mathbf{X_i}}$一样，其实际可以看作是拟合得到$K$个线性回归模型，然后将该$K$个模型预测值经过$g(z_j)$映射得到一个概率值，取概率值最大的类别为模型预测的类别。</p>
 <p>对于样本$(\mathbf{X}_i,\hat{y})$，模型的预测类别为$y$的概率为：   </p>
@@ -492,11 +492,11 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">数据处理</a>
+                <a href="javascript:void(0)" class="js-tag color3">回归</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">回归</a>
+                <a href="javascript:void(0)" class="js-tag color5">数据处理</a>
               </li>
              
               <li class="article-tag-list-item">
