@@ -281,6 +281,16 @@ L(\mathbf{w},b,\xi,\alpha)=-\dfrac{1}{2}\sum_i^n\sum_j^n\alpha_i\alpha_j y_i y_j
 <p>优化$\alpha_i$和$\alpha_j$后,则需要重新计算阈值$b$，当$0&lt;\alpha_j^{new}&lt;C$，则</p>
 <script type="math/tex; mode=display">b_1^{new}=-E_j-y_j K_{jj}(\alpha_j^{new}-\alpha_j^{old})-y_i K_{ij}(\alpha_i^{new}-\alpha_i^{old})+b^{old}</script><p>同样的，当$0&lt;\alpha_i^{new}&lt;C$，则</p>
 <script type="math/tex; mode=display">b_2^{new}=-E_i-y_j K_{ij}(\alpha_j^{new}-\alpha_j^{old})-y_i K_{ii}(\alpha_i^{new}-\alpha_i^{old})+b^{old}</script><p>如果$0&lt;\alpha_i&lt;C$和$0&lt;\alpha_j&lt;C$都满足，那么$b_1^{new}=b_2^{new}$都有效，随便取那个为$b^{new}$。如果$\alpha_i=0$或者$\alpha_i=C$，同时$\alpha_j=0$或者$\alpha_j=C$，那么在b1和b2之间的阈值都满足KKT条件，一般我们取他们的平均值作为$b^{new}$。</p>
+<h2 id="合页损失函数"><a href="#合页损失函数" class="headerlink" title="合页损失函数"></a>合页损失函数</h2><p>线性支持向量机还有另一种解释，就是最小化以下的目标函数.</p>
+<script type="math/tex; mode=display">\sum_i \max(0,1-y_i(\mathbf{w}^T \mathbf{x}_i+b)) +\lambda||w||^2</script><p>其中$\max\{0,1-z\}$即是合页损失函数，以上目标函数即是结构风险。</p>
+<p>现在令$\max(0,1-y_i(\mathbf{w}^T \mathbf{x}_i+b))=\xi_i$，则$1-y_i(\mathbf{w}^T \mathbf{x}_i+b))\le\xi_i$,且$\xi_i \ge 0$,所以目标函数可转换为：</p>
+<script type="math/tex; mode=display">\begin{aligned} &\sum_i \xi_i + \lambda ||w||^2 \\
+s.t.~&y_i(\mathbf{w}^T \mathbf{x}_i+b))\ge 1-\xi_i \\
+&\xi_i \ge 0 \end{aligned}</script><p>因此线性支持向量机也可以看作是加正则的合页函数最小化。<br>而实际上，将以上的合页函数换成对率损失(logistic loss)，则可以得到加L2正则的逻辑回归，以下进行推导。换成对率损失后的目标函数为：</p>
+<script type="math/tex; mode=display">\sum_i \log(1+\exp(-y_i(\mathbf{w}^T \mathbf{x}_i+b)) +\lambda||w||^2</script><p>令<br>$p(y_i=1|\mathbf{w},b)=\dfrac{\exp(\mathbf{w}^T \mathbf{x}_i+b)}{1+\exp(\mathbf{w}^T \mathbf{x}_i+b)}=\dfrac{1}{1+\exp(-y_i(\mathbf{w}^T \mathbf{x}_i+b))}$</p>
+<p>$p(y_i=-1|\mathbf{w},b)=\dfrac{1}{1+\exp(\mathbf{w}^T \mathbf{x}_i+b)}=\dfrac{1}{1+\exp(-y_i(\mathbf{w}^T \mathbf{x}_i+b))}$<br>可以看出，$p(y_i=1|\mathbf{w},b)$与$p(y_i=-1|\mathbf{w},b)$都可以用同一形式表示，则目标函数可转换为：</p>
+<script type="math/tex; mode=display">\sum_i -\log(1+\exp(-y_i(\mathbf{w}^T \mathbf{x}_i+b)) +\lambda||w||^2</script><p>则最小化以上的目标函数等价于最大化以下的目标函数</p>
+<script type="math/tex; mode=display">\sum_i \log(1+\exp(-y_i(\mathbf{w}^T \mathbf{x}_i+b)) +\lambda||w||^2=\sum_i \log p(y_i|\mathbf{w},b)+\lambda||w||^2</script><p>而最大化$\sum_i \log p(y_i)$，即是最大化对数似然。</p>
 <p>参考文献：<br>[1] 统计学习方法-李航<br>[2] 机器学习-周志华<br>[3] <a href="https://blog.csdn.net/shijing_0214/article/details/51000845" target="_blank" rel="noopener">理解支持向量机（二）核函数</a><br>[4] 斯坦福机器学习cs229-notes3<br>[5] <a href="https://blog.csdn.net/zouxy09/article/details/17292011" target="_blank" rel="noopener">机器学习算法与Python实践之（四）支持向量机（SVM）实现</a><br>[6] <a href="https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/tr-98-14.pdf" target="_blank" rel="noopener">Sequential Minimal Optimization: A Fast Algorithm for Training Support Vector Machines</a><br>[7] <a href="https://github.com/garyChen01/MachineLearning/blob/master/SVM.py" target="_blank" rel="noopener">基于platt SMO的SVM二分类器实现代码</a></p>
 
       
