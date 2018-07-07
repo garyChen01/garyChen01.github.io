@@ -286,11 +286,12 @@ L(\mathbf{w},b,\xi,\alpha)=-\dfrac{1}{2}\sum_i^n\sum_j^n\alpha_i\alpha_j y_i y_j
 <p>现在令$\max(0,1-y_i(\mathbf{w}^T \mathbf{x}_i+b))=\xi_i$，则$1-y_i(\mathbf{w}^T \mathbf{x}_i+b))\le\xi_i$,且$\xi_i \ge 0$,所以目标函数可转换为：</p>
 <script type="math/tex; mode=display">\begin{aligned} &\sum_i \xi_i + \lambda ||w||^2 \\
 s.t.~&y_i(\mathbf{w}^T \mathbf{x}_i+b))\ge 1-\xi_i \\
-&\xi_i \ge 0 \end{aligned}</script><p>因此线性支持向量机也可以看作是加正则的合页函数最小化。<br>而实际上，将以上的合页函数换成对率损失(logistic loss)，则可以得到加L2正则的逻辑回归，以下进行推导。换成对率损失后的目标函数为：</p>
+&\xi_i \ge 0 \end{aligned}</script><p>因此线性支持向量机也可以看作是加正则的合页损失(hinge loss)函数最小化。<br>而实际上，将以上的合页函数换成对率损失(logistic loss)，则可以得到加L2正则的逻辑回归，以下进行推导。换成对率损失后的目标函数为：</p>
 <script type="math/tex; mode=display">\sum_i \log(1+\exp(-y_i(\mathbf{w}^T \mathbf{x}_i+b)) +\lambda||w||^2</script><p>令<br>$p(y_i=1|\mathbf{w},b)=\dfrac{\exp(\mathbf{w}^T \mathbf{x}_i+b)}{1+\exp(\mathbf{w}^T \mathbf{x}_i+b)}=\dfrac{1}{1+\exp(-y_i(\mathbf{w}^T \mathbf{x}_i+b))}$</p>
 <p>$p(y_i=-1|\mathbf{w},b)=\dfrac{1}{1+\exp(\mathbf{w}^T \mathbf{x}_i+b)}=\dfrac{1}{1+\exp(-y_i(\mathbf{w}^T \mathbf{x}_i+b))}$<br>可以看出，$p(y_i=1|\mathbf{w},b)$与$p(y_i=-1|\mathbf{w},b)$都可以用同一形式表示，则目标函数可转换为：</p>
 <script type="math/tex; mode=display">\sum_i -\log(1+\exp(-y_i(\mathbf{w}^T \mathbf{x}_i+b)) +\lambda||w||^2</script><p>则最小化以上的目标函数等价于最大化以下的目标函数</p>
 <script type="math/tex; mode=display">\sum_i \log(1+\exp(-y_i(\mathbf{w}^T \mathbf{x}_i+b)) +\lambda||w||^2=\sum_i \log p(y_i|\mathbf{w},b)+\lambda||w||^2</script><p>而最大化$\sum_i \log p(y_i)$，即是最大化对数似然。</p>
+<p>因为Hinge损失有一块“平坦”的零区域，这使得支持向量机的解具有稀疏性，而Logistic损失为光滑的单调递减函数，不能导出类似支持向量机的形式，因此其解依赖更多的训练样本。</p>
 <p>参考文献：<br>[1] 统计学习方法-李航<br>[2] 机器学习-周志华<br>[3] <a href="https://blog.csdn.net/shijing_0214/article/details/51000845" target="_blank" rel="noopener">理解支持向量机（二）核函数</a><br>[4] 斯坦福机器学习cs229-notes3<br>[5] <a href="https://blog.csdn.net/zouxy09/article/details/17292011" target="_blank" rel="noopener">机器学习算法与Python实践之（四）支持向量机（SVM）实现</a><br>[6] <a href="https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/tr-98-14.pdf" target="_blank" rel="noopener">Sequential Minimal Optimization: A Fast Algorithm for Training Support Vector Machines</a><br>[7] <a href="https://github.com/garyChen01/MachineLearning/blob/master/SVM.py" target="_blank" rel="noopener">基于platt SMO的SVM二分类器实现代码</a></p>
 
       
