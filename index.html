@@ -152,6 +152,178 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-SVM" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/02/SVM/">支持向量机</a>
+    </h1>
+  
+
+        
+        <a href="/2018/07/02/SVM/" class="archive-article-date">
+  	<time datetime="2018-07-02T10:34:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>支持向量机（SVM）是一个二分类器，它的学习策略就是特征空间上间隔最大化，这也使得它有别于感知机。间隔最大化可形式化为一个求解凸二次规划问题，也等价于正则化的合页损失函数的最小化问题。</p>
+<p>支持向量机可分为三种：线性可分支持向量机，线性支持向量机和非线性支持向量机。当训练数据线性可分时，通过硬间隔最大化，学习一个线性的分类器，即线性可分支持向量机。当训练数据近似线性可分时，通过软间隔最大化，学习一个线性的分类器，即线性支持向量机。当训练数据线性不可分时，通过核技巧和软间隔最大化，学习的非线性的分类器，即非线性支持向量机。</p>
+<h2 id="线性可分支持向量机"><a href="#线性可分支持向量机" class="headerlink" title="线性可分支持向量机"></a>线性可分支持向量机</h2><p>考虑一个二分类问题。假设输入空间和特征空间为两个不同的空间，输入空间为欧氏空间或离散集合，而特征空间为欧氏空间或希尔伯特空间。线性可分支持向量机和线性支持向量机则假设这两个空间的元素一一对应，并将输入空间中的输入映射为特征空间中的特征向量。非线性支持向量机利用一个从输入空间到特征空间的非线性映射将输入映射为特征向量。</p>
+<p>给定线性可分训练数据集$T=\{(\mathbf{x}_1,y_1),(\mathbf{x}_2,y_2),\cdots,(\mathbf{x}_n,y_n)$，当样本$\mathbf{x}_i$为正例时，其对应标签$y_i=1$,当样本$\mathbf{x}_i$为负例时，其对应标签$y_i=-1$。通过间隔最大化，我们可以得到一个分离超平面：   </p>
+<script type="math/tex; mode=display">\mathbf{w}^T\mathbf{x}+b=0</script><p>这样，当给定训练集和分离超平面以后，对于样本点$(\mathbf{x}_i,y_i)$，样本点与分离超平面的距离为：</p>
+<script type="math/tex; mode=display">r=\dfrac{|\mathbf{w}^T\mathbf{x}_i+b|}{||\mathbf{w}||}</script><p>其中$||\mathbf{w}||$表示$\mathbf{w}$的L2范数。</p>
+<p>假设超平面能把训练样本正确分类，则总是存在某种缩放变换使得下式成立</p>
+<script type="math/tex; mode=display">y_i(\mathbf{w}^T\mathbf{x}_i+b) \ge 1</script><p>距离最近的几个点，使得上式的等号成立，这样的点，我们称之为支持向量，两个异类支持向量到超平面的距离之和为：    </p>
+<script type="math/tex; mode=display">\gamma=\dfrac{2}{||\mathbf{w}||}</script><p>这就是间隔。<br>这样，线性可分支持向量机学习的最优化问题即为：</p>
+<script type="math/tex; mode=display">\begin{aligned}\max_{\mathbf{w},b}\dfrac{2}{||\mathbf{w}||}=\min\dfrac{1}{2}||\mathbf{w}||^2 \\ s.t.~1- y_i(\mathbf{w}^T\mathbf{x}_i+b)\le 0 \end{aligned}</script><p>应用拉格朗日对偶性，我们可以将上式问题转换为对偶问题。首先我们将上面的约束最优化问题转换为广义拉格朗日函数：   </p>
+<script type="math/tex; mode=display">L(\mathbf{w},b,\alpha)=\dfrac{1}{2}||\mathbf{w}||^2 +\sum_i^n\alpha_i(1- y_i(\mathbf{w}^T\mathbf{x}_i+b))</script><p>其中$\alpha=(\alpha_1,\alpha_2,\cdots,\alpha_n)^T$为拉格朗日乘子向量。根据拉格朗日对偶性，原问题的对偶问题为极大极小问题：  </p>
+<script type="math/tex; mode=display">\max_{alpha}{\min_{\mathbf{w},b}{L(\mathbf{w},b,\alpha)}}</script><p>将拉格朗日函数分别对$\mathbf{w},b$求导，并使其为$0$，则  </p>
+<script type="math/tex; mode=display">\begin{aligned}
+&\nabla_{\mathbf{w}}L=\mathbf{w}-\sum_i^n\alpha_i y_i \mathbf{x}_i=0\\
+&\nabla_b L=\sum_i^n\alpha_i y_i=0
+\end{aligned}</script><p>则</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+&\mathbf{w}=\sum_i^n \alpha_i y_i \mathbf{x}_i\\
+&\sum_i^n\alpha_i y_i=0
+\end{aligned}</script><p>将以上结果带入拉格朗日函数中，得</p>
+<script type="math/tex; mode=display">
+L(\mathbf{w},b,\alpha)=-\dfrac{1}{2}\sum_i^n\sum_j^n\alpha_i\alpha_j y_i y_j \mathbf{x}_i \mathbf{x}_j+\sum_i^n \alpha_i</script><p>即 </p>
+<script type="math/tex; mode=display">\min_{\mathbf{w},b}L(\mathbf{w},b,\alpha)=-\dfrac{1}{2}\sum_i^n\sum_j^n\alpha_i\alpha_j y_i y_j \mathbf{x}_i \mathbf{x}_j+\sum_i^n \alpha_i</script><p>求$\min_{\mathbf{w},b}L(\mathbf{w},b,\alpha)$对$\alpha$的极大，即为</p>
+<script type="math/tex; mode=display">\begin{aligned} 
+&\max_{\alpha} -\dfrac{1}{2}\sum_i^n\sum_j^n\alpha_i\alpha_j y_i y_j \mathbf{x}_i \mathbf{x}_j+\sum_i^n \alpha_i\\
+&s.t.~~\sum_i^n \alpha_i y_i=0\\
+&\alpha_i \ge 0,~i=1,2,\cdots,n
+\end{aligned}</script><p>因此解出上式的$\alpha^<em>$后，求得$\mathbf{w}^</em>,b^*$，分离超平面可写为：  </p>
+<script type="math/tex; mode=display">\sum_j^n \alpha_j^* y_j \mathbf{x}_j \mathbf{x}+b^*=0</script><p>分类决策函数即为： </p>
+<script type="math/tex; mode=display">f(\mathbf{x})=sign(\sum_j^n \alpha_j^* y_j \mathbf{x}_j \mathbf{x}+b^*)</script><p>其中$sign(x)$的$x$的符号，正则输出为1，负则输出为-1。</p>
+<h2 id="线性支持向量机"><a href="#线性支持向量机" class="headerlink" title="线性支持向量机"></a>线性支持向量机</h2><p>给定线性不可分训练集$T=\{(\mathbf{x}_1,y_1),(\mathbf{x}_2,y_2),\cdots,(\mathbf{x}_n,y_n)$，其无法使得下式成立。</p>
+<script type="math/tex; mode=display">y_i(\mathbf{w}^T\mathbf{x}_i+b) \ge 1</script><p>因为在线性不可分训练集中，大部分满足上式的约束，但存在极少特异点不满足。为了解决以上问题，我们对每个样本点$(\mathbf{x}_i,y_i)$引入一个松弛变量$\xi_i$，使得下式成立</p>
+<script type="math/tex; mode=display">y_i(\mathbf{w}^T\mathbf{x}_i+b) \ge 1-\xi_i</script><p>同时，对每个松弛变量$\xi_i$，支持一个代价$\xi_i$，则目标函数变成：   </p>
+<script type="math/tex; mode=display">\begin{aligned}
+&\dfrac{1}{2}||w||^2+C\sum_i^n\xi_i\\
+&s.t.~\xi_i\ge 0,~i=1,2,\cdots,n
+\end{aligned}</script><p>其中$C&gt;0$为惩罚参数。</p>
+<p>与线性可分支持向量机的求解过程一样，我们得到广义拉格朗日函数：</p>
+<script type="math/tex; mode=display">L(\mathbf{w},b,\xi,\alpha)=\dfrac{1}{2}||\mathbf{w}||^2 + C\sum_i^n\xi_i+\sum_i^n\alpha_i(1-\xi_i- y_i(\mathbf{w}^T\mathbf{x}_i+b))-\sum_i^n \mu_i \xi_i</script><p>其中$\xi=(\xi_1,\xi_2,\cdots,\xi_n)$.<br>首先求解$L(\mathbf{w},b,\xi,\alpha)$对$\mathbf{w},b,\xi$的最小，即</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\nabla_\mathbf{w}L(\mathbf{w},b,\xi,\alpha)=\mathbf{w}-\sum_i^n\alpha_i y_i \mathbf{x}_i=0\\
+\nabla_b L(\mathbf{w},b,\xi,\alpha)=\sum_i^n\alpha_i y_i=0\\
+\nabla_{\xi} L(\mathbf{w},b,\xi,\alpha)=C-\alpha_i-\mu_i=0
+\end{aligned}</script><p>得</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\mathbf{w}=\sum_i^n\alpha_i y_i \mathbf{x}_i\\
+\sum_i^n\alpha_i y_i=0\\
+C-\alpha_i-\mu_i=0
+\end{aligned}</script><p>将上式代入广义拉格朗日函数中，可得</p>
+<script type="math/tex; mode=display">
+L(\mathbf{w},b,\xi,\alpha)=-\dfrac{1}{2}\sum_i^n\sum_j^n\alpha_i\alpha_j y_i y_j \mathbf{x}_i \mathbf{x}_j+\sum_i^n \alpha_i</script><p>即 </p>
+<script type="math/tex; mode=display">\min_{\mathbf{w},b,\xi}L(\mathbf{w},b,\alpha)=-\dfrac{1}{2}\sum_i^n\sum_j^n\alpha_i\alpha_j y_i y_j \mathbf{x}_i \mathbf{x}_j+\sum_i^n \alpha_i</script><p>求$\min_{\mathbf{w},b,\xi}L(\mathbf{w},b,\alpha)$对$\alpha$的极大，即为</p>
+<script type="math/tex; mode=display">\begin{aligned} 
+&\max_{\alpha} -\dfrac{1}{2}\sum_i^n\sum_j^n\alpha_i\alpha_j y_i y_j \mathbf{x}_i \mathbf{x}_j+\sum_i^n \alpha_i\\
+&s.t.~~\sum_i^n \alpha_i y_i=0\\
+&C-\alpha_i-\mu_i=0\\
+&\alpha_i \ge 0,~i=1,2,\cdots,n\\
+&\mu_i \ge 0,~i=1,2,\cdots,n
+\end{aligned}</script><p>又</p>
+<script type="math/tex; mode=display">
+\begin{cases} C-\alpha_i-\mu_i=0\\
+\alpha_i \ge 0,~i=1,2,\cdots,n\\
+\mu_i \ge 0,~i=1,2,\cdots,n \end{cases} \iff 0 \le \alpha_i \le C</script><p>所以线性不可分支持向量机原问题的对偶问题为：</p>
+<script type="math/tex; mode=display">\begin{aligned} 
+&\max_{\alpha} -\dfrac{1}{2}\sum_i^n\sum_j^n\alpha_i\alpha_j y_i y_j \mathbf{x}_i \mathbf{x}_j+\sum_i^n \alpha_i\\
+&s.t.~~\sum_i^n \alpha_i y_i=0\\
+&0 \le \alpha_i \le C,~i=1,2,\cdots,n\\
+\end{aligned}</script><h2 id="非线性支持向量机"><a href="#非线性支持向量机" class="headerlink" title="非线性支持向量机"></a>非线性支持向量机</h2><p>有时分类问题是非线性的，这时我们就需要使用非线性支持向量机。但非线性问题往往不好解，所以希望能用解线性分类问题的方法来解这个问题，此时采用的方法就是运用核函数将输入空间进行非线性转换映射到特征空间，这样就是非线性问题转换为线性问题，通过解变换后的线性问题的方法求解原来的非线性问题。</p>
+<h3 id="核函数定义"><a href="#核函数定义" class="headerlink" title="核函数定义"></a>核函数定义</h3><p>设$\mathcal{X}$是输入空间（欧氏空间$\mathcal{R}^n$的子集或离散集合），又设$\mathcal{H}$为特征空间（希尔伯特空间），如果存在一个从$\mathcal{X}$到$\mathcal{H}$的映射:    </p>
+<script type="math/tex; mode=display">\phi(x):\mathcal{X}\rightarrow \mathcal{H}</script><p>使得对所有$x,z\in \mathcal{X}$,函数$K(x,z)$都满足条件 </p>
+<script type="math/tex; mode=display">K(x,z)=\phi(x)\cdotp\phi(z)</script><p>则称$K(x,z)$为核函数，$\phi(x)$为映射函数，式中$\phi(x)\cdotp\phi(z)$为$\phi(x)$和$\phi(z)$的内积。</p>
+<p>对于同一个$K(x,z)$，能通过不同的$\phi(x)$计算得到，而在支持向量机中，对偶问题的目标函数和决策函数只与$\mathbf{x}_i \mathbf{x}_j$有关。因此我们仅仅只需要定义$\phi(\mathbf{x}_i)\cdotp\phi(\mathbf{x}_j)$，而不需要先算出映射函数$\phi(x)$，这样能简化问题。</p>
+<p>因此，在运用核函数以后，支持向量机的对偶问题的目标函数为：   </p>
+<script type="math/tex; mode=display">-\dfrac{1}{2}\sum_i^n\sum_j^n\alpha_i\alpha_j y_i y_j K(\mathbf{x}_i,\mathbf{x}_j)+\sum_i^n \alpha_i</script><p>同样决策函数为：</p>
+<script type="math/tex; mode=display">f(\mathbf{x})=sign(g(\mathbf{x}))=sign(\sum_i^n \alpha_i^* y_i K(\mathbf{x}_i,\mathbf{x})+b^*)</script><h3 id="常用核函数"><a href="#常用核函数" class="headerlink" title="常用核函数"></a>常用核函数</h3><ol>
+<li>多项式核函数<br>$K(\mathbf{x}_i,\mathbf{x}_j)=(\mathbf{x}_i\cdotp \mathbf{x}_j+1)^p$。<br>多项式核函数属于全局核函数，允许相距很远的数据点对核函数的值有影响。参数$p$越大，映射的维度越高，计算量就会越大。当$p$过大时，由于学习复杂性也会过高，易出现过拟合现象。</li>
+<li>高斯核函数<br>径向基核函数属于局部核函数，当数据点距离中心点变远时，取值会变小。公式为：<br>$K(\mathbf{x}_i,\mathbf{x}_j)=\exp(-\gamma||\mathbf{x}_i - \mathbf{x}_j||^2)$<br>高斯核函数可以看作是径向基核函数的另一种形式：<br>$K(\mathbf{x}_i,\mathbf{x}_j)=\exp(-\dfrac{||\mathbf{x}_i - \mathbf{x}_j||^2}{2\sigma^2})$<br>高斯径向基核对数据中存在的噪声有着较好的抗干扰能力，由于其很强的局部性，其参数决定了函数作用范围，随着参数σ的增大而减弱。 </li>
+<li>Sigmoid核函数<br>$K(\mathbf{x}_i,\mathbf{x}_j)=\tanh(\beta \mathbf{x}_i^T \mathbf{x}_j+\theta)$，其中$\beta&gt;0,\theta&lt;0$<br>采用Sigmoid函数作为核函数时，支持向量机实现的就是一种多层感知器神经网络。支持向量机的理论基础（凸二次规划）决定了它最终求得的为全局最优值而不是局部最优值，也保证了它对未知样本的良好泛化能力。</li>
+</ol>
+<h2 id="SMO"><a href="#SMO" class="headerlink" title="SMO"></a>SMO</h2><p>非线性支持向量机的对偶问题如下：    </p>
+<script type="math/tex; mode=display">\begin{aligned} 
+&\min_{\alpha} \dfrac{1}{2}\sum_i^n\sum_j^n\alpha_i\alpha_j y_i y_j K(\mathbf{x}_i,\mathbf{x}_j) - \sum_i^n \alpha_i\\
+&s.t.~~\sum_i^n \alpha_i y_i=0\\
+&0 \le \alpha_i \le C,~i=1,2,\cdots,n\\
+\end{aligned}</script><p>如果我们使用坐标下降法来求解，则固定$\alpha_2,\alpha_3,\cdots,\alpha_n$，对进行$\alpha_1$优化，但从$\alpha$的约束条件<br>$\alpha_1 = -y_1(\sum_{i=2}^n \alpha_i y_i)$<br>可以知道，当其他$\alpha_i$确定以后，$\alpha_1$就确定了，所以要想更新$\alpha_1$，则至少还得同时更新一个$\alpha_j$。这也是SMO的Motivation。</p>
+<p>假设我们选取两个参数$\alpha_i,\alpha_j$，固定其他参数，则优化问题变为：</p>
+<script type="math/tex; mode=display">\begin{aligned} 
+&\min_{\alpha_j,\alpha_i} \dfrac{1}{2}K_{jj}\alpha_j^2+\dfrac{1}{2}K_{ii}\alpha_i^2+y_i y_j K_{ij} \alpha_i \alpha_j-(\alpha_i+\alpha_j)+ y_i\alpha_i\sum_{n\ne i,j}{y_n \alpha_n K_{ni}}+ y_j\alpha_j\sum_{n\ne i,j}{y_n \alpha_n K_{nj}}\\
+&s.t.~~y_i \alpha_i+y_j \alpha_j = -\sum_{m\ne i,j}y_m \alpha_m=k\\
+&0 \le \alpha_i \le C,~i=1,2,\cdots,n\\
+\end{aligned}</script><p>其中$K_{ij}=K(\mathbf{x}_i,\mathbf{x}_j)$从以上的约束条件可以看出，当$\alpha_i$定了以后，$\alpha_j$也自然定了。所以根据$y_i$与$y_j$是否相等可以确定上式是与$\alpha_i+\alpha_j=C$平行还是与$\alpha_i-\alpha_j=C$平行。又因为$0\le \alpha \le C$，所以假设$\alpha_i$的范围为$L\le \alpha_i \le H$，则$H$与$L$的取值为：   </p>
+<script type="math/tex; mode=display">\begin{aligned}
+&if~y_i\ne y_j,~~L=\max\{0,\alpha_i-\alpha_j\},~H=\max\{C,C+\alpha_i-\alpha_j\}\\
+&if~y_i= y_j,~~L=\max\{0,\alpha_j+\alpha_i-C\},~H=\max\{C,\alpha_i+\alpha_j\}
+\end{aligned}</script><p>优化的时候，$\alpha_i$必须满足以上的约束，通过线性支持向量机的对偶问题的求解(具体过程请查阅统计学习方法)，可以得到：</p>
+<script type="math/tex; mode=display">\alpha_i :=\alpha_i+\dfrac{y_i(E_j-E_i)}{K_{11}+K_{22}-2K_{12}}</script><p>其中$E_i=g(\mathbf{x}_i)-y_i=\sum_j^n \alpha_j y_j K_{ij}+b-y_i$，其表示预测值与实际值之差。<br>得到新的$\alpha_i$以后，我们需要其满足$L\le \alpha_i \le H$，所以当新的$\alpha_i$不在这个边界时，需要对其裁剪，即当超过边界，则令其的值为最近的边界值。而$\alpha_j$可以由$y_i \alpha_i+y_j \alpha_j = -\sum_{m\ne i,j}y_m$求得。</p>
+<h3 id="参数选择"><a href="#参数选择" class="headerlink" title="参数选择"></a>参数选择</h3><h4 id="第一个参数的选择"><a href="#第一个参数的选择" class="headerlink" title="第一个参数的选择"></a>第一个参数的选择</h4><p>SMO选取违背KKT条件最严重的样本点对应的参数作为第一个参数，具体地，检查训练样本点$\mathbf{x}_j,y_j$是否满足KKT条件，即</p>
+<script type="math/tex; mode=display">
+\begin{aligned}\alpha_j=0 \Leftrightarrow y_j g(\mathbf{x}_j) \ge1\\
+0 < \alpha_j < C \Leftrightarrow y_j g(\mathbf{x}_j)=1\\
+\alpha_j = C \Leftrightarrow y_j g(\mathbf{x}_j) \le 1
+\end{aligned}</script><p>在检查过程中，首先遍历所有满足条件$0 &lt; \alpha_j &lt; C$的样本点，即在间隔边界上的支持向量点，检查它们是否满足KKT条件，如果这些样本点都满足KKT条件，那么遍历整个数据集，检查它们是否满足KKT条件。以上用KKT条件对数据样本所做的检查都以达到一定精度$\varepsilon$就可以停止为条件。</p>
+<h4 id="第二个参数的选择"><a href="#第二个参数的选择" class="headerlink" title="第二个参数的选择"></a>第二个参数的选择</h4><p>假设已找到第一个参数$\alpha_j$，则我们希望第二个参数$\alpha_i$有足够大的变化，因为它的值依赖于$E_j-E_i$，所以选择使$E_j-E_i$最大的$\alpha_i$。</p>
+<p>优化$\alpha_i$和$\alpha_j$后,则需要重新计算阈值$b$，当$0&lt;\alpha_j^{new}&lt;C$，则</p>
+<script type="math/tex; mode=display">b_1^{new}=-E_j-y_j K_{jj}(\alpha_j^{new}-\alpha_j^{old})-y_i K_{ij}(\alpha_i^{new}-\alpha_i^{old})+b^{old}</script><p>同样的，当$0&lt;\alpha_i^{new}&lt;C$，则</p>
+<script type="math/tex; mode=display">b_2^{new}=-E_i-y_j K_{ij}(\alpha_j^{new}-\alpha_j^{old})-y_i K_{ii}(\alpha_i^{new}-\alpha_i^{old})+b^{old}</script><p>如果$0&lt;\alpha_i&lt;C$和$0&lt;\alpha_j&lt;C$都满足，那么$b_1^{new}=b_2^{new}$都有效，随便取那个为$b^{new}$。如果$\alpha_i=0$或者$\alpha_i=C$，同时$\alpha_j=0$或者$\alpha_j=C$，那么在b1和b2之间的阈值都满足KKT条件，一般我们取他们的平均值作为$b^{new}$。</p>
+<p>参考文献：<br>[1] 统计学习方法-李航<br>[2] 机器学习-周志华<br>[3] <a href="https://blog.csdn.net/shijing_0214/article/details/51000845" target="_blank" rel="noopener">理解支持向量机（二）核函数</a><br>[4] 斯坦福机器学习cs229-notes3<br>[5] <a href="https://blog.csdn.net/zouxy09/article/details/17292011" target="_blank" rel="noopener">机器学习算法与Python实践之（四）支持向量机（SVM）实现</a><br>[6] <a href="https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/tr-98-14.pdf" target="_blank" rel="noopener">Sequential Minimal Optimization: A Fast Algorithm for Training Support Vector Machines</a><br>[7] <a href="https://github.com/garyChen01/MachineLearning/blob/master/SVM.py" target="_blank" rel="noopener">基于platt SMO的SVM二分类器实现代码</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/07/02/SVM/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-LaprangeDuality" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -186,6 +358,17 @@ s.t.~&c_i(\mathbf{x})\le 0,i=1,2,\cdots,k \\
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -835,87 +1018,6 @@ s.t.~&c_i(\mathbf{x})\le 0,i=1,2,\cdots,k \\
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2018/05/05/CoordinateDescent/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Scaler" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/29/Scaler/">标准化，正则化</a>
-    </h1>
-  
-
-        
-        <a href="/2018/04/29/Scaler/" class="archive-article-date">
-  	<time datetime="2018-04-29T00:22:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="标准化（Standardization）"><a href="#标准化（Standardization）" class="headerlink" title="标准化（Standardization）"></a>标准化（Standardization）</h2><p>标准化是为了消除各特征之间量纲影响，使得各特征处于同一量级。</p>
-<h3 id="Z-score标准化"><a href="#Z-score标准化" class="headerlink" title="Z-score标准化"></a>Z-score标准化</h3><p>很多算法都假设每个特征的值都接近于零或者每个特征都在合理的区域变化。具体来讲就是基于度量(如KNN)和基于梯度的算法都假设数据近似标准正态分布（即均值为0，方差为1）。<br>
-        
-          <a class="article-more-a" href="/2018/04/29/Scaler/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/04/29/Scaler/">展开全文 >></a>
         </p>
       
 
