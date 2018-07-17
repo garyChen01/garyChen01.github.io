@@ -6,15 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | GaryChen的学习日志</title>
+  <title>DNN反向传播算法 | GaryChen的学习日志</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="GaryChen的学习日志">
-<meta property="og:url" content="http://yoursite.com/archives/page/2/index.html">
+  <meta name="description" content="反向传播（BP）推导假设神经网络第$l$层的权重矩阵为$\mathbf{W}_l$,偏置向量为$\mathbf{b}_l$,输入为$\mathbf{a}_{l-1}$，则该层的输出为$\mathbf{a}_{l}=\sigma(\mathbf{z}_l)=\sigma(\mathbf{W}_l \mathbf{a}_{l-1}+\mathbf{b}_l)$.在该神经网络中，我们使用均方差作为损失函">
+<meta name="keywords" content="机器学习,深度学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DNN反向传播算法">
+<meta property="og:url" content="http://yoursite.com/2018/07/12/DNN/index.html">
 <meta property="og:site_name" content="GaryChen的学习日志">
+<meta property="og:description" content="反向传播（BP）推导假设神经网络第$l$层的权重矩阵为$\mathbf{W}_l$,偏置向量为$\mathbf{b}_l$,输入为$\mathbf{a}_{l-1}$，则该层的输出为$\mathbf{a}_{l}=\sigma(\mathbf{z}_l)=\sigma(\mathbf{W}_l \mathbf{a}_{l-1}+\mathbf{b}_l)$.在该神经网络中，我们使用均方差作为损失函">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-07-17T11:45:21.911Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="GaryChen的学习日志">
+<meta name="twitter:title" content="DNN反向传播算法">
+<meta name="twitter:description" content="反向传播（BP）推导假设神经网络第$l$层的权重矩阵为$\mathbf{W}_l$,偏置向量为$\mathbf{b}_l$,输入为$\mathbf{a}_{l-1}$，则该层的输出为$\mathbf{a}_{l}=\sigma(\mathbf{z}_l)=\sigma(\mathbf{W}_l \mathbf{a}_{l-1}+\mathbf{b}_l)$.在该神经网络中，我们使用均方差作为损失函">
   
     <link rel="alternative" href="/atom.xml" title="GaryChen的学习日志" type="application/atom+xml">
   
@@ -150,36 +155,105 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-DNN" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      DNN反向传播算法
+    </h1>
+  
+
+        
+        <a href="/2018/07/12/DNN/" class="archive-article-date">
+  	<time datetime="2018-07-12T12:39:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-12</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="反向传播（BP）推导"><a href="#反向传播（BP）推导" class="headerlink" title="反向传播（BP）推导"></a>反向传播（BP）推导</h2><p>假设神经网络第$l$层的权重矩阵为$\mathbf{W}_l$,偏置向量为$\mathbf{b}_l$,输入为$\mathbf{a}_{l-1}$，则该层的输出为$\mathbf{a}_{l}=\sigma(\mathbf{z}_l)=\sigma(\mathbf{W}_l \mathbf{a}_{l-1}+\mathbf{b}_l)$.在该神经网络中，我们使用均方差作为损失函数。即对于每个样本，我们希望最小化以下式：<br><a id="more"></a></p>
+<script type="math/tex; mode=display">
+J = \dfrac{1}{2}||\mathbf{a}_L-y||^2_2=\dfrac{1}{2}(\mathbf{a}_L-y)^T(\mathbf{a}_L-y)</script><p>当我们需要求$\dfrac{\partial J}{\partial \mathbf{W}_L}$，根据标量对矩阵求导的方法，首先计算$\dfrac{\partial J}{\partial \mathbf{a}_L}$<br>，</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+dJ&=tr(\dfrac{1}{2}(d\mathbf{a}_L)^T(\mathbf{a}_L-y)+\dfrac{1}{2}(\mathbf{a}_L-y)^T d \mathbf{a}_L)\\
+&= tr((\mathbf{a}_L-y)^T d \mathbf{a}_L) \\
+&=tr((\dfrac{\partial J}{\partial \mathbf{a}_L})^T d \mathbf{a}_L)
+\end{aligned}</script><p>所以$\dfrac{\partial J}{\partial \mathbf{a}_L}=\mathbf{a}_L-y$,这里用到了一个公式，即$df=tr(\dfrac{\partial f}{\partial \mathbf{X}}^T d \mathbf{X})$,其中$tr$代表迹(trace)，是方阵对角线元素之和。接着求$\dfrac{\partial J}{\partial \mathbf{z}_L}$,</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+dJ&=tr(\dfrac{\partial J}{\partial \mathbf{a}_L}^T d \mathbf{a}_L) \\
+&=tr(\dfrac{\partial J}{\partial \mathbf{a}_L}^T \sigma'\odot d \mathbf{z}_l)\\
+&=tr(\dfrac{\partial J}{\partial \mathbf{a}_L}^T \odot \sigma' d \mathbf{z}_l) \\
+&= tr( (\dfrac{\partial J}{\partial \mathbf{a}_L} \odot \sigma')^T d\mathbf{z}_l)\\
+&=tr(\dfrac{\partial J}{\partial \mathbf{W}_L \mathbf{a}_{L-1}}^T d\mathbf{z}_l)
+\end{aligned}</script><p>所以$\dfrac{\partial J}{\partial \mathbf{z}_L}=\dfrac{\partial J}{\partial \mathbf{a}_L} \odot \sigma’$，上式用到了公式$tr(A^T(B\odot C))=tr((A\odot B)^TC)$，最后求$\dfrac{\partial J}{\partial \mathbf{W}_L}$,</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+dJ&=tr(\dfrac{\partial J}{\partial \mathbf{z}_L}^T d \mathbf{z}_L) \\
+&=tr(\mathbf{a}_{L-1}\dfrac{\partial J}{\partial \mathbf{z}_L}^T d\mathbf{W}_L)\\
+&=tr((\dfrac{\partial J}{\partial \mathbf{z}_L} \mathbf{a}_{L-1}^T )^T d\mathbf{W}_L)\\
+&=tr(\dfrac{\partial J}{\partial \mathbf{W}_L} d\mathbf{W}_L)
+\end{aligned}</script><p>上式用到了公式$tr(AB)=tr(BA)$，所以最终可得</p>
+<script type="math/tex; mode=display">
+\dfrac{\partial J}{\partial \mathbf{W}_L}=\dfrac{\partial J}{\partial \mathbf{z}_L} \mathbf{a}_{L-1}^T =(\mathbf{a}_L - \mathbf{y})\odot \sigma'(\mathbf{W}_{L} \mathbf{a}_{L-1}+\mathbf{b}_L)\mathbf{a}_{L-1}^T</script><p>同样的，我们可以求出$\dfrac{\partial J}{\partial \mathbf{b}_L}$</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+dJ&=tr(\dfrac{\partial J}{\partial \mathbf{z}_L}^T d \mathbf{z}_L) \\
+&=tr(\dfrac{\partial J}{\partial \mathbf{z}_L}^T d\mathbf{b}_L)\\
+&=tr(\dfrac{\partial J}{\partial \mathbf{b}_L} d\mathbf{b}_L)
+\end{aligned}</script><p>所以</p>
+<script type="math/tex; mode=display">
+\dfrac{\partial J}{\partial \mathbf{b}_L}=\dfrac{\partial J}{\partial \mathbf{z}_L}</script><p>现在推导求解第$l$层的$\mathbf{W}_l$。从以上的求解中，我们主要到有个式子很重要，即$\delta_L=\dfrac{\partial J}{\partial \mathbf{z}_L}$。对于第$l+1$层的$\delta_l=\dfrac{\partial J}{\partial \mathbf{z}_{l+1}}$，我们有<br>$\mathbf{z}_{l+1}=\mathbf{W}_{l+1}\mathbf{a}_l+\mathbf{b}_l=\mathbf{W}_{l+1} \sigma(\mathbf{z}_l)+\mathbf{b}_l$，则</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+d J &= tr(\dfrac{\partial J}{\partial \mathbf{z}_{l+1}}^T d\mathbf{z}_{l+1})\\
+&= tr(\dfrac{\partial J}{\partial \mathbf{z}_{l+1}}^T \mathbf{W}_{l+1} \sigma'(\mathbf{z}_l)d\mathbf{z}_l)\\
+&=tr(\delta_{l+1}^T\mathbf{W}_{l+1}\sigma'(\mathbf{z}_l)\odot d\mathbf{z}_l)\\
+&=tr((\mathbf{W}_{l+1}^T \delta_{l+1}\odot\sigma'(\mathbf{z}_{l}))^T d \mathbf{z}_l)\\
+&=tr(\dfrac{\partial J}{\partial \mathbf{z}_{l}}^T d\mathbf{z}_l)\\
+&=tr(\delta_{l}^T  d\mathbf{z}_l)
+\end{aligned}</script><p>所以</p>
+<script type="math/tex; mode=display">
+\delta_{l}=\mathbf{W}_{l+1}^T \delta_{l+1}\odot\sigma'(\mathbf{z}_{l})</script><p>这样，从上往下，根据第$l+1$层的$\delta_{l+1}$，我们可以计算出第$l$层的$\delta_{l}$，继而计算出该层的$\mathbf{W}_l$和$\mathbf{b}_l$。</p>
+<h2 id="DNN训练过程"><a href="#DNN训练过程" class="headerlink" title="DNN训练过程"></a>DNN训练过程</h2><p>输入:总层数$L$，以及各隐藏层与输出元的神经元个数，激活函数，损失函数，学习速率$\alpha$，最大迭代次数$iter_Max$与停止迭代阈值$\epsilon$，输入的$m$个训练样本$\{(\mathbf{x}_1,\mathbf{y}_1),(\mathbf{x}_2,\mathbf{y}_2),\cdots,(\mathbf{x_m},\mathbf{y_m})\}$<br>输出:各隐藏层与输出层的线性关系系数矩阵$\mathbf{W}$和偏置向量$\mathbf{b}$</p>
+<p>初始化各隐藏层与输出层的线性关系系数矩阵$\mathbf{W}$和偏倚向量$\mathbf{b}$的值为一个随机值。<br>for $iter$ in $iter_MAX$:<br>&nbsp;　&nbsp;for $i$ from $1$ to $m$:<br>将DNN输入$\mathbf{a}_1$设置为$\mathbf{x}_i$<br>&nbsp;　　 &nbsp;for $l$ from $2$ to $L$ 进行前向传播算法计算$\mathbf{a}_{i,l}=\sigma(\mathbf{W}_{l}\mathbf{a}_{i,l-1}+\mathbf{b}_l)$<br>&nbsp;　　 &nbsp;通过损失函数计算输出层$\delta_{i,L}$<br>&nbsp;　　 &nbsp;for $l$ from $L$ to $2$, 进行反向传播算法计算$\delta_{i,l} = (\mathbf{W}_{l+1})^T\delta_{i,l+1}\odot \sigma’(\mathbf{z}_{i,l})$<br>&nbsp;　&nbsp;for $l$ from $2$ to $L$，更新第$l$层的$\mathbf{W}_l,\mathbf{b}_l$:    </p>
+<script type="math/tex; mode=display">
+\mathbf{W}_l = \mathbf{W}_l -\alpha \sum\limits_{i=1}^m \delta_{i,l}(a_{i, l-1})^T</script><script type="math/tex; mode=display">b^l = b_l -\alpha \sum\limits_{i=1}^m \delta_{i,l}</script><p>参考文献</p>
+<p>[1] <a href="https://zhuanlan.zhihu.com/p/24709748" target="_blank" rel="noopener">矩阵求导术（上）</a><br>[2] <a href="http://www.cnblogs.com/pinard/p/6422831.html" target="_blank" rel="noopener">深度神经网络（DNN）反向传播算法(BP)</a></p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/05/09/LogisticRegression/" class="archive-article-date">
-  	<time datetime="2018-05-09T06:55:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/05/09/LogisticRegression/">LogisticRegression</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -189,154 +263,111 @@
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">分类</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">深度学习</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/07/12/DNN/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/05/05/CoordinateDescent/" class="archive-article-date">
-  	<time datetime="2018-05-05T08:12:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-05</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2018/07/08/AdBoost/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">AdBoost</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/05/05/CoordinateDescent/">基于Coordinate Descent的Lasso实现</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">回归</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/04/29/Scaler/" class="archive-article-date">
-  	<time datetime="2018-04-29T00:22:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/04/29/Scaler/">标准化，正则化</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/04/26/线性回归/" class="archive-article-date">
-  	<time datetime="2018-04-26T08:47:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-26</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/04/26/线性回归/">线性回归</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">回归</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><span class="page-number current">2</span>
-    </nav>
   
 
 
@@ -360,8 +391,8 @@
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
