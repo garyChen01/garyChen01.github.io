@@ -9,14 +9,14 @@
   <title>DNN反向传播算法 | GaryChen的学习日志</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="反向传播（BP）推导假设神经网络第$l$层的权重矩阵为$\mathbf{W}_l$,偏置向量为$\mathbf{b}_l$,输入为$\mathbf{a}_{l-1}$，则该层的输出为$\mathbf{a}_{l}=\sigma(\mathbf{z}_l)=\sigma(\mathbf{W}_l \mathbf{a}_{l-1}+\mathbf{b}_l)$.在该神经网络中，我们使用均方差作为损失函">
-<meta name="keywords" content="机器学习,深度学习">
+<meta name="keywords" content="深度学习">
 <meta property="og:type" content="article">
 <meta property="og:title" content="DNN反向传播算法">
 <meta property="og:url" content="http://yoursite.com/2018/07/12/DNN/index.html">
 <meta property="og:site_name" content="GaryChen的学习日志">
 <meta property="og:description" content="反向传播（BP）推导假设神经网络第$l$层的权重矩阵为$\mathbf{W}_l$,偏置向量为$\mathbf{b}_l$,输入为$\mathbf{a}_{l-1}$，则该层的输出为$\mathbf{a}_{l}=\sigma(\mathbf{z}_l)=\sigma(\mathbf{W}_l \mathbf{a}_{l-1}+\mathbf{b}_l)$.在该神经网络中，我们使用均方差作为损失函">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-07-17T12:13:03.282Z">
+<meta property="og:updated_time" content="2018-07-20T12:05:25.751Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DNN反向传播算法">
 <meta name="twitter:description" content="反向传播（BP）推导假设神经网络第$l$层的权重矩阵为$\mathbf{W}_l$,偏置向量为$\mathbf{b}_l$,输入为$\mathbf{a}_{l-1}$，则该层的输出为$\mathbf{a}_{l}=\sigma(\mathbf{z}_l)=\sigma(\mathbf{W}_l \mathbf{a}_{l-1}+\mathbf{b}_l)$.在该神经网络中，我们使用均方差作为损失函">
@@ -259,10 +259,6 @@ d J &= tr(\dfrac{\partial J}{\partial \mathbf{z}_{l+1}}^T d\mathbf{z}_{l+1})\\
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">深度学习</a>
         		</li>
       		
@@ -332,6 +328,15 @@ d J &= tr(\dfrac{\partial J}{\partial \mathbf{z}_{l+1}}^T d\mathbf{z}_{l+1})\\
 
   
 <nav id="article-nav">
+  
+    <a href="/2018/07/20/RNN/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          RNN
+        
+      </div>
+    </a>
   
   
     <a href="/2018/07/08/AdBoost/" id="article-nav-older" class="article-nav-link-wrap">
@@ -490,15 +495,15 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">深度学习</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">数据处理</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">回归</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">深度学习</a>
               </li>
             
             <div class="clearfix"></div>
