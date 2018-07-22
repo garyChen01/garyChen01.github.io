@@ -6,20 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>拉格朗日对偶性 | GaryChen的学习日志</title>
+  <title>CNN | GaryChen的学习日志</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="考虑如下约束最优化问题：       \begin{aligned} \min_{\mathbf{x}\in \mathbf{R}^n}&amp;{f(\mathbf{x})} \\ s.t.~&amp;c_i(\mathbf{x})\le 0,i=1,2,\cdots,k \\ &amp;h_j(\mathbf{x})=0,j=1,2,\cdots,l\end{aligned}我们称该最优化问题为原始最优化问题。注意，">
-<meta name="keywords" content="机器学习">
+  <meta name="description" content="卷积神经网络的反向传播算法先简单介绍一下卷积神经网络，通常卷积神经网络有三种层级-卷积层，池化层和全连接层，其中全连接层就是DNN的结构，只是最后一层的激活函数使用了Softmax来做图像的分类。 卷积层假设卷积层的输入为$\mathbf{a}^{l-1}\in \mathcal{R}^{W\times H}$，其中$W$表示图片的宽度，$H$表示图片的高度。在该层，我们有$D$个卷积核，每个卷积">
+<meta name="keywords" content="深度学习">
 <meta property="og:type" content="article">
-<meta property="og:title" content="拉格朗日对偶性">
-<meta property="og:url" content="http://yoursite.com/2018/07/02/LaprangeDuality/index.html">
+<meta property="og:title" content="CNN">
+<meta property="og:url" content="http://yoursite.com/2018/07/20/CNN/index.html">
 <meta property="og:site_name" content="GaryChen的学习日志">
-<meta property="og:description" content="考虑如下约束最优化问题：       \begin{aligned} \min_{\mathbf{x}\in \mathbf{R}^n}&amp;{f(\mathbf{x})} \\ s.t.~&amp;c_i(\mathbf{x})\le 0,i=1,2,\cdots,k \\ &amp;h_j(\mathbf{x})=0,j=1,2,\cdots,l\end{aligned}我们称该最优化问题为原始最优化问题。注意，">
+<meta property="og:description" content="卷积神经网络的反向传播算法先简单介绍一下卷积神经网络，通常卷积神经网络有三种层级-卷积层，池化层和全连接层，其中全连接层就是DNN的结构，只是最后一层的激活函数使用了Softmax来做图像的分类。 卷积层假设卷积层的输入为$\mathbf{a}^{l-1}\in \mathcal{R}^{W\times H}$，其中$W$表示图片的宽度，$H$表示图片的高度。在该层，我们有$D$个卷积核，每个卷积">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-07-03T13:56:10.151Z">
+<meta property="og:updated_time" content="2018-07-22T07:37:40.454Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="拉格朗日对偶性">
-<meta name="twitter:description" content="考虑如下约束最优化问题：       \begin{aligned} \min_{\mathbf{x}\in \mathbf{R}^n}&amp;{f(\mathbf{x})} \\ s.t.~&amp;c_i(\mathbf{x})\le 0,i=1,2,\cdots,k \\ &amp;h_j(\mathbf{x})=0,j=1,2,\cdots,l\end{aligned}我们称该最优化问题为原始最优化问题。注意，">
+<meta name="twitter:title" content="CNN">
+<meta name="twitter:description" content="卷积神经网络的反向传播算法先简单介绍一下卷积神经网络，通常卷积神经网络有三种层级-卷积层，池化层和全连接层，其中全连接层就是DNN的结构，只是最后一层的激活函数使用了Softmax来做图像的分类。 卷积层假设卷积层的输入为$\mathbf{a}^{l-1}\in \mathcal{R}^{W\times H}$，其中$W$表示图片的宽度，$H$表示图片的高度。在该层，我们有$D$个卷积核，每个卷积">
   
     <link rel="alternative" href="/atom.xml" title="GaryChen的学习日志" type="application/atom+xml">
   
@@ -155,48 +155,68 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-LaprangeDuality" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-CNN" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      拉格朗日对偶性
+      CNN
     </h1>
   
 
         
-        <a href="/2018/07/02/LaprangeDuality/" class="archive-article-date">
-  	<time datetime="2018-07-02T08:01:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-02</time>
+        <a href="/2018/07/20/CNN/" class="archive-article-date">
+  	<time datetime="2018-07-20T12:04:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-20</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>考虑如下约束最优化问题：      </p>
-<script type="math/tex; mode=display">\begin{aligned} \min_{\mathbf{x}\in \mathbf{R}^n}&{f(\mathbf{x})} \\
-s.t.~&c_i(\mathbf{x})\le 0,i=1,2,\cdots,k \\
-&h_j(\mathbf{x})=0,j=1,2,\cdots,l\end{aligned}</script><p>我们称该最优化问题为原始最优化问题。注意，上式中$f(\mathbf{x}),c_i(\mathbf{x}),h_j(\mathbf{x})$是定义在$\mathbf{R}^n$上的连续可微函数。<br><a id="more"></a><br>我们引入广义拉格朗日函数：    </p>
-<script type="math/tex; mode=display">L(\mathbf{x},\mathbf{\alpha},\mathbf{\beta})=f(\mathbf{x})+\sum_i\alpha_ic_i(\mathbf{x})+\sum_j\beta_j h_j(\mathbf{x})</script><p>其中$\alpha_i \ge 0$，令其最大化的解表示为：     </p>
-<script type="math/tex; mode=display">\theta_P(\mathbf{x})=\max_{\alpha,\beta,\alpha_i \ge 0}{f(\mathbf{x})+\sum_i\alpha_i c_i(\mathbf{x})+\sum_j\beta_j h_j(\mathbf{x})}</script><p>注意，在$\theta_P(\mathbf{x})$中，$\mathbf{x}$为常数，所以对于所有满足约束最优问题的条件的$\mathbf{x}$，则有下式成立：    </p>
-<script type="math/tex; mode=display">\theta_P(\mathbf{x})=f(\mathbf{x})</script><p>这是显然的，因为在$\theta_P(\mathbf{x})$中，$\beta_j h_j(\mathbf{x})=0$恒成立，而对于$\alpha_ic_i(\mathbf{x})\le0$恒成立，使它最大化，则令$\alpha_i c_i(\mathbf{x})=0$。</p>
-<p>所以原始最优化问题转变为以下的无约束最优化问题。</p>
-<script type="math/tex; mode=display">\min_\mathbf{x} \theta_p(\mathbf{x})=\min_\mathbf{x}{\max_{\alpha,\beta,\alpha_i \ge 0}{f(\mathbf{x})+\sum_i\alpha_ic_i(\mathbf{x})+\sum_j\beta_j h_j(\mathbf{x})}}</script><p>这样，原始最优化问题表示为广义拉格朗日函数的极小极大问题。<br>定义:    </p>
-<script type="math/tex; mode=display">\theta_D(\mathbf{x})=\min_{\mathbf{x}}{L(\mathbf{x},\alpha,\beta)}</script><p>在考虑极大化$\theta_D(\mathbf{x})$,即   </p>
-<script type="math/tex; mode=display">\max_{\alpha,\beta,\alpha_i \ge 0}{\theta_D(\mathbf{x})}=\max_{\alpha,\beta,\alpha_i \ge 0}{\min_{\mathbf{x}}{L(\mathbf{x},\alpha,\beta)}}</script><p>以上即为原始问题的对偶问题。</p>
-<p>假设函数$f(\mathbf{x})$和$c_i(\mathbf{x})$是凸函数，$h_j(\mathbf{x})$为仿射函数，并且不等式约束$c_(\mathbf{x})$是严格可行的，则$\mathbf{x}^<em>,\alpha^</em>,\beta^<em>$分别为原始问题和对偶问题的解的充分必要条件是$\mathbf{x}^</em>,\alpha^<em>,\beta^</em>$满足下面的KKT条件：  </p>
+        <h2 id="卷积神经网络的反向传播算法"><a href="#卷积神经网络的反向传播算法" class="headerlink" title="卷积神经网络的反向传播算法"></a>卷积神经网络的反向传播算法</h2><p>先简单介绍一下卷积神经网络，通常卷积神经网络有三种层级-卷积层，池化层和全连接层，其中全连接层就是DNN的结构，只是最后一层的激活函数使用了Softmax来做图像的分类。</p>
+<h2 id="卷积层"><a href="#卷积层" class="headerlink" title="卷积层"></a>卷积层</h2><p>假设卷积层的输入为$\mathbf{a}^{l-1}\in \mathcal{R}^{W\times H}$，其中$W$表示图片的宽度，$H$表示图片的高度。在该层，我们有$D$个卷积核，每个卷积核有权重$\mathbf{W}^l\in\mathcal{R}^{k_1\times k_2}$和偏置$b^l$，卷积层的非激活输出即为如下：<br><a id="more"></a></p>
+<script type="math/tex; mode=display">
+a_{i,j}^{l}=\sigma (z_{i,j}^{l}) = \sigma((\mathbf{a}^{l-1}*\mathbf{W}^l+b)_{i,j})=\sigma(\sum_{m=0}^{k_1-1}\sum_{n=0}^{k_2-1} a^{l-1}_{i+m,j+n} \cdot \mathbf{W}^l_{m,n} + b^l)</script><p>假设该神经网络的损失为$J$,根据链式法则，可以得到</p>
 <script type="math/tex; mode=display">
 \begin{aligned}
-\nabla_\mathbf{x}L(\mathbf{x}^*,\alpha^*,\beta^*)=0 \\
-\nabla_\alpha L(\mathbf{x}^*,\alpha^*,\beta^*)=0 \\
-\nabla_\beta L(\mathbf{x}^*,\alpha^*,\beta^*)=0 \\
- \alpha_i^*c_i(\mathbf{x}^*)=0,~i=1,2,\cdots,k\\
- c_i(\mathbf{x}^*)\le 0,~i=1,2,\cdots,k\\
- \alpha^*\ge 0,~i=1,2,\cdots,k\\
-h_j(\mathbf{x}^*)=0,~j=1,2,\cdots,l
-\end{aligned}</script><p>参考文献：<br>[1] 统计学习方法-附录C 拉格朗日对偶性</p>
+\dfrac{\partial J}{\partial \mathbf{W}^l_{m,n}}&=\sum_{i=0}^{W-k_1} \sum_{j=0}^{H-k_2} \dfrac{\partial J}{\partial z_{i,j}^{l}} \cdot \dfrac{\partial z_{i,j}^{l}}{\partial \mathbf{W}^l_{m,n}}\\
+&=\sum_{i=0}^{W-k_1} \sum_{j=0}^{H-k_2} \dfrac{\partial J}{\partial z_{i,j}^{l}} \cdot a_{i+m,j+n}^{l-1}\\
+&=\sum_{i=0}^{W-k_1} \sum_{j=0}^{H-k_2}   a_{i+m,j+n}^{l-1} \cdot \delta_{i,j}^l\\
+&=(\mathbf{a}^{l-1}*\delta^{'l})_{k_1-m,k_2-n}\\
+&=rot180(\mathbf{a}^{l-1}*\delta^{'l})_{m,n}\\
+&=(\delta^{'l}*rot180(\mathbf{a}^{l-1}))_{m,n}
+\end{aligned}</script><p>其中$\delta^{‘l}$为在原来的$\delta^{l}$的矩阵的基础上，在左右填充$k_1-1$个0值，上下填充$k_2-1$个0值,rot180()表示旋转180度的函数。</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\dfrac{\partial J}{\partial b^l} &= \sum_{i=0}^{W-k_1} \sum_{j=0}^{H-k_2} \dfrac{\partial J}{\partial z_{i,j}^{l}} \cdot \dfrac{\partial z_{i,j}^{l}}{\partial b^l}\\
+&=\sum_{i=0}^{W-k_1} \sum_{j=0}^{H-k_2} \dfrac{\partial J}{\partial z_{i,j}^{l}}\\
+&= \sum_{i=0}^{W-k_1} \sum_{j=0}^{H-k_2} \delta_{i,j}^{l}
+\end{aligned}</script><p>现在计算当前层的$\delta^l$与上一层的$\delta^{l-1}$之间的关系。</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\delta^{l-1}_{i,j}=\dfrac{\partial J}{\partial z_{i,j}^{l-1}}&=\sum_{m=0}^{W-k_1} \sum_{n=0}^{H-k_2}\dfrac{\partial J}{\partial z_{m,n}^l}\dfrac{\partial z_{m,n}^l}{\partial a_{i,j}^{l-1}}\dfrac{\partial a_{i,j}^{l-1}}{\partial z_{i,j}^{l-1}}\\
+&=\sum_{m=0}^{W-k_1} \sum_{n=0}^{H-k_2}\delta^{l}_{m,n}\cdot \dfrac{\partial z_{m,n}^l}{\partial a_{i,j}^{l-1}} \cdot \sigma'(z_{i,j}^{l-1})\\
+&=\sum_{m=0}^{W-k_1} \sum_{n=0}^{H-k_2}\delta^{l}_{m,n}\cdot \mathbf{W}_{i-m,j-n}\cdot \sigma'(z_{i,j}^{l-1})\\
+&=(\delta^{'l}*rot180(\mathbf{W}^{l}))_{i,j}\cdot \sigma'(z_{i,j}^{l-1})\\
+&=(\delta^{'l}*rot180(\mathbf{W}^{l})\odot \sigma'(z^{l-1})_{i,j}
+\end{aligned}</script><h2 id="池化层"><a href="#池化层" class="headerlink" title="池化层"></a>池化层</h2><p>池化层没有参数，因此我们只需要根据池化层的$\delta^l$推导出上一层的$\delta^{l-1}$。在反向传播中，我们首先将池化后的矩阵还原为原来矩阵大小，对于Max操作，我们需要将池化局域的值放在之前做前向传播算法得到最大值的位置。对于Average操作，我们需要将各个池化局域的值取平均后放在还原后的矩阵位置。这一操作叫做upsample。</p>
+<p>下面用例说明，首先在前向传播中，记录各池化局域的最大值位置，然后在反向传播中，根据对应位置放置对应值。在该层中，假设Padding=0，Stride=1。前向传播中的矩阵为如下：</p>
+<script type="math/tex; mode=display">
+\left( \begin{array}{ccc} 1&0&3&5 \\ 2&1& 2&0 \\ 0&3&4&5 \\ 5&0&2&1 \end{array} \right)</script><p>使用Max池化操作以后，矩阵为：</p>
+<script type="math/tex; mode=display">
+\left(\begin{array}{} 2&3&5 \\ 3&4&5 \\ 5&4&5 \end{array} \right)</script><p>反向传播还原后的矩阵为：</p>
+<script type="math/tex; mode=display">
+\left( \begin{array}{ccc} 0&0&3&5 \\ 2&0& 0&0 \\ 0&3&8&10 \\ 5&0&0&0 \end{array} \right)</script><p>注意，当Max反向传播时，当对应位置已有值时，则将存放值加上要置于的值，比如同一位置的4在两个池化局域中都是最大值，所以反向传播还原后的矩阵对应位置的值应该是4的两倍，即8。因此：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\delta^{l-1}&=\dfrac{\partial J}{\partial \mathbf{z}^{l-1}}=\dfrac{\partial J}{ \partial \mathbf{a}^{l-1}}\dfrac{\partial \mathbf{a}^{l-1}}{\partial \mathbf{z}^{l-1}}\\
+&=upsample(\delta^l)\odot\sigma'(\mathbf{z}^{l-1})
+\end{aligned}</script><h2 id="CNN反向算法总结"><a href="#CNN反向算法总结" class="headerlink" title="CNN反向算法总结"></a>CNN反向算法总结</h2><p>输入：$m$个图片,CNN层数$L$及各隐藏层的类型，对于卷积层，需要定义卷积核大小$K$，各卷积核的维度$F$，填充大小$P$，步幅$S$，对于池化层，需要定义池化操作（Max或Average），对于全连接层，需要定义激活函数，神经元大小。梯度迭代参数迭代步长$\alpha$,最大迭代次数$iter_Max$与停止迭代阈值$\epsilon$</p>
+<p>输出：CNN各隐藏层及输出层的权重$\mathbf{W}$和偏置$\mathbf{b}$</p>
+<p>1) 初始化各层的$\mathbf{W}$和$\mathbf{b}$<br>2) for iter from 1 to iter_Max<br>&nbsp;&nbsp;2-1. for i from 1 to m<br>&nbsp;　　&nbsp;a. 将CNN输入$\mathbf{a}_i^1$设置为$\mathbf{x}_i$对应的张量<br>&nbsp;　　&nbsp;b. for l from 2 to L<br>&nbsp;　　　　&nbsp;b-1. 如果当前是全连接层：则有$a_i^l=\sigma(\mathbf{z}_i^l)=\sigma(\mathbf{W}^l \mathbf{a}_i^{l-1}+\mathbf{b}^l)$<br>&nbsp;　　　　&nbsp;b-2. 如果当前是卷积层：则有$a_i^l=\sigma(\mathbf{z}_i^l)=\sigma(\mathbf{W}^l <em> \mathbf{a}_i^{l-1}+\mathbf{b}^l)$<br>&nbsp;　　　　&nbsp;b-3. 如果当前是池化层：则有$\mathbf{a}_i^l=pool(\mathbf{a}_i^{l-1})$<br>&nbsp;　　　　&nbsp;b-4. 对于输出层第L层:$a_i^{L}= softmax(z_i^L) = softmax(W^{L}a_i^{L-1}+b^{L})$<br>&nbsp;　　&nbsp;c. 通过损失函数计算输出层的$\delta^{i,L}$<br>&nbsp;　　&nbsp;d. for l from L to 3<br>&nbsp;　　　　&nbsp;d-1. 如果当前是全连接层：则有$\delta_i^{l-1}=(\mathbf{W}^{l+1})^T\delta_i^{l}\odot \sigma^{‘}(z_i^{l-1})$<br>&nbsp;　　　　&nbsp;d-2. 如果当前是卷积层：则有$\delta_i^{l-1}=\delta_i^{‘l}</em>rot180(\mathbf{W})\odot \sigma^{‘}(z_i^{l-1})$<br>&nbsp;　　　　&nbsp;d-3. 如果当前是池化层：则有$\delta_i^{l-1}=unsample(\delta_i^l)\odot \sigma^{‘}(z_i^{l-1})$<br>&nbsp;&nbsp;2-2. for l from 2 to L<br>&nbsp;　　&nbsp;a. 如果当前是全连接层：$\mathbf{W}^l=\mathbf{W}^l-\alpha\sum_{i=1}^m \delta_i^l(\mathbf{a}_i^{l-1})^T,\mathbf{b}=\mathbf{b}^l-\alpha\sum_{i=1}^m \delta_i^l$<br>&nbsp;　　&nbsp;b. 如果当前是卷积层：$\mathbf{W}^l=\mathbf{W}^l-\alpha\sum_{i=1}^m \delta_i^{‘l}*rot180(\mathbf{a}_i^{l-1}),\mathbf{b}=\mathbf{b}^l-\alpha\sum_{i=1}^m \sum_{u,v}(\delta_i^l)_{u,v}$<br>&nbsp;&nbsp;2-3. 如果所有$\mathbf{W},\mathbf{b}$的变化值都小于停止迭代阈值$\epsilon$，则跳出迭代循环到步骤3<br>&nbsp;&nbsp;3. 输出各隐藏层及输出层的权重$\mathbf{W}$和偏置$\mathbf{b}$</p>
+<p>参考文献：<br>[1] <a href="https://www.cnblogs.com/pinard/p/6494810.html#!comments" target="_blank" rel="noopener">卷积神经网络(CNN)反向传播算法</a><br>[2] <a href="https://qiankun214.github.io/2018/02/21/CNN%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD/" target="_blank" rel="noopener">CNN的反向传播</a><br>[3] <a href="https://www.cnblogs.com/makefile/p/pooling.html" target="_blank" rel="noopener">深度学习网络层之 Pooling</a></p>
 
       
 
@@ -231,7 +251,7 @@ h_j(\mathbf{x}^*)=0,~j=1,2,\cdots,l
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">深度学习</a>
         		</li>
       		
 		</ul>
@@ -287,7 +307,7 @@ h_j(\mathbf{x}^*)=0,~j=1,2,\cdots,l
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/07/02/LaprangeDuality/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/07/20/CNN/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -301,18 +321,18 @@ h_j(\mathbf{x}^*)=0,~j=1,2,\cdots,l
   
 <nav id="article-nav">
   
-    <a href="/2018/07/02/SVM/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/07/22/RNN/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          支持向量机
+          RNN
         
       </div>
     </a>
   
   
-    <a href="/2018/06/19/DecisionTree/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">DecisionTree</div>
+    <a href="/2018/07/12/DNN/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">DNN反向传播算法</div>
       <i class="icon-circle-right"></i>
     </a>
   

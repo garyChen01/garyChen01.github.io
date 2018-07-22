@@ -6,20 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>拉格朗日对偶性 | GaryChen的学习日志</title>
+  <title>RNN | GaryChen的学习日志</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="考虑如下约束最优化问题：       \begin{aligned} \min_{\mathbf{x}\in \mathbf{R}^n}&amp;{f(\mathbf{x})} \\ s.t.~&amp;c_i(\mathbf{x})\le 0,i=1,2,\cdots,k \\ &amp;h_j(\mathbf{x})=0,j=1,2,\cdots,l\end{aligned}我们称该最优化问题为原始最优化问题。注意，">
-<meta name="keywords" content="机器学习">
+  <meta name="description" content="循环神经网络前向与反向传播DNN和RNN只单独的处理每个输入，前一个输入与后一个输入之间没有关系。但有些任务需要能够更好的处理序列的信息，并且依赖序列信息能够更好的做出预测。比如词性标注问题，因为各个词性出现的位置是有关联的。循环神经网络(Recurrent Neural networks, 简称RNN)就是一个能够很好的处理序列信息的网络结构，它假设样本是基于序列的，假设样本是从序列1到序列$\">
+<meta name="keywords" content="深度学习">
 <meta property="og:type" content="article">
-<meta property="og:title" content="拉格朗日对偶性">
-<meta property="og:url" content="http://yoursite.com/2018/07/02/LaprangeDuality/index.html">
+<meta property="og:title" content="RNN">
+<meta property="og:url" content="http://yoursite.com/2018/07/22/RNN/index.html">
 <meta property="og:site_name" content="GaryChen的学习日志">
-<meta property="og:description" content="考虑如下约束最优化问题：       \begin{aligned} \min_{\mathbf{x}\in \mathbf{R}^n}&amp;{f(\mathbf{x})} \\ s.t.~&amp;c_i(\mathbf{x})\le 0,i=1,2,\cdots,k \\ &amp;h_j(\mathbf{x})=0,j=1,2,\cdots,l\end{aligned}我们称该最优化问题为原始最优化问题。注意，">
+<meta property="og:description" content="循环神经网络前向与反向传播DNN和RNN只单独的处理每个输入，前一个输入与后一个输入之间没有关系。但有些任务需要能够更好的处理序列的信息，并且依赖序列信息能够更好的做出预测。比如词性标注问题，因为各个词性出现的位置是有关联的。循环神经网络(Recurrent Neural networks, 简称RNN)就是一个能够很好的处理序列信息的网络结构，它假设样本是基于序列的，假设样本是从序列1到序列$\">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-07-03T13:56:10.151Z">
+<meta property="og:updated_time" content="2018-07-22T07:39:05.745Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="拉格朗日对偶性">
-<meta name="twitter:description" content="考虑如下约束最优化问题：       \begin{aligned} \min_{\mathbf{x}\in \mathbf{R}^n}&amp;{f(\mathbf{x})} \\ s.t.~&amp;c_i(\mathbf{x})\le 0,i=1,2,\cdots,k \\ &amp;h_j(\mathbf{x})=0,j=1,2,\cdots,l\end{aligned}我们称该最优化问题为原始最优化问题。注意，">
+<meta name="twitter:title" content="RNN">
+<meta name="twitter:description" content="循环神经网络前向与反向传播DNN和RNN只单独的处理每个输入，前一个输入与后一个输入之间没有关系。但有些任务需要能够更好的处理序列的信息，并且依赖序列信息能够更好的做出预测。比如词性标注问题，因为各个词性出现的位置是有关联的。循环神经网络(Recurrent Neural networks, 简称RNN)就是一个能够很好的处理序列信息的网络结构，它假设样本是基于序列的，假设样本是从序列1到序列$\">
   
     <link rel="alternative" href="/atom.xml" title="GaryChen的学习日志" type="application/atom+xml">
   
@@ -155,48 +155,59 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-LaprangeDuality" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-RNN" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      拉格朗日对偶性
+      RNN
     </h1>
   
 
         
-        <a href="/2018/07/02/LaprangeDuality/" class="archive-article-date">
-  	<time datetime="2018-07-02T08:01:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-02</time>
+        <a href="/2018/07/22/RNN/" class="archive-article-date">
+  	<time datetime="2018-07-22T07:37:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-22</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>考虑如下约束最优化问题：      </p>
-<script type="math/tex; mode=display">\begin{aligned} \min_{\mathbf{x}\in \mathbf{R}^n}&{f(\mathbf{x})} \\
-s.t.~&c_i(\mathbf{x})\le 0,i=1,2,\cdots,k \\
-&h_j(\mathbf{x})=0,j=1,2,\cdots,l\end{aligned}</script><p>我们称该最优化问题为原始最优化问题。注意，上式中$f(\mathbf{x}),c_i(\mathbf{x}),h_j(\mathbf{x})$是定义在$\mathbf{R}^n$上的连续可微函数。<br><a id="more"></a><br>我们引入广义拉格朗日函数：    </p>
-<script type="math/tex; mode=display">L(\mathbf{x},\mathbf{\alpha},\mathbf{\beta})=f(\mathbf{x})+\sum_i\alpha_ic_i(\mathbf{x})+\sum_j\beta_j h_j(\mathbf{x})</script><p>其中$\alpha_i \ge 0$，令其最大化的解表示为：     </p>
-<script type="math/tex; mode=display">\theta_P(\mathbf{x})=\max_{\alpha,\beta,\alpha_i \ge 0}{f(\mathbf{x})+\sum_i\alpha_i c_i(\mathbf{x})+\sum_j\beta_j h_j(\mathbf{x})}</script><p>注意，在$\theta_P(\mathbf{x})$中，$\mathbf{x}$为常数，所以对于所有满足约束最优问题的条件的$\mathbf{x}$，则有下式成立：    </p>
-<script type="math/tex; mode=display">\theta_P(\mathbf{x})=f(\mathbf{x})</script><p>这是显然的，因为在$\theta_P(\mathbf{x})$中，$\beta_j h_j(\mathbf{x})=0$恒成立，而对于$\alpha_ic_i(\mathbf{x})\le0$恒成立，使它最大化，则令$\alpha_i c_i(\mathbf{x})=0$。</p>
-<p>所以原始最优化问题转变为以下的无约束最优化问题。</p>
-<script type="math/tex; mode=display">\min_\mathbf{x} \theta_p(\mathbf{x})=\min_\mathbf{x}{\max_{\alpha,\beta,\alpha_i \ge 0}{f(\mathbf{x})+\sum_i\alpha_ic_i(\mathbf{x})+\sum_j\beta_j h_j(\mathbf{x})}}</script><p>这样，原始最优化问题表示为广义拉格朗日函数的极小极大问题。<br>定义:    </p>
-<script type="math/tex; mode=display">\theta_D(\mathbf{x})=\min_{\mathbf{x}}{L(\mathbf{x},\alpha,\beta)}</script><p>在考虑极大化$\theta_D(\mathbf{x})$,即   </p>
-<script type="math/tex; mode=display">\max_{\alpha,\beta,\alpha_i \ge 0}{\theta_D(\mathbf{x})}=\max_{\alpha,\beta,\alpha_i \ge 0}{\min_{\mathbf{x}}{L(\mathbf{x},\alpha,\beta)}}</script><p>以上即为原始问题的对偶问题。</p>
-<p>假设函数$f(\mathbf{x})$和$c_i(\mathbf{x})$是凸函数，$h_j(\mathbf{x})$为仿射函数，并且不等式约束$c_(\mathbf{x})$是严格可行的，则$\mathbf{x}^<em>,\alpha^</em>,\beta^<em>$分别为原始问题和对偶问题的解的充分必要条件是$\mathbf{x}^</em>,\alpha^<em>,\beta^</em>$满足下面的KKT条件：  </p>
+        <h2 id="循环神经网络前向与反向传播"><a href="#循环神经网络前向与反向传播" class="headerlink" title="循环神经网络前向与反向传播"></a>循环神经网络前向与反向传播</h2><p>DNN和RNN只单独的处理每个输入，前一个输入与后一个输入之间没有关系。但有些任务需要能够更好的处理序列的信息，并且依赖序列信息能够更好的做出预测。比如词性标注问题，因为各个词性出现的位置是有关联的。循环神经网络(Recurrent Neural networks, 简称RNN)就是一个能够很好的处理序列信息的网络结构，它假设样本是基于序列的，假设样本是从序列1到序列$\tau$,其中对于每个样本$\tau$都可以是不同的。RNN有很多变种，在这里我们简述最简单的RNN，该RNN假设对于其中的序列索引号$t$，它对应的输入为$\mathbf{x}^t$，而模型在序列$t$的隐藏状态为$\mathbf{h}^t$，该状态由当前位置的输入$\mathbf{x}^t$和上一个位置的隐藏状态$\mathbf{h}^{t-1}$决定。在任意的序列索引号$t$，都有对应的输出$\mathbf{o}^{t}$。通过预测输出$\mathbf{o}^{t}$和真实输出$\mathbf{y}^t$以及损失函数$L^t$，我们可以用DNN类似的方法来训练模型。</p>
+<h3 id="前向传播"><a href="#前向传播" class="headerlink" title="前向传播"></a>前向传播</h3><p>输出层为全连接层，因此它的前向传播计算方式为：</p>
+<script type="math/tex; mode=display">\mathbf{y}^t=f(\mathbf{o}^{t})=f(\mathbf{V}\mathbf{h}^t+\mathbf{b})</script><p>而隐藏层是一个循环层，即它的值不仅仅受对应序列索引号的输入影响，而且还受前一个序列索引号的隐藏层的值的影响，即它的前向传播计算公式为：</p>
 <script type="math/tex; mode=display">
 \begin{aligned}
-\nabla_\mathbf{x}L(\mathbf{x}^*,\alpha^*,\beta^*)=0 \\
-\nabla_\alpha L(\mathbf{x}^*,\alpha^*,\beta^*)=0 \\
-\nabla_\beta L(\mathbf{x}^*,\alpha^*,\beta^*)=0 \\
- \alpha_i^*c_i(\mathbf{x}^*)=0,~i=1,2,\cdots,k\\
- c_i(\mathbf{x}^*)\le 0,~i=1,2,\cdots,k\\
- \alpha^*\ge 0,~i=1,2,\cdots,k\\
-h_j(\mathbf{x}^*)=0,~j=1,2,\cdots,l
-\end{aligned}</script><p>参考文献：<br>[1] 统计学习方法-附录C 拉格朗日对偶性</p>
+\mathbf{h}^t&=g(\mathbf{z}^t)=g(\mathbf{U}\mathbf{x}^t+\mathbf{W}\mathbf{h}^{t-1}+\mathbf{c})
+\end{aligned}</script><p>在以上的两个式子中，$f^t,g^t$为激活函数，并且我们注意到权重$\mathbf{W},\mathbf{V},\mathbf{U}$和偏置$\mathbf{b},\mathbf{c}$是与序列无关的，也就是说在整个网络中，他们是共享的。我们把上式代入全连接层的计算中，即</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\mathbf{y}^{t}&=f(\mathbf{b}+\mathbf{V}\mathbf{h}^t)\\
+&=f(\mathbf{b}+\mathbf{V}g(\mathbf{c}+\mathbf{U}\mathbf{x}^t+\mathbf{W}\mathbf{h}^{t-1}))\\
+&=f(\mathbf{b}+\mathbf{V}g(\mathbf{c}+\mathbf{U}\mathbf{x}^t+\mathbf{W}g(\mathbf{c}+\mathbf{U}\mathbf{x}^{t-1}+\mathbf{W}\mathbf{h}^{t-2})))\\
+&=f(\mathbf{b}+\mathbf{V}g(\mathbf{c}+\mathbf{U}\mathbf{x}^t+\mathbf{W}g(\mathbf{c}+\mathbf{U}\mathbf{x}^{t-1}+\mathbf{W}g(\mathbf{c}+\mathbf{U}\mathbf{x}^{t-2}+\cdots))))
+\end{aligned}</script><p>从上式可以看到输出$\mathbf{o}^t$不仅仅受该序列索引号的输入的影响，而且还受前$t-1$个序列索引号的输入的影响，这也是为什么循环神经网络具备记忆能力的原因。</p>
+<h3 id="反向传播"><a href="#反向传播" class="headerlink" title="反向传播"></a>反向传播</h3><p>基于时间反向传播(back-propagation through time，简称BPTT)是针对RNN的训练算法。我们定义序列索引$t$位置的隐藏状态的梯度为</p>
+<script type="math/tex; mode=display">
+\delta^{t}=\dfrac{\partial L}{\partial \mathbf{h}^{t}}</script><p>其中</p>
+<script type="math/tex; mode=display">
+L=\sum_t^\tau L^{t}</script><p>其中$\mathbf{V},\mathbf{c}$的梯度计算相对简单，与DNN一样，即为</p>
+<script type="math/tex; mode=display">\dfrac{\partial L}{\partial \mathbf{b}}=\sum_{t=1}^\tau \dfrac{\partial L^t}{\partial \mathbf{b}}=\sum_{t=1}^\tau L^{t'}\odot f^{'}</script><script type="math/tex; mode=display">\dfrac{\partial L}{\partial \mathbf{V}}=\sum_{t=1}^\tau \dfrac{\partial L^t}{\partial \mathbf{V}}=\sum_{t=1}^\tau L^{t'}\odot f^{'} (\mathbf{h}^t)^T</script><p>其中$L^{t’}$是序列索引号$t$位置的损失函数$L^t$关于预测值$\mathbf{y}^t$的导数,$f^{‘}$是输出层激活函数关于$\mathbf{o}^t$的导数，在这里我们假设所有输出层的激活函数都统一。</p>
+<p>定义$\mathbf{z}^t=\mathbf{U}\mathbf{x}^t+\mathbf{W}\mathbf{h}^{t-1}+\mathbf{c}$，所以序列索引号为$t$的位置的隐藏状态的梯度$\delta^t$为：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\delta^t&=\dfrac{\partial L}{\partial \mathbf{h}^t}=\dfrac{\partial L}{\partial \mathbf{o}^t}\dfrac{\partial \mathbf{o}^t}{\partial \mathbf{h}^t} + \dfrac{\partial L}{\partial \mathbf{h}^{t+1}}\dfrac{\partial \mathbf{h}^{t+1}}{\partial \mathbf{h}^t}\\
+&=\mathbf{V}^T L^{t'} \odot f'+\mathbf{W}^T\delta^{t+1}\odot g'\\
+\end{aligned}</script><p>在上式中，我们将哈达马乘积$\odot$转换为矩阵乘法。对于$t=\tau$,由于其后没有序列索引，所以</p>
+<script type="math/tex; mode=display">
+\delta^\tau=\mathbf{V}^T L^{\tau'} \odot f'</script><p>与DNN的反向传播类似，根据$\delta_t$，我们可以求得</p>
+<script type="math/tex; mode=display">
+\dfrac{\partial L}{\partial \mathbf{W}} =  \sum_{t=1}^\tau \dfrac{\partial L^t}{\partial \mathbf{h}^t} \frac{\partial \mathbf{h}^t}{\partial \mathbf{W}} = \sum_{t=1}^{\tau}\delta^t \odot g' (h^{t-1})^T</script><script type="math/tex; mode=display">
+\dfrac{\partial L}{\partial \mathbf{U}} =  \sum_{t=1}^\tau \dfrac{\partial L^t}{\partial \mathbf{h}^t} \frac{\partial \mathbf{h}^t}{\partial \mathbf{U}}  = \sum_{t=1}^{\tau}\delta^t \odot g' (\mathbf{x}^{t})^T</script><script type="math/tex; mode=display">
+\dfrac{\partial L}{\partial \mathbf{b}} =  \sum_{t=1}^\tau \dfrac{\partial L^t}{\partial \mathbf{h}^t} \frac{\partial \mathbf{h}^t}{\partial \mathbf{b}}  = \sum_{t=1}^{\tau}\delta^t \odot g'</script><p>ok，现在我们已知各参数的更新方法，那我现在探讨一下梯度爆炸和梯度消失的问题，其实只要是在深度神经网络中，根据链式法则，就会出现梯度累乘。当网络深度够深，这样只要累乘的梯度大于1，即会导致传递到前面的梯度过大，出现梯度爆炸问题，当累乘的梯度小于1，即会导致传递到前面的梯度过小，出现梯度消失问题。在RNN中，神经网络的深度等价于RNN的宽度（即序列的长度）。</p>
+<p>参考文献：<br>[1] <a href="https://www.cnblogs.com/pinard/p/6509630.html" target="_blank" rel="noopener">循环神经网络(RNN)模型与前向反向传播算法</a><br>[2] <a href="https://zybuluo.com/hanbingtao/note/541458" target="_blank" rel="noopener">零基础入门深度学习(5) - 循环神经网络</a></p>
 
       
 
@@ -231,7 +242,7 @@ h_j(\mathbf{x}^*)=0,~j=1,2,\cdots,l
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">深度学习</a>
         		</li>
       		
 		</ul>
@@ -287,7 +298,7 @@ h_j(\mathbf{x}^*)=0,~j=1,2,\cdots,l
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/07/02/LaprangeDuality/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/07/22/RNN/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -301,18 +312,9 @@ h_j(\mathbf{x}^*)=0,~j=1,2,\cdots,l
   
 <nav id="article-nav">
   
-    <a href="/2018/07/02/SVM/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          支持向量机
-        
-      </div>
-    </a>
   
-  
-    <a href="/2018/06/19/DecisionTree/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">DecisionTree</div>
+    <a href="/2018/07/20/CNN/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">CNN</div>
       <i class="icon-circle-right"></i>
     </a>
   
