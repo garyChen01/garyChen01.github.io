@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="GaryChen的学习日志">
 <meta property="og:description" content="循环神经网络前向与反向传播DNN和RNN只单独的处理每个输入，前一个输入与后一个输入之间没有关系。但有些任务需要能够更好的处理序列的信息，并且依赖序列信息能够更好的做出预测。比如词性标注问题，因为各个词性出现的位置是有关联的。循环神经网络(Recurrent Neural networks, 简称RNN)就是一个能够很好的处理序列信息的网络结构，它假设样本是基于序列的，假设样本是从序列1到序列$\">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-07-22T07:39:05.745Z">
+<meta property="og:updated_time" content="2018-07-22T07:40:07.893Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RNN">
 <meta name="twitter:description" content="循环神经网络前向与反向传播DNN和RNN只单独的处理每个输入，前一个输入与后一个输入之间没有关系。但有些任务需要能够更好的处理序列的信息，并且依赖序列信息能够更好的做出预测。比如词性标注问题，因为各个词性出现的位置是有关联的。循环神经网络(Recurrent Neural networks, 简称RNN)就是一个能够很好的处理序列信息的网络结构，它假设样本是基于序列的，假设样本是从序列1到序列$\">
@@ -175,7 +175,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="循环神经网络前向与反向传播"><a href="#循环神经网络前向与反向传播" class="headerlink" title="循环神经网络前向与反向传播"></a>循环神经网络前向与反向传播</h2><p>DNN和RNN只单独的处理每个输入，前一个输入与后一个输入之间没有关系。但有些任务需要能够更好的处理序列的信息，并且依赖序列信息能够更好的做出预测。比如词性标注问题，因为各个词性出现的位置是有关联的。循环神经网络(Recurrent Neural networks, 简称RNN)就是一个能够很好的处理序列信息的网络结构，它假设样本是基于序列的，假设样本是从序列1到序列$\tau$,其中对于每个样本$\tau$都可以是不同的。RNN有很多变种，在这里我们简述最简单的RNN，该RNN假设对于其中的序列索引号$t$，它对应的输入为$\mathbf{x}^t$，而模型在序列$t$的隐藏状态为$\mathbf{h}^t$，该状态由当前位置的输入$\mathbf{x}^t$和上一个位置的隐藏状态$\mathbf{h}^{t-1}$决定。在任意的序列索引号$t$，都有对应的输出$\mathbf{o}^{t}$。通过预测输出$\mathbf{o}^{t}$和真实输出$\mathbf{y}^t$以及损失函数$L^t$，我们可以用DNN类似的方法来训练模型。</p>
+        <h2 id="循环神经网络前向与反向传播"><a href="#循环神经网络前向与反向传播" class="headerlink" title="循环神经网络前向与反向传播"></a>循环神经网络前向与反向传播</h2><p>DNN和RNN只单独的处理每个输入，前一个输入与后一个输入之间没有关系。但有些任务需要能够更好的处理序列的信息，并且依赖序列信息能够更好的做出预测。比如词性标注问题，因为各个词性出现的位置是有关联的。循环神经网络(Recurrent Neural networks, 简称RNN)就是一个能够很好的处理序列信息的网络结构，它假设样本是基于序列的，假设样本是从序列1到序列$\tau$,其中对于每个样本$\tau$都可以是不同的。RNN有很多变种，在这里我们简述最简单的RNN，该RNN假设对于其中的序列索引号$t$，它对应的输入为$\mathbf{x}^t$，而模型在序列$t$的隐藏状态为$\mathbf{h}^t$，该状态由当前位置的输入$\mathbf{x}^t$和上一个位置的隐藏状态$\mathbf{h}^{t-1}$决定。在任意的序列索引号$t$，都有对应的输出$\mathbf{o}^{t}$。通过预测输出$\mathbf{o}^{t}$和真实输出$\mathbf{y}^t$以及损失函数$L^t$，我们可以用DNN类似的方法来训练模型。<br><a id="more"></a></p>
 <h3 id="前向传播"><a href="#前向传播" class="headerlink" title="前向传播"></a>前向传播</h3><p>输出层为全连接层，因此它的前向传播计算方式为：</p>
 <script type="math/tex; mode=display">\mathbf{y}^t=f(\mathbf{o}^{t})=f(\mathbf{V}\mathbf{h}^t+\mathbf{b})</script><p>而隐藏层是一个循环层，即它的值不仅仅受对应序列索引号的输入影响，而且还受前一个序列索引号的隐藏层的值的影响，即它的前向传播计算公式为：</p>
 <script type="math/tex; mode=display">
