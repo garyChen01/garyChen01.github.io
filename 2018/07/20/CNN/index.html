@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="GaryChen的学习日志">
 <meta property="og:description" content="卷积神经网络的反向传播算法先简单介绍一下卷积神经网络，通常卷积神经网络有三种层级-卷积层，池化层和全连接层，其中全连接层就是DNN的结构，只是最后一层的激活函数使用了Softmax来做图像的分类。 卷积层假设卷积层的输入为$\mathbf{a}^{l-1}\in \mathcal{R}^{W\times H}$，其中$W$表示图片的宽度，$H$表示图片的高度。在该层，我们有$D$个卷积核，每个卷积">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-07-30T13:52:59.116Z">
+<meta property="og:updated_time" content="2018-07-30T14:58:37.149Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CNN">
 <meta name="twitter:description" content="卷积神经网络的反向传播算法先简单介绍一下卷积神经网络，通常卷积神经网络有三种层级-卷积层，池化层和全连接层，其中全连接层就是DNN的结构，只是最后一层的激活函数使用了Softmax来做图像的分类。 卷积层假设卷积层的输入为$\mathbf{a}^{l-1}\in \mathcal{R}^{W\times H}$，其中$W$表示图片的宽度，$H$表示图片的高度。在该层，我们有$D$个卷积核，每个卷积">
@@ -201,7 +201,7 @@ a_{i,j}^{l}=\sigma (z_{i,j}^{l}) = \sigma((\mathbf{a}^{l-1}*\mathbf{W}^l+b)_{i,j
 &=\sum_{m=0}^{W-k_1} \sum_{n=0}^{H-k_2}\delta^{l}_{m,n}\cdot \mathbf{W}_{i-m,j-n}\cdot \sigma'(z_{i,j}^{l-1})\\
 &=(\delta^{'l}*rot180(\mathbf{W}^{l}))_{i,j}\cdot \sigma'(z_{i,j}^{l-1})\\
 &=(\delta^{'l}*rot180(\mathbf{W}^{l})\odot \sigma'(z^{l-1})_{i,j}
-\end{aligned}</script><p>在CNN中，一般卷积核设置为奇数*奇数，因为奇数相对于偶数，有中心点，对边沿、对线条更加敏感，可以更有效的提取边沿信息。</p>
+\end{aligned}</script><p>在CNN中，一般卷积核设置为奇数*奇数，因为奇数相对于偶数，有中心点，对边沿、对线条更加敏感，可以更有效的提取边沿信息，并且保证了 padding时，图像的两边依然相对称。</p>
 <h2 id="池化层"><a href="#池化层" class="headerlink" title="池化层"></a>池化层</h2><p>池化层没有参数，因此我们只需要根据池化层的$\delta^l$推导出上一层的$\delta^{l-1}$。在反向传播中，我们首先将池化后的矩阵还原为原来矩阵大小，对于Max操作，我们需要将池化局域的值放在之前做前向传播算法得到最大值的位置。对于Average操作，我们需要将各个池化局域的值取平均后放在还原后的矩阵位置。这一操作叫做upsample。</p>
 <p>下面用例说明，首先在前向传播中，记录各池化局域的最大值位置，然后在反向传播中，根据对应位置放置对应值。在该层中，假设Padding=0，Stride=1。前向传播中的矩阵为如下：</p>
 <script type="math/tex; mode=display">
