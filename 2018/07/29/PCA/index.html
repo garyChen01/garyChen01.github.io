@@ -6,20 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Generalized Linear Models | GaryChen的学习日志</title>
+  <title>PCA | GaryChen的学习日志</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="指数族分布如果一个分布可以写成下面的形式，则可以称该分布是指数族分布：     p(y)=b(y)\exp(\eta^T T(y)-a(\eta))其中$\eta$被称为分布的自然参数(natural parameter)，$b(y)$被称为底层观测量(underlying measure)，$T(y)$被称为充分统计量(sufficient statistic)，在通常的分布中，$T(y)=y$">
-<meta name="keywords" content="机器学习">
+  <meta name="description" content="主成分分析(Principal components analysis,简称PCA)顾名思义，即找出数据里最主要的方面，用数据里最主要的方面来代替原始数据。具体的，假如我们的数据维度为$n$，则我们希望将数据的维度降到$n’$,并希望该数据尽可能的代表原数据集。当然这样的维度下降必然会导致部分信息的损失，但这种损失是必要的，因为舍弃这部分信息之后使得样本的采样密度增大，这正是降维的重要动机，此外，">
+<meta name="keywords" content="机器学习,聚类">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Generalized Linear Models">
-<meta property="og:url" content="http://yoursite.com/2018/05/10/GLM/index.html">
+<meta property="og:title" content="PCA">
+<meta property="og:url" content="http://yoursite.com/2018/07/29/PCA/index.html">
 <meta property="og:site_name" content="GaryChen的学习日志">
-<meta property="og:description" content="指数族分布如果一个分布可以写成下面的形式，则可以称该分布是指数族分布：     p(y)=b(y)\exp(\eta^T T(y)-a(\eta))其中$\eta$被称为分布的自然参数(natural parameter)，$b(y)$被称为底层观测量(underlying measure)，$T(y)$被称为充分统计量(sufficient statistic)，在通常的分布中，$T(y)=y$">
+<meta property="og:description" content="主成分分析(Principal components analysis,简称PCA)顾名思义，即找出数据里最主要的方面，用数据里最主要的方面来代替原始数据。具体的，假如我们的数据维度为$n$，则我们希望将数据的维度降到$n’$,并希望该数据尽可能的代表原数据集。当然这样的维度下降必然会导致部分信息的损失，但这种损失是必要的，因为舍弃这部分信息之后使得样本的采样密度增大，这正是降维的重要动机，此外，">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-05-11T08:06:24.421Z">
+<meta property="og:updated_time" content="2018-07-30T09:02:03.252Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Generalized Linear Models">
-<meta name="twitter:description" content="指数族分布如果一个分布可以写成下面的形式，则可以称该分布是指数族分布：     p(y)=b(y)\exp(\eta^T T(y)-a(\eta))其中$\eta$被称为分布的自然参数(natural parameter)，$b(y)$被称为底层观测量(underlying measure)，$T(y)$被称为充分统计量(sufficient statistic)，在通常的分布中，$T(y)=y$">
+<meta name="twitter:title" content="PCA">
+<meta name="twitter:description" content="主成分分析(Principal components analysis,简称PCA)顾名思义，即找出数据里最主要的方面，用数据里最主要的方面来代替原始数据。具体的，假如我们的数据维度为$n$，则我们希望将数据的维度降到$n’$,并希望该数据尽可能的代表原数据集。当然这样的维度下降必然会导致部分信息的损失，但这种损失是必要的，因为舍弃这部分信息之后使得样本的采样密度增大，这正是降维的重要动机，此外，">
   
     <link rel="alternative" href="/atom.xml" title="GaryChen的学习日志" type="application/atom+xml">
   
@@ -155,70 +155,92 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-GLM" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-PCA" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Generalized Linear Models
+      PCA
     </h1>
   
 
         
-        <a href="/2018/05/10/GLM/" class="archive-article-date">
-  	<time datetime="2018-05-10T13:46:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-10</time>
+        <a href="/2018/07/29/PCA/" class="archive-article-date">
+  	<time datetime="2018-07-29T02:22:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-29</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="指数族分布"><a href="#指数族分布" class="headerlink" title="指数族分布"></a>指数族分布</h2><p>如果一个分布可以写成下面的形式，则可以称该分布是指数族分布：    </p>
-<script type="math/tex; mode=display">p(y)=b(y)\exp(\eta^T T(y)-a(\eta))</script><p>其中$\eta$被称为分布的自然参数(natural parameter)，$b(y)$被称为底层观测量(underlying measure)，$T(y)$被称为充分统计量(sufficient statistic)，在通常的分布中，$T(y)=y$，$a(\eta)$被称为对数规则化(log normalizer)，其使得$p(y,\mu)$对$y$的积分为1。</p>
-<a id="more"></a>
-<h2 id="Generalized-Linear-Models（GLM）"><a href="#Generalized-Linear-Models（GLM）" class="headerlink" title="Generalized Linear Models（GLM）"></a>Generalized Linear Models（GLM）</h2><p>GLM有三个假设：   </p>
-<ol>
-<li>$y|x,\theta \backsim ExponentialFamily(y)$。对于给定$x,\theta$的情况下,$y$的分布服从参数$\eta$的一些指数族分布。    </li>
-<li>给定$x$，我们的目标是预测$T(y)$的期望。在多数情况下，我们会有$T(y)=y$，这也意味着我们的预测函数$h(x)=E(T(y)|x)=E(y|x)$。</li>
-<li>自然参数$\eta$与输入$x$是线性关系:$\eta=\theta^Tx$</li>
-</ol>
-<p>下面我们可以根据GLM与指数族分布推导出线性回归与逻辑回归。</p>
-<h3 id="线性回归"><a href="#线性回归" class="headerlink" title="线性回归"></a>线性回归</h3><p>在线性回归中，我们假设在给定$x$的情况下，$y$满足高斯分布$\mathcal{N}(\mu,\sigma^2)$，之前在极大似然估计来推导时，我们知道$\sigma$的取值不影响模型的学习，所以为了简便，这里设置$\sigma=1$，则</p>
+        <p>主成分分析(Principal components analysis,简称PCA)顾名思义，即找出数据里最主要的方面，用数据里最主要的方面来代替原始数据。具体的，假如我们的数据维度为$n$，则我们希望将数据的维度降到$n’$,并希望该数据尽可能的代表原数据集。当然这样的维度下降必然会导致部分信息的损失，但这种损失是必要的，因为舍弃这部分信息之后使得样本的采样密度增大，这正是降维的重要动机，此外，当数据受到噪声影响时，舍弃的那部分信息往往能起到一定的去噪的效果，因为最小的特征值所对应的特征向量往往与噪声有关。<br><a id="more"></a></p>
+<h2 id="PCA思想及推导"><a href="#PCA思想及推导" class="headerlink" title="PCA思想及推导"></a>PCA思想及推导</h2><p>PCA的思想就是使得样本点在投影后尽可能地分开也就是说方差尽可能地大。基于该标准，我们可以推导出PCA。</p>
+<p>已知$m$个样本集$(\mathbf{x}_1,\mathbf{x}_2,\cdots,\mathbf{x}_m)$，该样本集的平均值为$\bar{\mathbf{x}}$，先假设找到一个坐标轴$\mathbf{w}_1$，样本集投影到该坐标轴的坐标为$w_1,w_2,\cdots,w_m$，因此，根据PCA的思想，我们使得投影后的坐标的方差尽可能地大，即</p>
 <script type="math/tex; mode=display">
 \begin{aligned}
-p(y)&=\dfrac{1}{\sqrt{2\pi}}\exp(-\dfrac{1}{2}(y-\mu)^2) \\
-&=\dfrac{1}{\sqrt{2\pi}}exp(-y^2)\cdot\exp(\mu y-\dfrac{1}{2}\mu^2)
-\end{aligned}</script><p>则</p>
+&\max \dfrac{1}{m}\sum_{i=1}^m (\mathbf{w}_1^T \mathbf{x}_i-\dfrac{1}{m} \sum_{i=1}^m \mathbf{w}_1^T \mathbf{x}_i)^2\\
+=&\max\sum_{i=1}^m [\mathbf{w}_1^T (\mathbf{x}_i-\dfrac{1}{m} \sum_{i=1}^m  \mathbf{x}_i)]^2\\
+=&\max  \sum_{i=1}^m(\mathbf{w}_1^T (\mathbf{x}_i-\bar{\mathbf{x}}))(\mathbf{w}_1^T (\mathbf{x}_i-\bar{\mathbf{x}}))\\
+=& \max  \sum_{i=1}^m (\mathbf{w}_1^T (\mathbf{x}_i-\bar{\mathbf{x}}))(\mathbf{w}_1^T (\mathbf{x}_i-\bar{\mathbf{x}}))^T\\
+=& \max \mathbf{w}_1^T [\sum_{i=1}^m (\mathbf{x}_i-\bar{\mathbf{x}})(\mathbf{x}_i-\bar{\mathbf{x}})^T]\mathbf{w}_1 \\
+=& \max \mathbf{w}_1^T Conv(\mathbf{x}) \mathbf{w}_1\\
+=& \max \mathbf{w}_1^T \mathbf{S} \mathbf{w}_1
+\end{aligned}</script><p>注意，上式$\mathbf{w}_1^T (\mathbf{x}_i-\bar{\mathbf{x}})$为一维数组，所以其转置为自身。根据上式可以看出，我们只需要最大化$\mathbf{w}_1^T \mathbf{S} \mathbf{w}_1$即可，当$\mathbf{w}_1$不加约束时，只需令$\mathbf{w}_1$趋于无穷即可，所以我们在这里给其增加约束，使得$||\mathbf{w}_1||_2=\mathbf{w}_1^T \mathbf{w}_1=1$。根据拉格朗日乘子法，可得拉格朗日函数：</p>
+<script type="math/tex; mode=display">g(\mathbf{w}_1)=\mathbf{w}_1^T \mathbf{S} \mathbf{w}_1-\alpha(\mathbf{w}_1^T \mathbf{w}_1-1)</script><p>对其求导可得：</p>
+<script type="math/tex; mode=display">
+\dfrac{\partial g(\mathbf{w}_1)}{\partial \mathbf{w}_1}=2\mathbf{S}\mathbf{w}_1-2\alpha\mathbf{w}_1=0</script><p>从上式可以看出，$\alpha$和$\mathbf{w}_1$分别为$\mathbf{S}$的特征值和特征向量。所以目标函数可转换为：</p>
 <script type="math/tex; mode=display">
 \begin{aligned}
-\eta&=\mu\\
-T(y)&=y\\
-b(y)&=\dfrac{1}{\sqrt{2\pi}}exp(-y^2)\\
-a(\eta)&=\dfrac{1}{2}\mu^2
-\end{aligned}</script><p>而$h(x)$为$T(y)$的期望，即<br>$h(x)=E(T(y)|x)=E(y|x)=\mu$<br>在GLM的第三个假设中$\eta=\theta^Tx$，则预测函数为：    </p>
-<script type="math/tex; mode=display">h(x)=\mu=\eta=\theta^Tx</script><h3 id="逻辑回归"><a href="#逻辑回归" class="headerlink" title="逻辑回归"></a>逻辑回归</h3><p>在逻辑回归中，我们假设$y|x,\theta$服从伯努利分布$Bernouli(\phi)$，则   </p>
+&\max  \mathbf{w}_1^T \mathbf{S} \mathbf{w}_1\\
+=&\max \mathbf{w}_1^T \alpha \mathbf{w}_1\\
+=&\max \alpha \mathbf{w}_1^T \mathbf{w}_1\\
+=& \max \alpha 
+\end{aligned}</script><p>从转换后的目标函数可以看出，我们只需选择最大的特征值即可。先求另一个坐标轴$\mathbf{w}_2$，同样的，我们也是使得各样本在坐标轴上的方差尽可能地大，即</p>
+<script type="math/tex; mode=display">
+\max \mathbf{w}_2^T \mathbf{S} \mathbf{w}_2</script><p>当然，如不加任何约束，只需令$\mathbf{w}_2$为$\mathbf{S}$的最大特征值对应地特征向量，即可使上式最大化，但这样，就与坐标轴$\mathbf{w}_1$一致，这样的坐标轴也是没意义的，所以我们令$\mathbf{w}_1^T \mathbf{w}_2=0$，即各坐标轴正交。这样目标函数即为：</p>
 <script type="math/tex; mode=display">
 \begin{aligned}
-p(y)&=\phi^y\cdot(1-\phi)^{1-y}\\
-&= \exp(y\log(\dfrac{\phi}{1-\phi})+\log(1-\phi))
-\end{aligned}</script><p>则</p>
+\max ~& \mathbf{w}_2^T \mathbf{S} \mathbf{w}_2 \\
+s.t. ~&\mathbf{w}_1^T \mathbf{w}_2=0\\
+&\mathbf{w}_2^T \mathbf{w}_2 = 1
+\end{aligned}</script><p>和之前一样，建立拉格朗日函数：</p>
+<script type="math/tex; mode=display">
+g(\mathbf{w}_2)=\mathbf{w}_2^T \mathbf{S} \mathbf{w}_2-\alpha(\mathbf{w}_2^T \mathbf{w}_2-1)-\beta \mathbf{w}_1^T \mathbf{w}_2</script><p>求导，令导数为0。</p>
 <script type="math/tex; mode=display">
 \begin{aligned}
-\eta&=\log(\dfrac{\phi}{1-\phi})\\
-T(y)&=y\\
-b(y)&=1\\
-a(\eta)&=\log(1-\phi)
-\end{aligned}</script><p>预测函数为：    </p>
+\dfrac{\partial g(\mathbf{w}_2)}{\partial \mathbf{w}_2}&=2 \mathbf{S} \mathbf{w}_2-2\alpha \mathbf{w}_2-\beta\mathbf{w}_1=0\\
+&=\mathbf{w}_1^T(2 \mathbf{S} \mathbf{w}_2-2 \alpha \mathbf{w}_2-\beta\mathbf{w}_1)\\
+&=\mathbf{w}_1^T \mathbf{S} \mathbf{w}_2- \alpha \mathbf{w}_1^T \mathbf{w}_2-\dfrac{\beta}{2} \mathbf{w}_1^T \mathbf{w}_1\\
+&=(\mathbf{w}_1^T \mathbf{S} \mathbf{w}_2)^T-0-\dfrac{\beta}{2} \\
+&=\mathbf{w}_2^T \mathbf{S}^T \mathbf{w}_1-\dfrac{\beta}{2}\\
+&=\mathbf{w}_2^T \lambda_1 \mathbf{w}_1-\dfrac{\beta}{2}\\
+&=0-\dfrac{\beta}{2}\\
+&=0
+\end{aligned}</script><p>从上式可以求得，$\beta=0$,注意，同样的，因为$\mathbf{w}_1^T \mathbf{S} \mathbf{w}_2$是一维矩阵，所以可以任意转置。并且上步我们求得了$\mathbf{S}\mathbf{w}_1^T=\lambda_1 \mathbf{w}_1$，其中$\lambda_1$为$\mathbf{S}$最大的特征值。所以拉格朗日函数的导数可表示为：</p>
 <script type="math/tex; mode=display">
 \begin{aligned}
-h(x)&=E(y|x)\\
-&=\phi\\
-&=\dfrac{1}{1+e^{-\eta}}\\
-&= \dfrac{1}{1+e^{-\theta^Tx}}
-\end{aligned}</script><p>从这里也可以解释，为什么逻辑回归会使用Sigmoid作为映射函数。     </p>
-<p>参考文档：<br>指数族分布：<br><a href="https://blog.csdn.net/saltriver/article/details/55105285" target="_blank" rel="noopener">https://blog.csdn.net/saltriver/article/details/55105285</a><br>吴恩达cs229机器学习原始讲义note1—Generalized Linear Models</p>
+\dfrac{\partial g(\mathbf{w}_2)}{\partial \mathbf{w}_2}&= 2 \mathbf{S} \mathbf{w}_2-2\alpha \mathbf{w}_2-\beta\mathbf{w}_1\\
+&=\mathbf{S} \mathbf{w}_2-\alpha \mathbf{w}_2\\
+&=0
+ \end{aligned}</script><p>所以</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+&\max  \mathbf{w}_2^T \mathbf{S} \mathbf{w}_2\\
+=&\max \mathbf{w}_2^T \alpha \mathbf{w}_2\\
+=&\max \alpha \mathbf{w}_2^T \mathbf{w}_2\\
+=& \max \alpha 
+\end{aligned}</script><p>所以只需令$\alpha$最大即可，又因为$\mathbf{w}_1$为$\mathbf{S}$的最大特征值对应地特征向量，所以$\mathbf{w}_2$只能为$\mathbf{S}$的第二大特征值对应地特征向量。依次类推，可以分别推导出$\mathbf{w}_i$为$\mathbf{S}$的第$i$大的特征值对应的特征向量。</p>
+<p>从上面的推导可以看出样本$\mathbf{x}_i$的$n$维的主成分其实就是中心化的$\mathbf{X}\mathbf{X}^T$的前$n$个特征值对应的特征向量。</p>
+<p>PCA算法的主要优点有：</p>
+<p>1）仅仅需要以方差衡量信息量，不受数据集以外的因素影响。　</p>
+<p>2）各主成分之间正交，可消除原始数据成分间的相互影响的因素。</p>
+<p>3）计算方法简单，主要运算是特征值分解，易于实现。</p>
+<p>PCA算法的主要缺点有：</p>
+<p>1）主成分各个特征维度的含义具有一定的模糊性，不如原始样本特征的解释性强。</p>
+<p>2）方差小的非主成分也可能含有对样本差异的重要信息，因降维丢弃可能对后续数据处理有影响。</p>
+<p>参考文献：<br>[1] <a href="http://speech.ee.ntu.edu.tw/~tlkagk/courses_ML16.html" target="_blank" rel="noopener">Unsupervised Learning: Principle Component Analysis-李宏毅</a><br>[2] <a href="https://www.cnblogs.com/pinard/p/6239403.html" target="_blank" rel="noopener">主成分分析（PCA）原理总结</a><br>[3] 机器学习-周志华</p>
 
       
 
@@ -254,6 +276,10 @@ h(x)&=E(y|x)\\
 			 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">聚类</a>
         		</li>
       		
 		</ul>
@@ -309,7 +335,7 @@ h(x)&=E(y|x)\\
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/05/10/GLM/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/07/29/PCA/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -323,18 +349,9 @@ h(x)&=E(y|x)\\
   
 <nav id="article-nav">
   
-    <a href="/2018/05/11/KNN/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          KNN
-        
-      </div>
-    </a>
   
-  
-    <a href="/2018/05/09/LogisticRegression/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">LogisticRegression</div>
+    <a href="/2018/07/22/RNN/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">RNN</div>
       <i class="icon-circle-right"></i>
     </a>
   

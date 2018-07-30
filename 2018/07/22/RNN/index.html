@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="GaryChen的学习日志">
 <meta property="og:description" content="循环神经网络前向与反向传播DNN和RNN只单独的处理每个输入，前一个输入与后一个输入之间没有关系。但有些任务需要能够更好的处理序列的信息，并且依赖序列信息能够更好的做出预测。比如词性标注问题，因为各个词性出现的位置是有关联的。循环神经网络(Recurrent Neural networks, 简称RNN)就是一个能够很好的处理序列信息的网络结构，它假设样本是基于序列的，假设样本是从序列1到序列$\">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-07-22T07:45:02.292Z">
+<meta property="og:updated_time" content="2018-07-24T13:01:48.957Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RNN">
 <meta name="twitter:description" content="循环神经网络前向与反向传播DNN和RNN只单独的处理每个输入，前一个输入与后一个输入之间没有关系。但有些任务需要能够更好的处理序列的信息，并且依赖序列信息能够更好的做出预测。比如词性标注问题，因为各个词性出现的位置是有关联的。循环神经网络(Recurrent Neural networks, 简称RNN)就是一个能够很好的处理序列信息的网络结构，它假设样本是基于序列的，假设样本是从序列1到序列$\">
@@ -207,7 +207,7 @@ L=\sum_t^\tau L^{t}</script><p>其中$\mathbf{V},\mathbf{c}$的梯度计算相�
 \dfrac{\partial L}{\partial \mathbf{W}} =  \sum_{t=1}^\tau \dfrac{\partial L^t}{\partial \mathbf{h}^t} \frac{\partial \mathbf{h}^t}{\partial \mathbf{W}} = \sum_{t=1}^{\tau}\delta^t \odot g' (h^{t-1})^T</script><script type="math/tex; mode=display">
 \dfrac{\partial L}{\partial \mathbf{U}} =  \sum_{t=1}^\tau \dfrac{\partial L^t}{\partial \mathbf{h}^t} \frac{\partial \mathbf{h}^t}{\partial \mathbf{U}}  = \sum_{t=1}^{\tau}\delta^t \odot g' (\mathbf{x}^{t})^T</script><script type="math/tex; mode=display">
 \dfrac{\partial L}{\partial \mathbf{b}} =  \sum_{t=1}^\tau \dfrac{\partial L^t}{\partial \mathbf{h}^t} \frac{\partial \mathbf{h}^t}{\partial \mathbf{b}}  = \sum_{t=1}^{\tau}\delta^t \odot g'</script><p>ok，现在我们已知各参数的更新方法，那我现在探讨一下梯度爆炸和梯度消失的问题，其实只要是在深度神经网络中，根据链式法则，就会出现梯度累乘。当网络深度够深，这样只要累乘的梯度大于1，即会导致传递到前面的梯度过大，出现梯度爆炸问题，当累乘的梯度小于1，即会导致传递到前面的梯度过小，出现梯度消失问题。在RNN中，神经网络的深度等价于RNN的宽度（即序列的长度）。</p>
-<p>参考文献：<br>[1] <a href="https://www.cnblogs.com/pinard/p/6509630.html" target="_blank" rel="noopener">循环神经网络(RNN)模型与前向反向传播算法</a><br>[2] <a href="https://zybuluo.com/hanbingtao/note/541458" target="_blank" rel="noopener">零基础入门深度学习(5) - 循环神经网络</a></p>
+<p>参考文献：<br>[1] <a href="https://www.cnblogs.com/pinard/p/6509630.html" target="_blank" rel="noopener">循环神经网络(RNN)模型与前向反向传播算法</a><br>[2] <a href="https://zybuluo.com/hanbingtao/note/541458" target="_blank" rel="noopener">零基础入门深度学习(5) - 循环神经网络</a><br>[3] <a href="http://proceedings.mlr.press/v28/pascanu13.pdf" target="_blank" rel="noopener">http://proceedings.mlr.press/v28/pascanu13.pdf</a></p>
 
       
 
@@ -311,6 +311,15 @@ L=\sum_t^\tau L^{t}</script><p>其中$\mathbf{V},\mathbf{c}$的梯度计算相�
 
   
 <nav id="article-nav">
+  
+    <a href="/2018/07/29/PCA/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          PCA
+        
+      </div>
+    </a>
   
   
     <a href="/2018/07/20/CNN/" id="article-nav-older" class="article-nav-link-wrap">
@@ -478,6 +487,10 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">数据处理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">聚类</a>
               </li>
             
             <div class="clearfix"></div>
