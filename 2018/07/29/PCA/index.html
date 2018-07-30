@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="GaryChen的学习日志">
 <meta property="og:description" content="主成分分析(Principal components analysis,简称PCA)顾名思义，即找出数据里最主要的方面，用数据里最主要的方面来代替原始数据。具体的，假如我们的数据维度为$n$，则我们希望将数据的维度降到$n’$,并希望该数据尽可能的代表原数据集。当然这样的维度下降必然会导致部分信息的损失，但这种损失是必要的，因为舍弃这部分信息之后使得样本的采样密度增大，这正是降维的重要动机，此外，">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-07-30T09:02:03.252Z">
+<meta property="og:updated_time" content="2018-07-30T09:52:58.649Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="PCA">
 <meta name="twitter:description" content="主成分分析(Principal components analysis,简称PCA)顾名思义，即找出数据里最主要的方面，用数据里最主要的方面来代替原始数据。具体的，假如我们的数据维度为$n$，则我们希望将数据的维度降到$n’$,并希望该数据尽可能的代表原数据集。当然这样的维度下降必然会导致部分信息的损失，但这种损失是必要的，因为舍弃这部分信息之后使得样本的采样密度增大，这正是降维的重要动机，此外，">
@@ -240,7 +240,11 @@ g(\mathbf{w}_2)=\mathbf{w}_2^T \mathbf{S} \mathbf{w}_2-\alpha(\mathbf{w}_2^T \ma
 <p>PCA算法的主要缺点有：</p>
 <p>1）主成分各个特征维度的含义具有一定的模糊性，不如原始样本特征的解释性强。</p>
 <p>2）方差小的非主成分也可能含有对样本差异的重要信息，因降维丢弃可能对后续数据处理有影响。</p>
-<p>参考文献：<br>[1] <a href="http://speech.ee.ntu.edu.tw/~tlkagk/courses_ML16.html" target="_blank" rel="noopener">Unsupervised Learning: Principle Component Analysis-李宏毅</a><br>[2] <a href="https://www.cnblogs.com/pinard/p/6239403.html" target="_blank" rel="noopener">主成分分析（PCA）原理总结</a><br>[3] 机器学习-周志华</p>
+<h2 id="白化"><a href="#白化" class="headerlink" title="白化"></a>白化</h2><p>假设原样本维度为$n$，在PCA中，我们选取前$k$大的特征值的特征向量作为投影方向，如果$k&lt;n$，则叫PCA降维，如果$k=n$，则是降低特征间相关性。</p>
+<p>白化是一种重要的预处理过程，其目的就是降低输入数据的冗余性，使得经过白化处理的输入数据具有如下性质：(1)特征之间相关性较低；(2)所有特征具有相同的方差。</p>
+<p>白化可分为PCA白化和ZCA白化，PCA白化保证数据各维度的方差为1，而ZCA白化只保证数据各维度的方差相同，且尽量使得白化后的数据接近原始输入数据。</p>
+<p>上面已经说了，当$k=n$时，数据的各特征之间的相关性已经降低，现在只要保证数据各特征的方差为1。</p>
+<p>参考文献：<br>[1] <a href="http://speech.ee.ntu.edu.tw/~tlkagk/courses_ML16.html" target="_blank" rel="noopener">Unsupervised Learning: Principle Component Analysis-李宏毅</a><br>[2] <a href="https://www.cnblogs.com/pinard/p/6239403.html" target="_blank" rel="noopener">主成分分析（PCA）原理总结</a><br>[3] 机器学习-周志华<br>[4] <a href="https://blog.csdn.net/danieljianfeng/article/details/42147109" target="_blank" rel="noopener">白化（Whitening） PCA白化 ZCA白化</a></p>
 
       
 
