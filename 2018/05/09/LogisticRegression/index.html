@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="GaryChen的学习日志">
 <meta property="og:description" content="二项逻辑回归我们知道回归问题的预测值为连续值，而分类问题的预测值为离散值。现在假设二分类问题的目标值为0和1，那么我们是否用线性回归来解决二分类问题？      假设我们对训练集拟合得到模型为$f(\mathbf{X}_k)=\hat{\mathbf{X}}_k\mathbf{w}$，$\hat{\mathbf{X}}_k=[\mathbf{X}_k^1,\mathbf{X}_k^2,\cdots">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-07-02T02:12:42.269Z">
+<meta property="og:updated_time" content="2018-07-30T15:51:38.633Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="LogisticRegression">
 <meta name="twitter:description" content="二项逻辑回归我们知道回归问题的预测值为连续值，而分类问题的预测值为离散值。现在假设二分类问题的目标值为0和1，那么我们是否用线性回归来解决二分类问题？      假设我们对训练集拟合得到模型为$f(\mathbf{X}_k)=\hat{\mathbf{X}}_k\mathbf{w}$，$\hat{\mathbf{X}}_k=[\mathbf{X}_k^1,\mathbf{X}_k^2,\cdots">
@@ -221,7 +221,7 @@ p(y|\mathbf{X}_i)=g(z_1)^{I\{y=1\}}g(z_2)^{I\{y=2\}}\cdots g(z_k)^{I\{y=K\}}</sc
 </ul>
 <p>对于多分类问题，是选择多项逻辑回归还是采用采用多分类学习策略的二项逻辑回归，取决于所有类别之间是否互斥。如果所有类别之间明显互斥，则采用多项逻辑回归，若所有类别之间不互斥有交叉，则最好使用多分类学习策略的二项逻辑回归。</p>
 <p>二项逻辑回归，多项逻辑回归，OvR策略下的二项逻辑回归算法的实现代码：<br><a href="https://github.com/garyChen01/MachineLearning/blob/master/LogisticRegression.py" target="_blank" rel="noopener">https://github.com/garyChen01/MachineLearning/blob/master/LogisticRegression.py</a></p>
-<p>参考文档：<br>周志华的机器学习的线性回归章节    </p>
+<p>参考文档：<br>[1] 周志华的机器学习的线性回归章节    </p>
 
       
 

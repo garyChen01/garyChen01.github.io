@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="GaryChen的学习日志">
 <meta property="og:description" content="标准化（Standardization）标准化是为了消除各特征之间量纲影响，使得各特征处于同一量级。 Z-score标准化很多算法都假设每个特征的值都接近于零或者每个特征都在合理的区域变化。具体来讲就是基于度量(如KNN)和基于梯度的算法都假设数据近似标准正态分布（即均值为0，方差为1）。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-05-02T02:06:59.961Z">
+<meta property="og:updated_time" content="2018-07-30T15:53:18.391Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="标准化，正则化">
 <meta name="twitter:description" content="标准化（Standardization）标准化是为了消除各特征之间量纲影响，使得各特征处于同一量级。 Z-score标准化很多算法都假设每个特征的值都接近于零或者每个特征都在合理的区域变化。具体来讲就是基于度量(如KNN)和基于梯度的算法都假设数据近似标准正态分布（即均值为0，方差为1）。">
@@ -181,7 +181,7 @@
 <h3 id="Min-Max标准化"><a href="#Min-Max标准化" class="headerlink" title="Min-Max标准化"></a>Min-Max标准化</h3><p>当数据的标准差比较小的，使用Z-score标准化稳定性不佳，并且在对于稀疏数组，减去均值会使得稀疏数组中的零值变成非零值，从而导致数据内存一下暴增。但是因为在不同的样本集下，最小值与最大值可能是变化的，并且很容易受异常点的影响，所以这种方法鲁棒性很差，只适合传统精确小场景。</p>
 <h2 id="正则化（Normalization）"><a href="#正则化（Normalization）" class="headerlink" title="正则化（Normalization）"></a>正则化（Normalization）</h2><p>正则化是将单个样本按单位规范进行缩放的过程。如果使用一个二次型（比如点乘）或其他核方法来计算两样本之间的相似度，这个方法是很有用的。</p>
 <p>正则化的主要思想是对每个样本计算其$p$范数，然后对该样本中每个元素除以该范数，这样处理的结果是使得每个处理后样本的$p$范数（l1-norm,l2-norm）等于1。该方法主要应用于文本分类和聚类中。</p>
-<p>参考文档：<br><a href="http://scikit-learn.org/stable/auto_examples/preprocessing/plot_all_scaling.html#sphx-glr-auto-examples-preprocessing-plot-all-scaling-py" target="_blank" rel="noopener">http://scikit-learn.org/stable/auto_examples/preprocessing/plot_all_scaling.html#sphx-glr-auto-examples-preprocessing-plot-all-scaling-py</a><br><a href="https://blog.csdn.net/chixujohnny/article/details/54231815" target="_blank" rel="noopener">https://blog.csdn.net/chixujohnny/article/details/54231815</a><br><a href="http://www.cnblogs.com/zhaokui/p/5112287.html" target="_blank" rel="noopener">http://www.cnblogs.com/zhaokui/p/5112287.html</a><br><a href="https://www.zhihu.com/question/37069477" target="_blank" rel="noopener">https://www.zhihu.com/question/37069477</a></p>
+<p>参考文档：<br>[1] <a href="http://scikit-learn.org/stable/auto_examples/preprocessing/plot_all_scaling.html#sphx-glr-auto-examples-preprocessing-plot-all-scaling-py" target="_blank" rel="noopener">Compare the effect of different scalers on data with outliers</a><br>[2] <a href="https://blog.csdn.net/chixujohnny/article/details/54231815" target="_blank" rel="noopener">数据预处理之标准化/正则化处理</a><br>[3] <a href="http://www.cnblogs.com/zhaokui/p/5112287.html" target="_blank" rel="noopener">归一化与标准化</a><br>[4] <a href="https://www.zhihu.com/question/37069477" target="_blank" rel="noopener">数据什么时候需要做中心化和标准化处理?</a></p>
 
       
 
