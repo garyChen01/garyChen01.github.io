@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="GaryChen的学习日志">
 <meta property="og:description" content="决策树本质上是从训练集中归纳出一组规则集。它的学习目的就是产生一颗泛化能力强的决策树。我们可以通过最小化损失函数来达到这个目的，通常使用加正则的极大似然函数。但是从可能的决策树中寻找最优决策树是一个NP完全问题，所以现实中的决策树通常使用启发式方法。具体就是递归地选择最优特征，根据该特征对训练集进行划分，使得各训练子集能在当前划分下有最好的分类结果。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-07-08T08:01:26.868Z">
+<meta property="og:updated_time" content="2018-09-04T08:29:01.817Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DecisionTree">
 <meta name="twitter:description" content="决策树本质上是从训练集中归纳出一组规则集。它的学习目的就是产生一颗泛化能力强的决策树。我们可以通过最小化损失函数来达到这个目的，通常使用加正则的极大似然函数。但是从可能的决策树中寻找最优决策树是一个NP完全问题，所以现实中的决策树通常使用启发式方法。具体就是递归地选择最优特征，根据该特征对训练集进行划分，使得各训练子集能在当前划分下有最好的分类结果。">
@@ -183,7 +183,7 @@
 <script type="math/tex; mode=display">Gain(\mathcal{D},a)=Ent(\mathcal{D})-\sum_i^n\dfrac{|\mathcal{D_i}|}{|\mathcal{D}|} Ent(\mathcal{D_i})</script><p>一般来说，信息增益越大，样本纯度越高。ID3决策树就是以信息增益为准则来选择划分属性的。但当决策树不为二叉树时，该指标的一个缺点是偏向于特征取值多的特征。</p>
 <h3 id="增益率"><a href="#增益率" class="headerlink" title="增益率"></a>增益率</h3><p>为了减少信息增益对取值多的特征有所偏好，C4.5使用增益率来选择最优特征。增益率的定义如下：</p>
 <script type="math/tex; mode=display">Gain\_ratio(\mathcal{D},a)=\dfrac{Gain(\mathcal{D},a)}{IV(a)}</script><p>其中</p>
-<script type="math/tex; mode=display">IV(a)=\sum_i^n \dfrac{|\mathcal{D_i}|}{|\mathcal{D}|} \log \dfrac{|\mathcal{D_i}|}{|\mathcal{D}|}</script><p>但是增益率会对取值少的特征有所偏好，所以C4.5使用启发式方法，先从候选划分特征中找出高于平均水平的特征，再从中选取增益率最高的特征。</p>
+<script type="math/tex; mode=display">IV(a)=-\sum_i^n \dfrac{|\mathcal{D_i}|}{|\mathcal{D}|} \log \dfrac{|\mathcal{D_i}|}{|\mathcal{D}|}</script><p>但是增益率会对取值少的特征有所偏好，所以C4.5使用启发式方法，先从候选划分特征中找出高于平均水平的特征，再从中选取增益率最高的特征。</p>
 <h3 id="基尼指数"><a href="#基尼指数" class="headerlink" title="基尼指数"></a>基尼指数</h3><p>Cart决策树选用基尼指数来选择划分属性。数据集$\mathcal{D}$的基尼值的定义为：    </p>
 <script type="math/tex; mode=display">Gini(\mathcal{D})=1 - \sum_i^K p_i^2</script><p>直观上看，$Gini(\mathcal{D})$反映了从数据集$\mathcal{D}$中随机选取两个样本，其类别标记不一致的概率。因此$Gini(\mathcal{D})$值越小，数据集$\mathcal{D}$的纯度越高。</p>
 <p>特征$a$的基尼指数定义为：</p>
