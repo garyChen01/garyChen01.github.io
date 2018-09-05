@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="GaryChen的学习日志">
 <meta property="og:description" content="支持向量机（SVM）是一个二分类器，它的学习策略就是特征空间上间隔最大化，这也使得它有别于感知机。间隔最大化可形式化为一个求解凸二次规划问题，也等价于正则化的合页损失函数的最小化问题。 支持向量机可分为三种：线性可分支持向量机，线性支持向量机和非线性支持向量机。当训练数据线性可分时，通过硬间隔最大化，学习一个线性的分类器，即线性可分支持向量机。当训练数据近似线性可分时，通过软间隔最大化，学习一个线">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-07-08T08:01:51.418Z">
+<meta property="og:updated_time" content="2018-09-05T01:52:09.275Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="支持向量机">
 <meta name="twitter:description" content="支持向量机（SVM）是一个二分类器，它的学习策略就是特征空间上间隔最大化，这也使得它有别于感知机。间隔最大化可形式化为一个求解凸二次规划问题，也等价于正则化的合页损失函数的最小化问题。 支持向量机可分为三种：线性可分支持向量机，线性支持向量机和非线性支持向量机。当训练数据线性可分时，通过硬间隔最大化，学习一个线性的分类器，即线性可分支持向量机。当训练数据近似线性可分时，通过软间隔最大化，学习一个线">
@@ -273,7 +273,7 @@ C-\alpha_i-\mu_i=0
 &if~y_i\ne y_j,~~L=\max\{0,\alpha_i-\alpha_j\},~H=\max\{C,C+\alpha_i-\alpha_j\}\\
 &if~y_i= y_j,~~L=\max\{0,\alpha_j+\alpha_i-C\},~H=\max\{C,\alpha_i+\alpha_j\}
 \end{aligned}</script><p>优化的时候，$\alpha_i$必须满足以上的约束，通过线性支持向量机的对偶问题的求解(具体过程请查阅统计学习方法)，可以得到：</p>
-<script type="math/tex; mode=display">\alpha_i :=\alpha_i+\dfrac{y_i(E_j-E_i)}{K_{11}+K_{22}-2K_{12}}</script><p>其中$E_i=g(\mathbf{x}_i)-y_i=\sum_j^n \alpha_j y_j K_{ij}+b-y_i$，其表示预测值与实际值之差。<br>得到新的$\alpha_i$以后，我们需要其满足$L\le \alpha_i \le H$，所以当新的$\alpha_i$不在这个边界时，需要对其裁剪，即当超过边界，则令其的值为最近的边界值。而$\alpha_j$可以由$y_i \alpha_i+y_j \alpha_j = -\sum_{m\ne i,j}y_m$求得。</p>
+<script type="math/tex; mode=display">\alpha_i :=\alpha_i+\dfrac{y_i(E_j-E_i)}{K_{ii}+K_{jj}-2K_{ij}}</script><p>其中$E_i=g(\mathbf{x}_i)-y_i=\sum_j^n \alpha_j y_j K_{ij}+b-y_i$，其表示预测值与实际值之差。<br>得到新的$\alpha_i$以后，我们需要其满足$L\le \alpha_i \le H$，所以当新的$\alpha_i$不在这个边界时，需要对其裁剪，即当超过边界，则令其值为最近的边界值。而$\alpha_j$可以由$y_i \alpha_i+y_j \alpha_j = -\sum_{m\ne i,j}y_m$求得。</p>
 <h3 id="参数选择"><a href="#参数选择" class="headerlink" title="参数选择"></a>参数选择</h3><h4 id="第一个参数的选择"><a href="#第一个参数的选择" class="headerlink" title="第一个参数的选择"></a>第一个参数的选择</h4><p>SMO选取违背KKT条件最严重的样本点对应的参数作为第一个参数，具体地，检查训练样本点$\mathbf{x}_j,y_j$是否满足KKT条件，即</p>
 <script type="math/tex; mode=display">
 \begin{aligned}\alpha_j=0 \Leftrightarrow y_j g(\mathbf{x}_j) \ge1\\
