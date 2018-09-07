@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="GaryChen的学习日志">
 <meta property="og:description" content="集成学习通过将多个个体学习器进行组合以得到比单一个体学习器更加优越的泛化性能。目前的集成学习可大致分为两大类，即个体学习器存在强依赖关系，必须串行生成的序列方法，以及个体学习器之间不存在强依赖关系，可同时生成的并行化方法，前者的代表是Boosting，后者的代表是Bagging。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-07-17T11:46:35.149Z">
+<meta property="og:updated_time" content="2018-09-05T04:59:09.013Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AdBoost">
 <meta name="twitter:description" content="集成学习通过将多个个体学习器进行组合以得到比单一个体学习器更加优越的泛化性能。目前的集成学习可大致分为两大类，即个体学习器存在强依赖关系，必须串行生成的序列方法，以及个体学习器之间不存在强依赖关系，可同时生成的并行化方法，前者的代表是Boosting，后者的代表是Bagging。">
@@ -212,8 +212,8 @@ sign(H(\mathbf{x}))&=sign(\dfrac{1}{2}\ln\dfrac{p(f(\mathbf{x})=1)}{p(f(\mathbf{
 <script type="math/tex; mode=display">
 \begin{aligned}
 h_t&=\arg \min_{h_t} \Bbb{E}_{\mathbf{x}\backsim{D}}[e^{-f(\mathbf{x})H_{t-1}(\mathbf{x})}(1-f(\mathbf{x})\alpha_t h_t(\mathbf{x})+\dfrac{f^2(\mathbf{x})\alpha_t^2 h_t^2(\mathbf{x})}{2})] \\
-&=\arg \min_{h_t} \Bbb{E}_{\mathbf{x}\backsim{D}}[-f(\mathbf{x}) h_t(\mathbf{x}) e^{-f(\mathbf{x})H_{t-1}(\mathbf{x})}]\\
-&=\arg \min_{h_t} \Bbb{E}_{\mathbf{x}\backsim{D}}[\dfrac{-f(\mathbf{x}) h_t(\mathbf{x})}{\Bbb{E}_{x\backsim\mathcal{D}}[e^{-f(\mathbf{x})H_{t-1}(\mathbf{x})}]} e^{-f(\mathbf{x})H_{t-1}(\mathbf{x})}]\\
+&=\arg \max_{h_t} \Bbb{E}_{\mathbf{x}\backsim{D}}[-f(\mathbf{x}) h_t(\mathbf{x}) e^{-f(\mathbf{x})H_{t-1}(\mathbf{x})}]\\
+&=\arg \max_{h_t} \Bbb{E}_{\mathbf{x}\backsim{D}}[\dfrac{-f(\mathbf{x}) h_t(\mathbf{x})}{\Bbb{E}_{x\backsim\mathcal{D}}[e^{-f(\mathbf{x})H_{t-1}(\mathbf{x})}]} e^{-f(\mathbf{x})H_{t-1}(\mathbf{x})}]\\
 \end{aligned}</script><p>以上的$\Bbb{E}_{x\backsim\mathcal{D}}[\exp(-f(\mathbf{x})H_{t-1}(\mathbf{x}))]$为常数。令$\mathcal{D}_t$表示为一个分布，则</p>
 <script type="math/tex; mode=display">
 \begin{aligned}
