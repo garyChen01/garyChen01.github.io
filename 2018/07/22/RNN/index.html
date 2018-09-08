@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="GaryChen的学习日志">
 <meta property="og:description" content="循环神经网络前向与反向传播DNN和RNN只单独的处理每个输入，前一个输入与后一个输入之间没有关系。但有些任务需要能够更好的处理序列的信息，并且依赖序列信息能够更好的做出预测。比如词性标注问题，因为各个词性出现的位置是有关联的。循环神经网络(Recurrent Neural networks, 简称RNN)就是一个能够很好的处理序列信息的网络结构，它假设样本是基于序列的，假设样本是从序列1到序列$\">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-07-24T13:01:48.957Z">
+<meta property="og:updated_time" content="2018-09-07T01:50:02.934Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RNN">
 <meta name="twitter:description" content="循环神经网络前向与反向传播DNN和RNN只单独的处理每个输入，前一个输入与后一个输入之间没有关系。但有些任务需要能够更好的处理序列的信息，并且依赖序列信息能够更好的做出预测。比如词性标注问题，因为各个词性出现的位置是有关联的。循环神经网络(Recurrent Neural networks, 简称RNN)就是一个能够很好的处理序列信息的网络结构，它假设样本是基于序列的，假设样本是从序列1到序列$\">
@@ -189,7 +189,7 @@
 &=f(\mathbf{b}+\mathbf{V}g(\mathbf{c}+\mathbf{U}\mathbf{x}^t+\mathbf{W}g(\mathbf{c}+\mathbf{U}\mathbf{x}^{t-1}+\mathbf{W}\mathbf{h}^{t-2})))\\
 &=f(\mathbf{b}+\mathbf{V}g(\mathbf{c}+\mathbf{U}\mathbf{x}^t+\mathbf{W}g(\mathbf{c}+\mathbf{U}\mathbf{x}^{t-1}+\mathbf{W}g(\mathbf{c}+\mathbf{U}\mathbf{x}^{t-2}+\cdots))))
 \end{aligned}</script><p>从上式可以看到输出$\mathbf{o}^t$不仅仅受该序列索引号的输入的影响，而且还受前$t-1$个序列索引号的输入的影响，这也是为什么循环神经网络具备记忆能力的原因。</p>
-<h3 id="反向传播"><a href="#反向传播" class="headerlink" title="反向传播"></a>反向传播</h3><p>基于时间反向传播(back-propagation through time，简称BPTT)是针对RNN的训练算法。实际上，BPTT与DNN的训练方法很类似，所以我们可以应用DNN的反向传播求解技巧于BPTT，具体可以参考。我们定义序列索引$t$位置的隐藏状态的梯度为</p>
+<h3 id="反向传播"><a href="#反向传播" class="headerlink" title="反向传播"></a>反向传播</h3><p>基于时间反向传播(back-propagation through time，简称BPTT)是针对RNN的训练算法。实际上，BPTT与DNN的训练方法很类似，所以我们可以应用DNN的反向传播求解技巧于BPTT,具体可以参考我写的DNN反向传播算法。我们定义序列索引$t$位置的隐藏状态的梯度为</p>
 <script type="math/tex; mode=display">
 \delta^{t}=\dfrac{\partial L}{\partial \mathbf{h}^{t}}</script><p>其中</p>
 <script type="math/tex; mode=display">
@@ -207,7 +207,7 @@ L=\sum_t^\tau L^{t}</script><p>其中$\mathbf{V},\mathbf{c}$的梯度计算相�
 \dfrac{\partial L}{\partial \mathbf{W}} =  \sum_{t=1}^\tau \dfrac{\partial L^t}{\partial \mathbf{h}^t} \frac{\partial \mathbf{h}^t}{\partial \mathbf{W}} = \sum_{t=1}^{\tau}\delta^t \odot g' (h^{t-1})^T</script><script type="math/tex; mode=display">
 \dfrac{\partial L}{\partial \mathbf{U}} =  \sum_{t=1}^\tau \dfrac{\partial L^t}{\partial \mathbf{h}^t} \frac{\partial \mathbf{h}^t}{\partial \mathbf{U}}  = \sum_{t=1}^{\tau}\delta^t \odot g' (\mathbf{x}^{t})^T</script><script type="math/tex; mode=display">
 \dfrac{\partial L}{\partial \mathbf{b}} =  \sum_{t=1}^\tau \dfrac{\partial L^t}{\partial \mathbf{h}^t} \frac{\partial \mathbf{h}^t}{\partial \mathbf{b}}  = \sum_{t=1}^{\tau}\delta^t \odot g'</script><p>ok，现在我们已知各参数的更新方法，那我现在探讨一下梯度爆炸和梯度消失的问题，其实只要是在深度神经网络中，根据链式法则，就会出现梯度累乘。当网络深度够深，这样只要累乘的梯度大于1，即会导致传递到前面的梯度过大，出现梯度爆炸问题，当累乘的梯度小于1，即会导致传递到前面的梯度过小，出现梯度消失问题。在RNN中，神经网络的深度等价于RNN的宽度（即序列的长度）。</p>
-<p>参考文献：<br>[1] <a href="https://www.cnblogs.com/pinard/p/6509630.html" target="_blank" rel="noopener">循环神经网络(RNN)模型与前向反向传播算法</a><br>[2] <a href="https://zybuluo.com/hanbingtao/note/541458" target="_blank" rel="noopener">零基础入门深度学习(5) - 循环神经网络</a><br>[3] <a href="http://proceedings.mlr.press/v28/pascanu13.pdf" target="_blank" rel="noopener">http://proceedings.mlr.press/v28/pascanu13.pdf</a></p>
+<p>参考文献：<br>[1] <a href="https://www.cnblogs.com/pinard/p/6509630.html" target="_blank" rel="noopener">循环神经网络(RNN)模型与前向反向传播算法</a><br>[2] <a href="https://zybuluo.com/hanbingtao/note/541458" target="_blank" rel="noopener">零基础入门深度学习(5) - 循环神经网络</a><br>[3] <a href="http://proceedings.mlr.press/v28/pascanu13.pdf" target="_blank" rel="noopener">On the difficulty of training recurrent neural networks</a></p>
 
       
 

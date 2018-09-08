@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="GaryChen的学习日志">
 <meta property="og:description" content="主成分分析(Principal components analysis,简称PCA)顾名思义，即找出数据里最主要的方面，用数据里最主要的方面来代替原始数据。具体的，假如我们的数据维度为$n$，则我们希望将数据的维度降到$n’$,并希望该数据尽可能的代表原数据集。当然这样的维度下降必然会导致部分信息的损失，但这种损失是必要的，因为舍弃这部分信息之后使得样本的采样密度增大，这正是降维的重要动机，此外，">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-07-30T15:35:39.884Z">
+<meta property="og:updated_time" content="2018-09-07T01:55:08.208Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="PCA">
 <meta name="twitter:description" content="主成分分析(Principal components analysis,简称PCA)顾名思义，即找出数据里最主要的方面，用数据里最主要的方面来代替原始数据。具体的，假如我们的数据维度为$n$，则我们希望将数据的维度降到$n’$,并希望该数据尽可能的代表原数据集。当然这样的维度下降必然会导致部分信息的损失，但这种损失是必要的，因为舍弃这部分信息之后使得样本的采样密度增大，这正是降维的重要动机，此外，">
@@ -187,7 +187,7 @@
 =& \max \mathbf{w}_1^T [\sum_{i=1}^m (\mathbf{x}_i-\bar{\mathbf{x}})(\mathbf{x}_i-\bar{\mathbf{x}})^T]\mathbf{w}_1 \\
 
 =& \max \mathbf{w}_1^T \mathbf{S} \mathbf{w}_1
-\end{aligned}</script><p>注意，上式$\mathbf{w}_1^T (\mathbf{x}_i-\bar{\mathbf{x}})$为一维数组，所以其转置为自身。根据上式可以看出，我们只需要最大化$\mathbf{w}_1^T \mathbf{S} \mathbf{w}_1$即可，当$\mathbf{w}_1$不加约束时，只需令$\mathbf{w}_1$趋于无穷即可，所以我们在这里给其增加约束，使得$||\mathbf{w}_1||_2=\mathbf{w}_1^T \mathbf{w}_1=1$。根据拉格朗日乘子法，可得拉格朗日函数：</p>
+\end{aligned}</script><p>注意，上式$\mathbf{w}_1^T (\mathbf{x}_i-\bar{\mathbf{x}})$为一维数字，所以其转置为自身。根据上式可以看出，我们只需要最大化$\mathbf{w}_1^T \mathbf{S} \mathbf{w}_1$即可，当$\mathbf{w}_1$不加约束时，只需令$\mathbf{w}_1$趋于无穷即可，所以我们在这里给其增加约束，使得$||\mathbf{w}_1||_2=\mathbf{w}_1^T \mathbf{w}_1=1$。根据拉格朗日乘子法，可得拉格朗日函数：</p>
 <script type="math/tex; mode=display">g(\mathbf{w}_1)=\mathbf{w}_1^T \mathbf{S} \mathbf{w}_1-\alpha(\mathbf{w}_1^T \mathbf{w}_1-1)</script><p>对其求导可得：</p>
 <script type="math/tex; mode=display">
 \dfrac{\partial g(\mathbf{w}_1)}{\partial \mathbf{w}_1}=2\mathbf{S}\mathbf{w}_1-2\alpha\mathbf{w}_1=0</script><p>从上式可以看出，$\alpha$和$\mathbf{w}_1$分别为$\mathbf{S}$的特征值和特征向量。所以目标函数可转换为：</p>
