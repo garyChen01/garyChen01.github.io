@@ -6,15 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: 深度学习 | GaryChen的学习日志</title>
+  <title>PRC与ROC | GaryChen的学习日志</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="GaryChen的学习日志">
-<meta property="og:url" content="http://yoursite.com/tags/深度学习/index.html">
+  <meta name="description" content="PRC与ROC皆为不平衡问题常用的评估指标，它们与具体的分类阈值无关，只与样本的概率序列有关。 混淆矩阵二分类的混淆矩阵定义如下，| | 正(P)| 负(N)|:-:|:-:|:-:||正(P)|TP|FN||负(N)|FP|TN| 矩阵每一列代表预测的类别，每一行代表的是实际的类别。其中TP表示预测为正实际为正的样本数，FN为预测为负实际为正的样本数，FP表示预测为正实际为负的样本数，TN表示预">
+<meta name="keywords" content="机器学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PRC与ROC">
+<meta property="og:url" content="http://yoursite.com/2018/09/21/PR-ROC/index.html">
 <meta property="og:site_name" content="GaryChen的学习日志">
+<meta property="og:description" content="PRC与ROC皆为不平衡问题常用的评估指标，它们与具体的分类阈值无关，只与样本的概率序列有关。 混淆矩阵二分类的混淆矩阵定义如下，| | 正(P)| 负(N)|:-:|:-:|:-:||正(P)|TP|FN||负(N)|FP|TN| 矩阵每一列代表预测的类别，每一行代表的是实际的类别。其中TP表示预测为正实际为正的样本数，FN为预测为负实际为正的样本数，FP表示预测为正实际为负的样本数，TN表示预">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-09-27T09:12:32.414Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="GaryChen的学习日志">
+<meta name="twitter:title" content="PRC与ROC">
+<meta name="twitter:description" content="PRC与ROC皆为不平衡问题常用的评估指标，它们与具体的分类阈值无关，只与样本的概率序列有关。 混淆矩阵二分类的混淆矩阵定义如下，| | 正(P)| 负(N)|:-:|:-:|:-:||正(P)|TP|FN||负(N)|FP|TN| 矩阵每一列代表预测的类别，每一行代表的是实际的类别。其中TP表示预测为正实际为正的样本数，FN为预测为负实际为正的样本数，FP表示预测为正实际为负的样本数，TN表示预">
   
     <link rel="alternative" href="/atom.xml" title="GaryChen的学习日志" type="application/atom+xml">
   
@@ -150,136 +155,195 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-PR-ROC" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      PRC与ROC
+    </h1>
+  
+
+        
+        <a href="/2018/09/21/PR-ROC/" class="archive-article-date">
+  	<time datetime="2018-09-21T15:07:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-21</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>PRC与ROC皆为不平衡问题常用的评估指标，它们与具体的分类阈值无关，只与样本的概率序列有关。</p>
+<h2 id="混淆矩阵"><a href="#混淆矩阵" class="headerlink" title="混淆矩阵"></a>混淆矩阵</h2><p>二分类的混淆矩阵定义如下，<br>| | 正(P)| 负(N)<br>|:-:|:-:|:-:|<br>|正(P)|TP|FN|<br>|负(N)|FP|TN|</p>
+<p>矩阵每一列代表预测的类别，每一行代表的是实际的类别。其中TP表示预测为正实际为正的样本数，FN为预测为负实际为正的样本数，FP表示预测为正实际为负的样本数，TN表示预测为负实际为负的样本数。显然TP+FN+FP+TN=样本总数。</p>
+<p>根据混淆矩阵，我们可以计算出不同的评估指标，如Accuracy，Precision，Recall，F1-score，ROC和PRC等。它们分别考虑了不同方面来评估混淆矩阵所表示的分类器的性能。</p>
+<h2 id="ROC"><a href="#ROC" class="headerlink" title="ROC"></a>ROC</h2><p>ROC(Receiver Operating Characteristics)曲线以FPR(False Positive Rate)为横轴，以TPR(True Positive Rate)为纵轴的空间上的一条曲线，其中TPR，FPR的定义如下：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+TPR &= \dfrac{TP}{TP+FN}\\
+FPR &= 1-\dfrac{TN}{TN+FP}=\dfrac{FP}{TN+FP}
+\end{aligned}</script><p>从TPR与FPR的定义可以看出，ROC考虑了正样本与负样本的召回率，所以其实际上是对正负样本召回率的权衡。</p>
+<p>ROC的绘制可以由以下步骤来完成，首先将测试集样本分类为正例的概率按从大到小的顺序排列。分别设置不同的分类阈值，使得大于该阈值的样本分类为正例，小于该阈值的样本分类为负例，然后计算TPR与FPR，绘制为ROC上的一个点。最后将ROC空间上所有的点相连即为ROC曲线。</p>
+<p>根据ROC曲线的绘制过程，我们可以知道，TPR与FPR对类别分布的改变不敏感。也就是说当类别分布改变时，ROC曲线变化很小。举例来说，假设类别平衡时，样本的概率排序的实际类别标签为1，0，1，0，假设新增加的负例样本与原来的分布一致，则负样本增倍后的样本概率排序的实际类别标签为1，0，0，1，0，0，则可以看出实际上变化前后的ROC曲线是一样的，只是在变化后的ROC曲线在平行于横轴的线段上多了两个点。</p>
+<p>随机猜测策略在ROC的曲线为y=x，具体绘制过程为如下，假设不考虑实际样本的属性，以概率p将样本分类为正例，所以对于N个正样本，将其分类为正例的样本数为p<em>N，这样TPR=p</em>N/N=p。同样的，FPR=p*M/M=p，其中M为负样本数，显然对于任意的p，TPR，FPR都在y=x曲线上。</p>
+<p>当分类器A的ROC曲线完全在分类器B之上时，我们可以认为分类器A的性能是优于分类器B的，但是有时候，某一分类器的ROC曲线不是总是位于另一分类器之上的，此时我们可以引入ROC曲线下的面积的概念即ROC-AUC，如果分类器A在ROC曲线下的面积（ROC-AUC）大于分类器B，则我们可以认为分类器A的性能是优于分类器B的。ROC-AUC也可以解释为从所有正样本中随机选取一个样本A，再从所有负样本中随机选取一个样本B，分类器将A判为正例的概率比将B判为正例的概率大的可能性。</p>
+<h2 id="PRC"><a href="#PRC" class="headerlink" title="PRC"></a>PRC</h2><p>PRC(Precision-Recall curve) 以Recall为横轴，以Precision为纵轴，Precision与Recall的定义如下：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+&Precision = \dfrac{TP}{TP+FP}\\
+&Recall = \dfrac{TP}{TP+FN}\\
+\end{aligned}</script><p>根据Precision与Recall的定义可以看出，其聚焦于正例的分类，在正例的Precision与Recall之间权衡，而忽略了负类的分类。</p>
+<p>其曲线的绘制过程与ROC曲线的绘制过程一样，只是横纵轴不同而已。但是由于Precision的变化是非线性的，所以PRC-AUC的计算相比ROC-AUC的计算要复杂一些。</p>
+<p>PRC如果要画出baseline的话，通常我们假设随机猜测正例的概率为正样本在总样本中的占比，假设比例为0.01，则对N个样本，用该分类器进行分类的正样本的期望为N/100，则该分类器的Presion为(N/100)/N=0.01，而Recall的大小随着分类为正样本数的增加而增加，所以PRC的baseline是平行于x轴的直线，在本例中，baseline为y=0.01。从这里也可以看出，PRC对于类别分布敏感，当类别分布改变时，Baseline改变，其分类器的PRC也会发生改变。</p>
+<h2 id="对比与总结"><a href="#对比与总结" class="headerlink" title="对比与总结"></a>对比与总结</h2><p>前面提到了，ROC对类别分布不敏感，而PRC对于类别分布敏感，所以在不同任务下，针对这个点，可以采用不同的评估指标。比如在信用卡欺诈问题中每个月正例和负例的比例可能都不相同，这时候如果只想单纯地比较分类器的性能且剔除类别分布改变的影响，则ROC曲线比较适合，因为类别分布改变可能使得PR曲线发生变化时好时坏，这种时候难以进行模型比较；反之，如果想测试不同类别分布下对分类器的性能的影响，则PR曲线比较适合。</p>
+<p>ROC考虑了正负样本的召回率，而PRC只考虑正样本的精确率和召回率。如果希望正类和负类都表现得很好，那么可以选择AUC作为评估指标。如果不关心模型在负类上的性能，只是想要在正类上的精确率和召回率尽可能地高，那么可以使用P-R曲线作为你的评估指标。</p>
+<p>[1] <a href="http://pages.cs.wisc.edu/~jdavis/davisgoadrichcamera2.pdf" target="_blank" rel="noopener">The Relationship Between Precision-Recall and ROC Curves</a></p>
+<p>[2]<a href="https://machinelearningmastery.com/roc-curves-and-precision-recall-curves-for-classification-in-python/" target="_blank" rel="noopener">How and When to Use ROC Curves and Precision-Recall Curves for Classification in Python</a></p>
+<p>[3] <a href="http://www.blogspot.udec.ugto.saedsayad.com/docs/ROC101.pdf" target="_blank" rel="noopener">ROC Graphs: Notes and Practical Considerations for<br>Researchers</a></p>
+<p>[4] <a href="https://zhuanlan.zhihu.com/p/34655990" target="_blank" rel="noopener">机器学习之类别不平衡问题 (2) —— ROC和PR曲线</a></p>
+<p>[5] <a href="http://mlwiki.org/index.php/ROC_Analysis#ROC_Convex_Hull" target="_blank" rel="noopener">ROC Analysis</a></p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/07/22/RNN/" class="archive-article-date">
-  	<time datetime="2018-07-22T07:37:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/07/22/RNN/">RNN</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">深度学习</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/09/21/PR-ROC/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/07/20/CNN/" class="archive-article-date">
-  	<time datetime="2018-07-20T12:04:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-20</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2018/09/21/evaluation-criteria/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">精确率和召回率</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/07/20/CNN/">CNN</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">深度学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/07/12/DNN/" class="archive-article-date">
-  	<time datetime="2018-07-12T12:39:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-12</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/07/12/DNN/">DNN反向传播算法</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">深度学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
 
 
           </div>
@@ -302,9 +366,9 @@
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,

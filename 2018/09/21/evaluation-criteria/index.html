@@ -6,15 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: 深度学习 | GaryChen的学习日志</title>
+  <title>精确率和召回率 | GaryChen的学习日志</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="GaryChen的学习日志">
-<meta property="og:url" content="http://yoursite.com/tags/深度学习/index.html">
+  <meta name="description" content="机器学习问题的通用流程可分为四部分，它们依次是：问题建模-&amp;gt;特征工程-&amp;gt;模型选择-&amp;gt;模型融合。其中问题建模是很关键的一部分，因为已知的评估指标很多，我们需要找到一个与业务指标波动一致的评估指标，通过观测该评估指标的波动来指导后续工作。 评估指标可以按照任务类型分类，可分为分类指标，回归指标，聚类指标和排序指标等。下面我将介绍常用分类指标—精确率和召回率以及与它们相关的其他指标。">
+<meta name="keywords" content="机器学习,数据挖掘">
+<meta property="og:type" content="article">
+<meta property="og:title" content="精确率和召回率">
+<meta property="og:url" content="http://yoursite.com/2018/09/21/evaluation-criteria/index.html">
 <meta property="og:site_name" content="GaryChen的学习日志">
+<meta property="og:description" content="机器学习问题的通用流程可分为四部分，它们依次是：问题建模-&amp;gt;特征工程-&amp;gt;模型选择-&amp;gt;模型融合。其中问题建模是很关键的一部分，因为已知的评估指标很多，我们需要找到一个与业务指标波动一致的评估指标，通过观测该评估指标的波动来指导后续工作。 评估指标可以按照任务类型分类，可分为分类指标，回归指标，聚类指标和排序指标等。下面我将介绍常用分类指标—精确率和召回率以及与它们相关的其他指标。">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-09-27T09:12:49.502Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="GaryChen的学习日志">
+<meta name="twitter:title" content="精确率和召回率">
+<meta name="twitter:description" content="机器学习问题的通用流程可分为四部分，它们依次是：问题建模-&amp;gt;特征工程-&amp;gt;模型选择-&amp;gt;模型融合。其中问题建模是很关键的一部分，因为已知的评估指标很多，我们需要找到一个与业务指标波动一致的评估指标，通过观测该评估指标的波动来指导后续工作。 评估指标可以按照任务类型分类，可分为分类指标，回归指标，聚类指标和排序指标等。下面我将介绍常用分类指标—精确率和召回率以及与它们相关的其他指标。">
   
     <link rel="alternative" href="/atom.xml" title="GaryChen的学习日志" type="application/atom+xml">
   
@@ -150,136 +155,246 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-evaluation-criteria" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      精确率和召回率
+    </h1>
+  
+
+        
+        <a href="/2018/09/21/evaluation-criteria/" class="archive-article-date">
+  	<time datetime="2018-09-21T02:35:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-21</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>机器学习问题的通用流程可分为四部分，它们依次是：问题建模-&gt;特征工程-&gt;模型选择-&gt;模型融合。其中问题建模是很关键的一部分，因为已知的评估指标很多，我们需要找到一个与业务指标波动一致的评估指标，通过观测该评估指标的波动来指导后续工作。</p>
+<p>评估指标可以按照任务类型分类，可分为分类指标，回归指标，聚类指标和排序指标等。下面我将介绍常用分类指标—精确率和召回率以及与它们相关的其他指标。</p>
+<h3 id="精确率和召回率"><a href="#精确率和召回率" class="headerlink" title="精确率和召回率"></a>精确率和召回率</h3><p>首先，介绍一下混淆矩阵。以下为二分类问题下的混淆矩阵。<br>| | 正(P)| 负(N)<br>|:-:|:-:|:-:|<br>|正(P)|TP|FN|<br>|负(N)|FP|TN|</p>
+<p>矩阵每一列代表预测类别，每一行代表的是实际的类别。其中TP表示预测为正例实际为正例的样本数，FN为预测为负例实际为正例的样本数，FP表示预测为正例实际为负例的样本数，TN表示预测为负例实际为负例的样本数。显然TP+FN+FP+TN=样本总数。</p>
+<p>所以精确率(Precision)和召回率(Recall)的定义为：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+Precision=\dfrac{TP}{TP+FP}\\
+Recall=\dfrac{TP}{TP+FN}
+\end{aligned}</script><p>理想情况下，精确率和召回率越高越好。然而实际上在某些情况下这两者是矛盾的，精确率高，召回率低；而精确率低，召回率高。比如在搜索网页时，如果只返回最相关的那个页面，那么精确率为100%，而召回率很低；如果返回全部网页，那么召回率为100%，而精确率很低。因此在不同场合需要根据实际需求判断哪个指标更加重要。如果是做搜索，那就是保证召回的情况下提升准确率；如果做疾病监测、反垃圾，则是保准确率的条件下，提升召回。。</p>
+<h3 id="多分类情况"><a href="#多分类情况" class="headerlink" title="多分类情况"></a>多分类情况</h3><p>对于多分类下的Precision, recall等，Sklearn也提供了计算，只需要确定参数<strong>average</strong>，sklearn针对多分类情况，提供了三种计算方式：”micro”,”macro”和”weight”。下面以多分类下的Precision计算为例来详细说明以上三种计算方式。</p>
+<p>与二分类类似，多分类的混淆矩阵为如下：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center">class_1</th>
+<th style="text-align:center">class_2</th>
+<th style="text-align:center">class_3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">class_1</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">class_2</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">class_3</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">11</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>矩阵每一列代表预测值，每一行代表的是实际的类别，比如矩阵第二行第三列元素值1表示预测为class_3，而实际为class_2的样本数目。</p>
+<p>根据混淆矩阵，我们可以计算出各类的精确率(Precision):   </p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+&Precision(class_1)=\dfrac{5}{5+2+0}=5/7\\
+&Precision(class_2)=\dfrac{3}{3+3+2}=3/8\\
+&Precision(calss_3)=\dfrac{11}{0+1+11}=11/12
+\end{aligned}</script><p>当<strong>average</strong>为”<strong>micro</strong>“时，</p>
+<script type="math/tex; mode=display">Precision=\dfrac{5+3+11}{7+8+12}=19/27</script><p>实际上在”micro”时，精确率的值等于准确率，同样的，召回率的值也等于准确率。</p>
+<p>当<strong>average</strong>为”<strong>macro</strong>“时</p>
+<script type="math/tex; mode=display">Precision=\dfrac{1}{3}(5/7+3/8+11/12)</script><p>其中，分子3表示类别个数，因此在这种情况下，可以看成是对各类别下的Precision的同等权重下的平均。</p>
+<p>当<strong>average</strong>为”<strong>weighted</strong>“时</p>
+<script type="math/tex; mode=display">Precision=\dfrac{1}{27}[(5+3)*5/7+(2+3+1)*3/8+(2+11)*11/12]</script><p>实际上，”weighted”可以看成对各类别下的Precision的不同权重下的加权平均，其中各类别的权重为该类实际样本数与总样本数的比例。</p>
+<p>其实从以上看出，多分类的计算可以说是基于二分类的计算，它使用了one vs other的策略，在计算时使用了不同平均方法来综合多个二分类器的计算结果而已。</p>
+<p>“micro”参数下，召回率与精确率再无分别，因此不适合于类别不平衡问题。而”macro”给予各类别相同的权重，因此在小类别的指标越高时，总的指标也就越高。而”weighted”给予各类别不同的权重，其中样本更多的类别的权重越大，这会使得以该指标为目标指标的模型更加关注于对大类的分类正确。</p>
+<h3 id="F-1-与-F-alpha"><a href="#F-1-与-F-alpha" class="headerlink" title="$F_1$与$F_\alpha$"></a>$F_1$与$F_\alpha$</h3><p>$F_1$是一个综合考虑精确度和召回率的指标，其是精确率和召回率的调和平均值：</p>
+<script type="math/tex; mode=display">\dfrac{2}{F_1}=\dfrac{1}{Precision}+\dfrac{1}{Recall}</script><p>$F$值可泛化为对精确度和召回率赋予不同的权重进行加权调和：</p>
+<script type="math/tex; mode=display">F_\alpha=\dfrac{(1+\alpha^2)\cdot Precision \cdot Recall}{\alpha^2 \cdot Precision + Recall}</script><h3 id="P-R曲线"><a href="#P-R曲线" class="headerlink" title="P-R曲线"></a>P-R曲线</h3><p>在众多的机器学习模型中，很多模型输出是预测概率。而使用Precision，Recall这类指标进行模型评估的时候，我们需要预设一个分类阈值，比如大于这个阈值的，我们分类为正例，反之为负例。这使得模型多了一个超参数，并且这个超参数会影响模型的泛化能力。而P-R曲线就不需要设定这样的参数。P-R曲线以召回率为横轴，精确率为纵轴，通过移动分类阈值，可以画出。P-R曲线越靠近右上角越好，曲线下的面积叫AP分数(Average Precision Score,平均精确率分数)。对比不同模型的AP分数，能够在一定程度下反映模型的精确率和召回率都高的比例。但是这个值计算不方便。但是在正负样本分布不平衡时，P-R曲线更能反映分类器的好坏。具体分析可参考资料[3]。如果不关心模型在负类上的性能，只是想要在正类上的精确率和召回率尽可能地高，那么可以使用P-R曲线作为你的评估指标。</p>
+<p>参考资料：</p>
+<p>[1] 美团机器学习实践</p>
+<p>[2] <a href="http://scikit-learn.org/stable/modules/model_evaluation.html" target="_blank" rel="noopener">Model evaluation: quantifying the quality of predictions</a></p>
+<p>[3] <a href="http://www.fullstackdevel.com/computer-tec/data-mining-machine-learning/501.html" target="_blank" rel="noopener">ROC曲线和PR(Precision-Recall)曲线的联系</a></p>
+<p>[4] <a href="https://www.zhihu.com/question/30643044/answer/64151574?from=profile_answer_card" target="_blank" rel="noopener">精确率、召回率、F1 值、ROC、AUC 各自的优缺点是什么？</a></p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/07/22/RNN/" class="archive-article-date">
-  	<time datetime="2018-07-22T07:37:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/07/22/RNN/">RNN</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">深度学习</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
         		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/07/20/CNN/" class="archive-article-date">
-  	<time datetime="2018-07-20T12:04:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-20</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/07/20/CNN/">CNN</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
+      		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">深度学习</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据挖掘</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/09/21/evaluation-criteria/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/07/12/DNN/" class="archive-article-date">
-  	<time datetime="2018-07-12T12:39:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-12</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2018/09/21/PR-ROC/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          PRC与ROC
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/07/29/PCA/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">PCA</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/07/12/DNN/">DNN反向传播算法</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">深度学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
+
+  
 
 
           </div>
@@ -302,9 +417,9 @@
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,

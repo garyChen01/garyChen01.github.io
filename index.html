@@ -152,6 +152,252 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-PR-ROC" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/21/PR-ROC/">PRC与ROC</a>
+    </h1>
+  
+
+        
+        <a href="/2018/09/21/PR-ROC/" class="archive-article-date">
+  	<time datetime="2018-09-21T15:07:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-21</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>PRC与ROC皆为不平衡问题常用的评估指标，它们与具体的分类阈值无关，只与样本的概率序列有关。</p>
+<h2 id="混淆矩阵"><a href="#混淆矩阵" class="headerlink" title="混淆矩阵"></a>混淆矩阵</h2><p>二分类的混淆矩阵定义如下，<br>| | 正(P)| 负(N)<br>|:-:|:-:|:-:|<br>|正(P)|TP|FN|<br>|负(N)|FP|TN|</p>
+<p>矩阵每一列代表预测的类别，每一行代表的是实际的类别。其中TP表示预测为正实际为正的样本数，FN为预测为负实际为正的样本数，FP表示预测为正实际为负的样本数，TN表示预测为负实际为负的样本数。显然TP+FN+FP+TN=样本总数。</p>
+<p>根据混淆矩阵，我们可以计算出不同的评估指标，如Accuracy，Precision，Recall，F1-score，ROC和PRC等。它们分别考虑了不同方面来评估混淆矩阵所表示的分类器的性能。</p>
+<h2 id="ROC"><a href="#ROC" class="headerlink" title="ROC"></a>ROC</h2><p>ROC(Receiver Operating Characteristics)曲线以FPR(False Positive Rate)为横轴，以TPR(True Positive Rate)为纵轴的空间上的一条曲线，其中TPR，FPR的定义如下：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+TPR &= \dfrac{TP}{TP+FN}\\
+FPR &= 1-\dfrac{TN}{TN+FP}=\dfrac{FP}{TN+FP}
+\end{aligned}</script><p>从TPR与FPR的定义可以看出，ROC考虑了正样本与负样本的召回率，所以其实际上是对正负样本召回率的权衡。</p>
+<p>ROC的绘制可以由以下步骤来完成，首先将测试集样本分类为正例的概率按从大到小的顺序排列。分别设置不同的分类阈值，使得大于该阈值的样本分类为正例，小于该阈值的样本分类为负例，然后计算TPR与FPR，绘制为ROC上的一个点。最后将ROC空间上所有的点相连即为ROC曲线。</p>
+<p>根据ROC曲线的绘制过程，我们可以知道，TPR与FPR对类别分布的改变不敏感。也就是说当类别分布改变时，ROC曲线变化很小。举例来说，假设类别平衡时，样本的概率排序的实际类别标签为1，0，1，0，假设新增加的负例样本与原来的分布一致，则负样本增倍后的样本概率排序的实际类别标签为1，0，0，1，0，0，则可以看出实际上变化前后的ROC曲线是一样的，只是在变化后的ROC曲线在平行于横轴的线段上多了两个点。</p>
+<p>随机猜测策略在ROC的曲线为y=x，具体绘制过程为如下，假设不考虑实际样本的属性，以概率p将样本分类为正例，所以对于N个正样本，将其分类为正例的样本数为p<em>N，这样TPR=p</em>N/N=p。同样的，FPR=p*M/M=p，其中M为负样本数，显然对于任意的p，TPR，FPR都在y=x曲线上。</p>
+<p>当分类器A的ROC曲线完全在分类器B之上时，我们可以认为分类器A的性能是优于分类器B的，但是有时候，某一分类器的ROC曲线不是总是位于另一分类器之上的，此时我们可以引入ROC曲线下的面积的概念即ROC-AUC，如果分类器A在ROC曲线下的面积（ROC-AUC）大于分类器B，则我们可以认为分类器A的性能是优于分类器B的。ROC-AUC也可以解释为从所有正样本中随机选取一个样本A，再从所有负样本中随机选取一个样本B，分类器将A判为正例的概率比将B判为正例的概率大的可能性。</p>
+<h2 id="PRC"><a href="#PRC" class="headerlink" title="PRC"></a>PRC</h2><p>PRC(Precision-Recall curve) 以Recall为横轴，以Precision为纵轴，Precision与Recall的定义如下：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+&Precision = \dfrac{TP}{TP+FP}\\
+&Recall = \dfrac{TP}{TP+FN}\\
+\end{aligned}</script><p>根据Precision与Recall的定义可以看出，其聚焦于正例的分类，在正例的Precision与Recall之间权衡，而忽略了负类的分类。</p>
+<p>其曲线的绘制过程与ROC曲线的绘制过程一样，只是横纵轴不同而已。但是由于Precision的变化是非线性的，所以PRC-AUC的计算相比ROC-AUC的计算要复杂一些。</p>
+<p>PRC如果要画出baseline的话，通常我们假设随机猜测正例的概率为正样本在总样本中的占比，假设比例为0.01，则对N个样本，用该分类器进行分类的正样本的期望为N/100，则该分类器的Presion为(N/100)/N=0.01，而Recall的大小随着分类为正样本数的增加而增加，所以PRC的baseline是平行于x轴的直线，在本例中，baseline为y=0.01。从这里也可以看出，PRC对于类别分布敏感，当类别分布改变时，Baseline改变，其分类器的PRC也会发生改变。</p>
+<h2 id="对比与总结"><a href="#对比与总结" class="headerlink" title="对比与总结"></a>对比与总结</h2><p>前面提到了，ROC对类别分布不敏感，而PRC对于类别分布敏感，所以在不同任务下，针对这个点，可以采用不同的评估指标。比如在信用卡欺诈问题中每个月正例和负例的比例可能都不相同，这时候如果只想单纯地比较分类器的性能且剔除类别分布改变的影响，则ROC曲线比较适合，因为类别分布改变可能使得PR曲线发生变化时好时坏，这种时候难以进行模型比较；反之，如果想测试不同类别分布下对分类器的性能的影响，则PR曲线比较适合。</p>
+<p>ROC考虑了正负样本的召回率，而PRC只考虑正样本的精确率和召回率。如果希望正类和负类都表现得很好，那么可以选择AUC作为评估指标。如果不关心模型在负类上的性能，只是想要在正类上的精确率和召回率尽可能地高，那么可以使用P-R曲线作为你的评估指标。</p>
+<p>[1] <a href="http://pages.cs.wisc.edu/~jdavis/davisgoadrichcamera2.pdf" target="_blank" rel="noopener">The Relationship Between Precision-Recall and ROC Curves</a></p>
+<p>[2]<a href="https://machinelearningmastery.com/roc-curves-and-precision-recall-curves-for-classification-in-python/" target="_blank" rel="noopener">How and When to Use ROC Curves and Precision-Recall Curves for Classification in Python</a></p>
+<p>[3] <a href="http://www.blogspot.udec.ugto.saedsayad.com/docs/ROC101.pdf" target="_blank" rel="noopener">ROC Graphs: Notes and Practical Considerations for<br>Researchers</a></p>
+<p>[4] <a href="https://zhuanlan.zhihu.com/p/34655990" target="_blank" rel="noopener">机器学习之类别不平衡问题 (2) —— ROC和PR曲线</a></p>
+<p>[5] <a href="http://mlwiki.org/index.php/ROC_Analysis#ROC_Convex_Hull" target="_blank" rel="noopener">ROC Analysis</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/09/21/PR-ROC/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-evaluation-criteria" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/21/evaluation-criteria/">精确率和召回率</a>
+    </h1>
+  
+
+        
+        <a href="/2018/09/21/evaluation-criteria/" class="archive-article-date">
+  	<time datetime="2018-09-21T02:35:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-21</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>机器学习问题的通用流程可分为四部分，它们依次是：问题建模-&gt;特征工程-&gt;模型选择-&gt;模型融合。其中问题建模是很关键的一部分，因为已知的评估指标很多，我们需要找到一个与业务指标波动一致的评估指标，通过观测该评估指标的波动来指导后续工作。</p>
+<p>评估指标可以按照任务类型分类，可分为分类指标，回归指标，聚类指标和排序指标等。下面我将介绍常用分类指标—精确率和召回率以及与它们相关的其他指标。</p>
+<h3 id="精确率和召回率"><a href="#精确率和召回率" class="headerlink" title="精确率和召回率"></a>精确率和召回率</h3><p>首先，介绍一下混淆矩阵。以下为二分类问题下的混淆矩阵。<br>| | 正(P)| 负(N)<br>|:-:|:-:|:-:|<br>|正(P)|TP|FN|<br>|负(N)|FP|TN|</p>
+<p>矩阵每一列代表预测类别，每一行代表的是实际的类别。其中TP表示预测为正例实际为正例的样本数，FN为预测为负例实际为正例的样本数，FP表示预测为正例实际为负例的样本数，TN表示预测为负例实际为负例的样本数。显然TP+FN+FP+TN=样本总数。</p>
+<p>所以精确率(Precision)和召回率(Recall)的定义为：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+Precision=\dfrac{TP}{TP+FP}\\
+Recall=\dfrac{TP}{TP+FN}
+\end{aligned}</script><p>理想情况下，精确率和召回率越高越好。然而实际上在某些情况下这两者是矛盾的，精确率高，召回率低；而精确率低，召回率高。比如在搜索网页时，如果只返回最相关的那个页面，那么精确率为100%，而召回率很低；如果返回全部网页，那么召回率为100%，而精确率很低。因此在不同场合需要根据实际需求判断哪个指标更加重要。如果是做搜索，那就是保证召回的情况下提升准确率；如果做疾病监测、反垃圾，则是保准确率的条件下，提升召回。。</p>
+<h3 id="多分类情况"><a href="#多分类情况" class="headerlink" title="多分类情况"></a>多分类情况</h3><p>对于多分类下的Precision, recall等，Sklearn也提供了计算，只需要确定参数<strong>average</strong>，sklearn针对多分类情况，提供了三种计算方式：”micro”,”macro”和”weight”。下面以多分类下的Precision计算为例来详细说明以上三种计算方式。</p>
+<p>与二分类类似，多分类的混淆矩阵为如下：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center">class_1</th>
+<th style="text-align:center">class_2</th>
+<th style="text-align:center">class_3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">class_1</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">class_2</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">class_3</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">11</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>矩阵每一列代表预测值，每一行代表的是实际的类别，比如矩阵第二行第三列元素值1表示预测为class_3，而实际为class_2的样本数目。</p>
+<p>根据混淆矩阵，我们可以计算出各类的精确率(Precision):   </p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+&Precision(class_1)=\dfrac{5}{5+2+0}=5/7\\
+&Precision(class_2)=\dfrac{3}{3+3+2}=3/8\\
+&Precision(calss_3)=\dfrac{11}{0+1+11}=11/12
+\end{aligned}</script><p>当<strong>average</strong>为”<strong>micro</strong>“时，</p>
+<script type="math/tex; mode=display">Precision=\dfrac{5+3+11}{7+8+12}=19/27</script><p>实际上在”micro”时，精确率的值等于准确率，同样的，召回率的值也等于准确率。</p>
+<p>当<strong>average</strong>为”<strong>macro</strong>“时</p>
+<script type="math/tex; mode=display">Precision=\dfrac{1}{3}(5/7+3/8+11/12)</script><p>其中，分子3表示类别个数，因此在这种情况下，可以看成是对各类别下的Precision的同等权重下的平均。</p>
+<p>当<strong>average</strong>为”<strong>weighted</strong>“时</p>
+<script type="math/tex; mode=display">Precision=\dfrac{1}{27}[(5+3)*5/7+(2+3+1)*3/8+(2+11)*11/12]</script><p>实际上，”weighted”可以看成对各类别下的Precision的不同权重下的加权平均，其中各类别的权重为该类实际样本数与总样本数的比例。</p>
+<p>其实从以上看出，多分类的计算可以说是基于二分类的计算，它使用了one vs other的策略，在计算时使用了不同平均方法来综合多个二分类器的计算结果而已。</p>
+<p>“micro”参数下，召回率与精确率再无分别，因此不适合于类别不平衡问题。而”macro”给予各类别相同的权重，因此在小类别的指标越高时，总的指标也就越高。而”weighted”给予各类别不同的权重，其中样本更多的类别的权重越大，这会使得以该指标为目标指标的模型更加关注于对大类的分类正确。</p>
+<h3 id="F-1-与-F-alpha"><a href="#F-1-与-F-alpha" class="headerlink" title="$F_1$与$F_\alpha$"></a>$F_1$与$F_\alpha$</h3><p>$F_1$是一个综合考虑精确度和召回率的指标，其是精确率和召回率的调和平均值：</p>
+<script type="math/tex; mode=display">\dfrac{2}{F_1}=\dfrac{1}{Precision}+\dfrac{1}{Recall}</script><p>$F$值可泛化为对精确度和召回率赋予不同的权重进行加权调和：</p>
+<script type="math/tex; mode=display">F_\alpha=\dfrac{(1+\alpha^2)\cdot Precision \cdot Recall}{\alpha^2 \cdot Precision + Recall}</script><h3 id="P-R曲线"><a href="#P-R曲线" class="headerlink" title="P-R曲线"></a>P-R曲线</h3><p>在众多的机器学习模型中，很多模型输出是预测概率。而使用Precision，Recall这类指标进行模型评估的时候，我们需要预设一个分类阈值，比如大于这个阈值的，我们分类为正例，反之为负例。这使得模型多了一个超参数，并且这个超参数会影响模型的泛化能力。而P-R曲线就不需要设定这样的参数。P-R曲线以召回率为横轴，精确率为纵轴，通过移动分类阈值，可以画出。P-R曲线越靠近右上角越好，曲线下的面积叫AP分数(Average Precision Score,平均精确率分数)。对比不同模型的AP分数，能够在一定程度下反映模型的精确率和召回率都高的比例。但是这个值计算不方便。但是在正负样本分布不平衡时，P-R曲线更能反映分类器的好坏。具体分析可参考资料[3]。如果不关心模型在负类上的性能，只是想要在正类上的精确率和召回率尽可能地高，那么可以使用P-R曲线作为你的评估指标。</p>
+<p>参考资料：</p>
+<p>[1] 美团机器学习实践</p>
+<p>[2] <a href="http://scikit-learn.org/stable/modules/model_evaluation.html" target="_blank" rel="noopener">Model evaluation: quantifying the quality of predictions</a></p>
+<p>[3] <a href="http://www.fullstackdevel.com/computer-tec/data-mining-machine-learning/501.html" target="_blank" rel="noopener">ROC曲线和PR(Precision-Recall)曲线的联系</a></p>
+<p>[4] <a href="https://www.zhihu.com/question/30643044/answer/64151574?from=profile_answer_card" target="_blank" rel="noopener">精确率、召回率、F1 值、ROC、AUC 各自的优缺点是什么？</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据挖掘</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/09/21/evaluation-criteria/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-PCA" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -777,164 +1023,6 @@ s.t.~&c_i(\mathbf{x})\le 0,i=1,2,\cdots,k \\
 
 
   
-    <article id="post-ParamEstimation" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/06/16/ParamEstimation/">MLE和MAP</a>
-    </h1>
-  
-
-        
-        <a href="/2018/06/16/ParamEstimation/" class="archive-article-date">
-  	<time datetime="2018-06-16T12:46:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>首先我们会讲述先验，后验，似然等基本概念，接着将MLE和MAP。</p>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>现在我们需要预估一个参数$\theta$,假设我们在没有观测数据之前就事先知道它的分布，则我们称其为先验分布(prior distribution)，即$p(\theta)$，而当我们有了观测数据$\mathcal{D}$之后，那么在给定的观察数据下，参数$\theta$的分布叫做后验分布(posterior distribution)，即$p(\theta|\mathcal{D})$。现在，让我们回忆以下贝叶斯定理：   </p>
-<script type="math/tex; mode=display">P(A|B)=\dfrac{P(B|A)P(A)}{P(B)}</script><p>注意贝叶斯定理，适用于离散变量，也适用于连续变量，还适用于离散变量和连续变量相结合的情况。因为对于我们的问题，我们以下面的形式来表示：<br>
-        
-          <a class="article-more-a" href="/2018/06/16/ParamEstimation/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/06/16/ParamEstimation/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-NaiveBayes" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/06/14/NaiveBayes/">NaiveBayes</a>
-    </h1>
-  
-
-        
-        <a href="/2018/06/14/NaiveBayes/" class="archive-article-date">
-  	<time datetime="2018-06-14T13:54:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="贝叶斯决策论"><a href="#贝叶斯决策论" class="headerlink" title="贝叶斯决策论"></a>贝叶斯决策论</h2><p>机器学习可理解为通过观测数据$X$来学习决策函数$h$来推测结果$y$,并使得推断结果$\hat{y}$与真实结果$y$的误差越小越好。那么假设我们在观测前就知道$P(y)$的概率分布，此概率分布叫做先验概率。那么对于任意观测数据，我们都可以猜其的输出。当然一般情况下先验概率分布是不准确的，所以需要我们通过实际的观测数据，对其进行修正，这样修正后得到的概率分布$P(y|X)$就叫做后验概率分布。显然后验概率比先验概率更有意义，因为引入了观测数据，所以预测结果会更加准确。而大部分机器学习模型尝试得到的，就是后验概率。</p>
-        
-          <a class="article-more-a" href="/2018/06/14/NaiveBayes/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">分类</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/06/14/NaiveBayes/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1074,6 +1162,10 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">聚类</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">数据挖掘</a>
               </li>
             
             <div class="clearfix"></div>
